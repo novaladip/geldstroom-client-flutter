@@ -12,7 +12,16 @@ class LoginScreen extends StatelessWidget {
         title: Text('Login Screen'),
       ),
       body: Center(
-        child: Text('Login'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text('A'),
+            FlatButton(
+              child: Text('Get'),
+              onPressed: () {},
+            )
+          ],
+        ),
       ),
     );
   }

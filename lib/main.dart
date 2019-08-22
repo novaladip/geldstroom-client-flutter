@@ -5,7 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:geldstroom/provider/all_provider.dart';
 import 'package:geldstroom/screens/login_screen.dart';
 
-void main() => runApp(App());
+void main() {
+  runApp(App());
+}
 
 class App extends StatelessWidget {
   @override
