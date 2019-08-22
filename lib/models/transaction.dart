@@ -19,5 +19,5 @@ class Transaction extends Equatable {
     this.updatedAt,
     this.description,
     this.userId,
-  },);
+  });
 }
