@@ -37,6 +37,7 @@ class Quotes extends StatelessWidget {
         child: Center(
           child: Text(
             quote,
+            textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.white,
               fontSize: 20,
