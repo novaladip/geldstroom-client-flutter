@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geldstroom/widgets/quotes.dart';
 
 class LoginScreen extends StatelessWidget {
   static const routeName = '/login';
@@ -11,15 +12,13 @@ class LoginScreen extends StatelessWidget {
         centerTitle: true,
         title: Text('Login Screen'),
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('A'),
-            FlatButton(
-              child: Text('Get'),
-              onPressed: () {},
-            )
+            Quotes(
+              quote:
+                  "Do not worry if you have built your castles in the air. They are where they should be. Now put the foundations under them.",
+            ),
           ],
         ),
       ),
