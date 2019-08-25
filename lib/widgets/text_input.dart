@@ -11,6 +11,7 @@ class TextInput extends StatelessWidget {
   final TextEditingController textEditingController;
   final double marginVertical;
   final bool obscureText;
+  final String errorText;
   final Function(String) onSaved;
 
   const TextInput({
@@ -26,6 +27,7 @@ class TextInput extends StatelessWidget {
     this.marginVertical = 10,
     this.obscureText = false,
     this.onSaved,
+    this.errorText,
   }) : super(key: key);
 
   @override
@@ -46,6 +48,7 @@ class TextInput extends StatelessWidget {
           border: Theme.of(context).inputDecorationTheme.border,
           labelText: labelText,
           enabled: enabled,
+          errorText: errorText,
         ),
       ),
     );

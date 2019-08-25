@@ -19,30 +19,51 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _passwordFocusNode = FocusNode();
   final _form = GlobalKey<FormState>();
-  var isLoading = false;
+  var _isLoading = false;
+  var _credentialsError = '';
 
   void _onSubmit() async {
     try {
-      setIsLoading(true);
+      _setIsLoading(true);
       final isValid = _form.currentState.validate();
       if (isValid) {
         await Provider.of<Auth>(context)
             .login(_emailController.text, _passwordController.text);
         Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
       }
-      setIsLoading(false);
+      _setIsLoading(false);
     } catch (error) {
-      setIsLoading(false);
+      _setIsLoading(false);
+      _showSnackbar('$error');
+      _credentialsError = '$error';
     }
   }
 
-  setIsLoading(bool value) {
+  void _showSnackbar(String text) {
+    final snackBar = SnackBar(
+      duration: Duration(seconds: 2),
+      content: Row(
+        children: <Widget>[
+          Icon(Icons.error_outline),
+          SizedBox(width: 10),
+          Text(text),
+        ],
+      ),
+      backgroundColor: Colors.red,
+    );
+    _scaffoldKey.currentState.removeCurrentSnackBar();
+    _scaffoldKey.currentState.showSnackBar(snackBar);
+  }
+
+  _setIsLoading(bool value) {
     setState(() {
-      isLoading = value;
+      _credentialsError = '';
+      _isLoading = value;
     });
   }
 
@@ -61,6 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final horizontalPadding = EdgeInsets.symmetric(horizontal: 8.0);
 
     return Scaffold(
+      key: _scaffoldKey,
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -87,6 +109,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       textInputAction: TextInputAction.done,
                       focusNode: _passwordFocusNode,
                       validator: validatePassword,
+                      errorText: _credentialsError.isNotEmpty
+                          ? _credentialsError
+                          : null,
                       onFieldSubmitted: _onSubmit,
                     ),
                   ],
@@ -110,7 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-                  onPressed: isLoading ? null : _onSubmit,
+                  onPressed: _isLoading ? null : _onSubmit,
                 ),
               )
             ],
@@ -121,7 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget buttonChild() {
-    if (isLoading) {
+    if (_isLoading) {
       return SpinKitDualRing(color: Colors.white, size: 32);
     } else {
       return Text(
