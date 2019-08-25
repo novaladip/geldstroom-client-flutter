@@ -1,38 +1,30 @@
-import 'dart:convert';
-
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:dio/dio.dart';
+import 'package:geldstroom/utils/jwt_ops.dart';
+
 import 'package:geldstroom/models/http_exception.dart';
 import 'package:geldstroom/utils/api.dart';
-import 'package:jaguar_jwt/jaguar_jwt.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Auth with ChangeNotifier {
-  String _jwtToken;
+  bool _isAuthenticated = false;
   String _email;
-  int _iat;
-  int _exp;
+  String _userId;
 
   Auth() {
-    // TODO Initializing state with decoded jwt from local storage
+    _initializing();
   }
 
   String get email {
     return _email;
   }
 
-  int get iat {
-    return _iat;
+  String get userId {
+    return _userId;
   }
 
-  int get exp {
-    return _exp;
-  }
-
-  void setStateFromJson(Map<String, dynamic> data) {
-    _email = data['email'];
-    _iat = data['iat'];
-    _exp = data['exp'];
-    notifyListeners();
+  bool get isAuthenticated {
+    return _isAuthenticated;
   }
 
   Future<void> login(String email, String password) async {
@@ -43,11 +35,10 @@ class Auth with ChangeNotifier {
       };
 
       final response = await api.post(Url.login, data: data);
-      _jwtToken = response.data['accessToken'];
-      final payload = _jwtDecode(_jwtToken);
-
-      setStateFromJson(payload);
-      setDefaultAuthHeader();
+      final jwt = response.data['accessToken'];
+      await Jwt.save(jwt);
+      _setStateFromJwt(jwt);
+      Api.setDefaultAuthHeader(jwt);
     } on DioError catch (e) {
       if (e.response != null) {
         throw HttpException(e.response.data['message']);
@@ -75,17 +66,32 @@ class Auth with ChangeNotifier {
     }
   }
 
-  Map<String, dynamic> _jwtDecode(String jwt) {
-    final parts = jwt.split('.');
-    final payload = parts[1];
-    final decoded = B64urlEncRfc7515.decodeUtf8(payload);
-    final Map<String, dynamic> parsedPayload = json.decode(decoded);
-    return parsedPayload;
+  Future<void> logout() async {
+    await Jwt.removeFromSharedPreferences();
+    _email = null;
+    _isAuthenticated = false;
+    Api.removeDefaultAuthHeader();
+    notifyListeners();
   }
 
-  void setDefaultAuthHeader() {
-    api.options.headers = {
-      'Authorization': _jwtToken,
-    };
+  void _setStateFromJwt(String jwt) {
+    final payload = Jwt.decode(jwt);
+    _isAuthenticated = true;
+    _email = payload['email'];
+    _userId = payload['id'];
+    notifyListeners();
+  }
+
+  Future<void> _initializing() async {
+    final jwt = await Jwt.getFromSharedPreferences();
+    if (jwt != null) {
+      final payload = Jwt.decode(jwt);
+      final expired =
+          DateTime.now().add(Duration(milliseconds: payload['exp']));
+      if (expired.isAfter(DateTime.now())) {
+        Api.setDefaultAuthHeader(jwt);
+        _setStateFromJwt(jwt);
+      }
+    }
   }
 }

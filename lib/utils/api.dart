@@ -4,7 +4,21 @@ final options = BaseOptions(
   baseUrl: 'https://intense-springs-88456.herokuapp.com',
 );
 
-var api = new Dio(options);
+final api = new Dio(options);
+
+class Api {
+  static void setDefaultAuthHeader(String jwt) {
+    api.options.headers = {
+      'Authorization': jwt,
+    };
+  }
+
+  static void removeDefaultAuthHeader() {
+    api.options.headers = {
+      'Authorization': '',
+    };
+  }
+}
 
 class Url {
   static final login = '/auth/login';

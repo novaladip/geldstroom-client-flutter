@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geldstroom/config/app.config.dart';
+import 'package:geldstroom/provider/auth.dart';
+import 'package:geldstroom/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'package:geldstroom/provider/all_provider.dart';
@@ -14,12 +16,13 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: allProvider,
-      child: MaterialApp(
-        showPerformanceOverlay: false,
-        title: AppConfig.title,
-        theme: AppConfig.theme,
-        routes: AppConfig.routes,
-        home: LoginScreen(),
+      child: Consumer<Auth>(
+        builder: (ctx, auth, child) => MaterialApp(
+          title: AppConfig.title,
+          theme: AppConfig.theme,
+          routes: AppConfig.routes,
+          home: auth.isAuthenticated ? HomeScreen() : LoginScreen(),
+        ),
       ),
     );
   }
