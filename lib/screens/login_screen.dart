@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:geldstroom/config/app.config.dart';
+import 'package:geldstroom/provider/auth.dart';
+import 'package:geldstroom/screens/home_screen.dart';
 import 'package:geldstroom/screens/register_screen.dart';
 import 'package:geldstroom/utils/validate_input.dart';
 import 'package:geldstroom/widgets/button_gradient.dart';
 import 'package:geldstroom/widgets/quotes.dart';
 import 'package:geldstroom/widgets/text_input.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login';
@@ -22,13 +25,19 @@ class _LoginScreenState extends State<LoginScreen> {
   final _form = GlobalKey<FormState>();
   var isLoading = false;
 
-  void _onSubmit() {
-    setIsLoading(true);
-    _form.currentState.validate();
-    print(_emailController.text);
-    print(_passwordController.text);
-
-    Future.delayed(Duration(milliseconds: 1000), () => setIsLoading(false));
+  void _onSubmit() async {
+    try {
+      setIsLoading(true);
+      final isValid = _form.currentState.validate();
+      if (isValid) {
+        await Provider.of<Auth>(context)
+            .login(_emailController.text, _passwordController.text);
+        Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+      }
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+    }
   }
 
   setIsLoading(bool value) {

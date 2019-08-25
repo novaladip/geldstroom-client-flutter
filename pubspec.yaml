@@ -22,6 +22,7 @@ dependencies:
   equatable: ^0.4.0
   dio: ^2.1.13
   provider: ^3.1.0
+  jaguar_jwt: ^2.1.6
   flutter:
     sdk: flutter
 

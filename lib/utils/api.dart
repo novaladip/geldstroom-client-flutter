@@ -5,3 +5,8 @@ final options = BaseOptions(
 );
 
 var api = new Dio(options);
+
+class Url {
+  static final login = '/auth/login';
+  static final register = '/auth/register';
+}
