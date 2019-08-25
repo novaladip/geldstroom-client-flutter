@@ -4,7 +4,6 @@ import 'package:geldstroom/utils/jwt_ops.dart';
 
 import 'package:geldstroom/models/http_exception.dart';
 import 'package:geldstroom/utils/api.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Auth with ChangeNotifier {
   bool _isAuthenticated = false;
