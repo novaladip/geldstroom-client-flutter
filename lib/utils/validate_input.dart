@@ -12,5 +12,21 @@ String validatePassword(String value) {
     return 'Password field cannot be empty';
   }
 
+  if (value.length < 6) {
+    return 'Password length must be longer than or equal to 6 characters';
+  }
+
+  return null;
+}
+
+String validatePasswordComfirmation(String value, String password) {
+  if (value.isEmpty) {
+    return 'Password Comfirmation cannot be empty';
+  }
+
+  if (value != password) {
+    return 'Invalid password comfirmation';
+  }
+
   return null;
 }

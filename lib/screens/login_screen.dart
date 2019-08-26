@@ -49,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _showSnackbar(String text) {
     final snackBar = SnackBar(
-      duration: Duration(seconds: 2),
+      duration: Duration(seconds: 3),
       content: Row(
         children: <Widget>[
           Icon(Icons.error_outline),
@@ -155,7 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
       return SpinKitDualRing(color: Colors.white, size: 32);
     } else {
       return Text(
-        'LOGIN',
+        'SIGN IN',
         style: TextStyle(color: Colors.white, fontSize: 18),
       );
     }
