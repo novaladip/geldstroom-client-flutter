@@ -3,23 +3,25 @@ import 'dart:convert';
 import 'package:jaguar_jwt/jaguar_jwt.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Jwt {
-  static Future<void> save(String jwt) async {
+class JwtService {
+  final jwtKeystore = 'jwt';
+
+  Future<void> save(String jwt) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString('jwt', jwt);
+    prefs.setString(jwtKeystore, jwt);
   }
 
-  static Future<String> getFromSharedPreferences() async {
+  Future<String> getFromSharedPreferences() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('jwt');
+    return prefs.getString(jwtKeystore);
   }
 
-  static Future<void> removeFromSharedPreferences() async {
+  Future<void> removeFromSharedPreferences() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('jwt');
+    await prefs.remove(jwtKeystore);
   }
 
-  static Map<String, dynamic> decode(String jwt) {
+  Map<String, dynamic> decode(String jwt) {
     final parts = jwt.split('.');
     final payload = parts[1];
     final decoded = B64urlEncRfc7515.decodeUtf8(payload);
