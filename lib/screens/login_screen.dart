@@ -29,6 +29,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _onSubmit() async {
     try {
+      if (_emailController.text.isEmpty && _passwordController.text.isEmpty) {
+        return null;
+      }
       _setIsLoading(true);
       final isValid = _form.currentState.validate();
       if (isValid) {
@@ -96,6 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextInput(
                       labelText: 'Email Address',
                       textEditingController: _emailController,
+                      icon: Icon(Icons.mail_outline),
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
                       validator: validateEmail,
@@ -103,8 +107,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     TextInput(
                       labelText: 'Password',
-                      obscureText: true,
                       textEditingController: _passwordController,
+                      icon: Icon(Icons.lock_outline),
+                      obscureText: true,
                       keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.done,
                       focusNode: _passwordFocusNode,

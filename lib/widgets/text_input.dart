@@ -13,6 +13,8 @@ class TextInput extends StatelessWidget {
   final bool obscureText;
   final String errorText;
   final Function(String) onSaved;
+  final String helperText;
+  final Icon icon;
 
   const TextInput({
     Key key,
@@ -28,6 +30,8 @@ class TextInput extends StatelessWidget {
     this.obscureText = false,
     this.onSaved,
     this.errorText,
+    this.helperText,
+    this.icon,
   }) : super(key: key);
 
   @override
@@ -49,6 +53,8 @@ class TextInput extends StatelessWidget {
           labelText: labelText,
           enabled: enabled,
           errorText: errorText,
+          helperText: helperText,
+          prefixIcon: this.icon,
         ),
       ),
     );
