@@ -1,11 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
+import 'package:geldstroom/provider/services/auth_service.dart';
 import 'package:geldstroom/utils/jwt_ops.dart';
 
 import 'package:geldstroom/models/http_exception.dart';
 import 'package:geldstroom/utils/api.dart';
 
 class Auth with ChangeNotifier {
+  final authService = AuthService();
   bool _isAuthenticated = false;
   String _email;
   String _userId;
@@ -28,13 +30,7 @@ class Auth with ChangeNotifier {
 
   Future<void> login(String email, String password) async {
     try {
-      final data = {
-        'email': email.toLowerCase(),
-        'password': password,
-      };
-
-      final response = await api.post(Url.login, data: data);
-      final jwt = response.data['accessToken'];
+      final jwt = await authService.signIn(email, password);
       await Jwt.save(jwt);
       _setStateFromJwt(jwt);
       Api.setDefaultAuthHeader(jwt);
@@ -50,11 +46,7 @@ class Auth with ChangeNotifier {
 
   Future<void> register(String email, String password) async {
     try {
-      final data = {
-        'email': email.toLowerCase(),
-        'password': password.toLowerCase()
-      };
-      await api.post(Url.register, data: data);
+      await authService.signUp(email, password);
     } on DioError catch (e) {
       if (e.response != null) {
         throw HttpException(e.response.data['message']);
