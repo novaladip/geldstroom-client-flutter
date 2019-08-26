@@ -62,7 +62,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       if (error.toString() == 'Email is already exist') {
         _setEmailError(error.toString());
       }
-      _showSnackbar('$error', SnackBarNotificationType.SUCCESS);
+      _showSnackbar('$error', SnackBarNotificationType.ERROR);
       _setLoading(false);
     }
   }
@@ -98,76 +98,78 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final horizontalPadding = EdgeInsets.symmetric(horizontal: 8);
     return Scaffold(
       key: _scaffold,
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Form(
-                key: _form,
-                child: Column(
-                  children: <Widget>[
-                    Quotes(quote: quote),
-                    SizedBox(height: 50),
-                    TextInput(
-                      labelText: 'Email Address',
-                      textEditingController: _emailController,
-                      errorText: _errorEmail,
-                      icon: Icon(Icons.mail_outline),
-                      keyboardType: TextInputType.emailAddress,
-                      textInputAction: TextInputAction.next,
-                      validator: validateEmail,
-                      onFieldSubmitted: _passwordFocusNode.requestFocus,
-                    ),
-                    TextInput(
-                      labelText: 'Password',
-                      focusNode: _passwordFocusNode,
-                      textEditingController: _passwordController,
-                      obscureText: true,
-                      icon: Icon(Icons.lock_outline),
-                      keyboardType: TextInputType.text,
-                      textInputAction: TextInputAction.done,
-                      validator: validatePassword,
-                      onFieldSubmitted:
-                          _passwordComfirmationFocusNode.requestFocus,
-                    ),
-                    TextInput(
-                      labelText: 'Password Comfirmation',
-                      focusNode: _passwordComfirmationFocusNode,
-                      textEditingController: _passwordComfirmationController,
-                      obscureText: true,
-                      icon: Icon(Icons.lock_outline),
-                      keyboardType: TextInputType.text,
-                      textInputAction: TextInputAction.done,
-                      validator: (value) => validatePasswordComfirmation(
-                          value, _passwordController.text),
-                      onFieldSubmitted: _onSubmit,
-                    ),
-                  ],
-                ),
-              ),
-              FlatButton(
-                child: Text('Already have an account? Sign in.'),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              Container(
-                padding: horizontalPadding,
-                margin: EdgeInsets.only(bottom: 15),
-                child: ButtonGradient(
-                  child: _buttonChild(),
-                  gradient: LinearGradient(
-                    colors: [
-                      primaryColor,
-                      accentColor,
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Form(
+                  key: _form,
+                  child: Column(
+                    children: <Widget>[
+                      Quotes(quote: quote),
+                      SizedBox(height: 50),
+                      TextInput(
+                        labelText: 'Email Address',
+                        textEditingController: _emailController,
+                        errorText: _errorEmail,
+                        icon: Icon(Icons.mail_outline),
+                        keyboardType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.next,
+                        validator: validateEmail,
+                        onFieldSubmitted: _passwordFocusNode.requestFocus,
+                      ),
+                      TextInput(
+                        labelText: 'Password',
+                        focusNode: _passwordFocusNode,
+                        textEditingController: _passwordController,
+                        obscureText: true,
+                        icon: Icon(Icons.lock_outline),
+                        keyboardType: TextInputType.text,
+                        textInputAction: TextInputAction.done,
+                        validator: validatePassword,
+                        onFieldSubmitted:
+                            _passwordComfirmationFocusNode.requestFocus,
+                      ),
+                      TextInput(
+                        labelText: 'Password Comfirmation',
+                        focusNode: _passwordComfirmationFocusNode,
+                        textEditingController: _passwordComfirmationController,
+                        obscureText: true,
+                        icon: Icon(Icons.lock_outline),
+                        keyboardType: TextInputType.text,
+                        textInputAction: TextInputAction.done,
+                        validator: (value) => validatePasswordComfirmation(
+                            value, _passwordController.text),
+                        onFieldSubmitted: _onSubmit,
+                      ),
                     ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
                   ),
-                  onPressed: () {
-                    _onSubmit();
-                  },
                 ),
-              ),
-            ],
+                FlatButton(
+                  child: Text('Already have an account? Sign in.'),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+                Container(
+                  padding: horizontalPadding,
+                  margin: EdgeInsets.only(bottom: 15),
+                  child: ButtonGradient(
+                    child: _buttonChild(),
+                    gradient: LinearGradient(
+                      colors: [
+                        primaryColor,
+                        accentColor,
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    onPressed: () {
+                      _onSubmit();
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
