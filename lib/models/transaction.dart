@@ -1,5 +1,23 @@
 import 'package:equatable/equatable.dart';
 
+enum TransactionCategory {
+  ALL,
+  FOOD,
+  HOBBY,
+  EDUCATION,
+}
+
+enum TransactionType {
+  ALL,
+  INCOME,
+  EXPENSE,
+}
+
+enum IsMonthly {
+  DAILY,
+  MONTHLY,
+}
+
 class Transaction extends Equatable {
   final String id;
   final int amount;
@@ -20,4 +38,17 @@ class Transaction extends Equatable {
     this.description,
     this.userId,
   });
+
+  factory Transaction.fromJson(Map<String, dynamic> json) {
+    return Transaction(
+      id: json['id'],
+      amount: json['amount'],
+      category: json['category'],
+      type: json['type'],
+      createdAt: json['createdAt'],
+      updatedAt: json['updatedAt'],
+      description: json['description'],
+      userId: json['userId'],
+    );
+  }
 }
