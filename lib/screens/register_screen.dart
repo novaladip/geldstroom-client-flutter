@@ -4,6 +4,7 @@ import 'package:geldstroom/provider/auth.dart';
 import 'package:geldstroom/utils/validate_input.dart';
 import 'package:geldstroom/widgets/button_gradient.dart';
 import 'package:geldstroom/widgets/quotes.dart';
+import 'package:geldstroom/widgets/snackbar_notification.dart';
 import 'package:geldstroom/widgets/text_input.dart';
 import 'package:provider/provider.dart';
 
@@ -26,32 +27,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   var _isLoading = false;
   String _errorEmail;
 
-  Widget _buttonChild() {
-    return _isLoading
-        ? SpinKitDualRing(color: Colors.white, size: 32)
-        : Text(
-            'SIGN UP',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-            ),
-          );
-  }
-
-  void _showSnackbar(String text, String type) {
-    final snackBar = SnackBar(
-      duration: Duration(seconds: 5),
-      content: Row(
-        children: <Widget>[
-          Icon(type == 'error' ? Icons.error_outline : Icons.verified_user),
-          SizedBox(width: 10),
-          Text(text),
-        ],
-      ),
-      backgroundColor: type == 'error' ? Colors.red : Colors.green,
-    );
-    _scaffold.currentState.removeCurrentSnackBar();
-    _scaffold.currentState.showSnackBar(snackBar);
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _passwordComfirmationController.dispose();
+    _passwordFocusNode.dispose();
+    _passwordComfirmationFocusNode.dispose();
+    super.dispose();
   }
 
   Future<void> _onSubmit() async {
@@ -71,14 +54,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
       }
       await Provider.of<Auth>(context)
           .register(_emailController.text, _passwordController.text);
-      _showSnackbar('Successfully register, now you can sign in.', 'success');
+      _showSnackbar('Successfully register, now you can sign in.',
+          SnackBarNotificationType.SUCCESS);
       _clearFormValue();
       _setLoading(false);
     } catch (error) {
       if (error.toString() == 'Email is already exist') {
         _setEmailError(error.toString());
       }
-      _showSnackbar('$error', 'error');
+      _showSnackbar('$error', SnackBarNotificationType.SUCCESS);
       _setLoading(false);
     }
   }
@@ -186,6 +170,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buttonChild() {
+    return _isLoading
+        ? SpinKitDualRing(color: Colors.white, size: 32)
+        : Text(
+            'SIGN UP',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+            ),
+          );
+  }
+
+  void _showSnackbar(String text, SnackBarNotificationType type) {
+    _scaffold.currentState.removeCurrentSnackBar();
+    _scaffold.currentState.showSnackBar(
+      snackBarNotification(
+        text: text,
+        type: type,
+        duration: Duration(seconds: 3),
       ),
     );
   }

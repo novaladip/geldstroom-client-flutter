@@ -8,6 +8,7 @@ import 'package:geldstroom/screens/register_screen.dart';
 import 'package:geldstroom/utils/validate_input.dart';
 import 'package:geldstroom/widgets/button_gradient.dart';
 import 'package:geldstroom/widgets/quotes.dart';
+import 'package:geldstroom/widgets/snackbar_notification.dart';
 import 'package:geldstroom/widgets/text_input.dart';
 import 'package:provider/provider.dart';
 
@@ -42,25 +43,9 @@ class _LoginScreenState extends State<LoginScreen> {
       _setIsLoading(false);
     } catch (error) {
       _setIsLoading(false);
-      _showSnackbar('$error');
+      _showSnackbar('$error', SnackBarNotificationType.ERROR);
       _credentialsError = '$error';
     }
-  }
-
-  void _showSnackbar(String text) {
-    final snackBar = SnackBar(
-      duration: Duration(seconds: 3),
-      content: Row(
-        children: <Widget>[
-          Icon(Icons.error_outline),
-          SizedBox(width: 10),
-          Text(text),
-        ],
-      ),
-      backgroundColor: Colors.red,
-    );
-    _scaffoldKey.currentState.removeCurrentSnackBar();
-    _scaffoldKey.currentState.showSnackBar(snackBar);
   }
 
   _setIsLoading(bool value) {
@@ -159,5 +144,15 @@ class _LoginScreenState extends State<LoginScreen> {
         style: TextStyle(color: Colors.white, fontSize: 18),
       );
     }
+  }
+
+  void _showSnackbar(String text, SnackBarNotificationType type) {
+    _scaffoldKey.currentState.removeCurrentSnackBar();
+    _scaffoldKey.currentState.showSnackBar(
+      snackBarNotification(
+        text: text,
+        type: type,
+      ),
+    );
   }
 }
