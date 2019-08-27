@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:geldstroom/widgets/quotes.dart';
+import 'package:geldstroom/widgets/shared/quotes.dart';
 
 import 'test-wrapper.dart';
 

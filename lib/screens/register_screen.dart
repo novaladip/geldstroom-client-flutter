@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geldstroom/provider/auth.dart';
 import 'package:geldstroom/utils/validate_input.dart';
-import 'package:geldstroom/widgets/button_gradient.dart';
-import 'package:geldstroom/widgets/quotes.dart';
-import 'package:geldstroom/widgets/snackbar_notification.dart';
-import 'package:geldstroom/widgets/text_input.dart';
+import 'package:geldstroom/widgets/shared/button_gradient.dart';
+import 'package:geldstroom/widgets/shared/quotes.dart';
+import 'package:geldstroom/widgets/shared/snackbar_notification.dart';
+import 'package:geldstroom/widgets/shared/text_input.dart';
 import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
