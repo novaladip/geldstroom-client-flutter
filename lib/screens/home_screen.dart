@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:geldstroom/widgets/overview_balance.dart';
+import 'package:geldstroom/widgets/overview_transactions.dart';
 
 class HomeScreen extends StatelessWidget {
   static const routeName = '/home';
@@ -17,6 +18,7 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: <Widget>[
             OverviewBalance(),
+            OverviewTransactions(),
           ],
         ),
       ),

@@ -132,7 +132,7 @@ class _OverviewBalanceState extends State<OverviewBalance> {
   Widget _loadingIndicator() => Container(
         height: 200,
         child: SpinKitFoldingCube(
-          color: Colors.white,
+          color: Theme.of(context).accentColor,
           size: 100,
         ),
       );
