@@ -24,4 +24,5 @@ class Url {
   static final login = '/auth/login';
   static final register = '/auth/register';
   static final getTransaction = '/transaction';
+  static final getBalance = '/transaction/total/amount';
 }

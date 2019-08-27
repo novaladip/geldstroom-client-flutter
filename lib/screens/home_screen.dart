@@ -20,10 +20,10 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Text(records.currentPage.toString()),
+            Text(records.balance.expense.toString()),
             RaisedButton(
               child: Text('Fetch Transaction'),
-              onPressed: () => records.fetchRecords('2019/08/26',
+              onPressed: () => records.getBalance('2018/08/26',
                   isMonthly: IsMonthly.MONTHLY),
             ),
             RaisedButton(

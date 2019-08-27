@@ -1,13 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
+import 'package:geldstroom/models/balance.dart';
 
 import 'package:geldstroom/models/query_params_transaction.dart';
 import 'package:geldstroom/models/transaction.dart';
+import 'package:geldstroom/provider/services/balance_service.dart';
 import 'package:geldstroom/provider/services/transaction_service.dart';
 
 class Records with ChangeNotifier {
   final _transactionService = TransactionServices();
+  final _balanceService = BalanceService();
 
+  Balance _balance = Balance(expense: 0, income: 0);
   List<Transaction> _transaction = [];
   bool _isEmpty = false;
   bool _isOnLastPage = false;
@@ -16,6 +20,10 @@ class Records with ChangeNotifier {
 
   List<Transaction> get transaction {
     return [..._transaction];
+  }
+
+  Balance get balance {
+    return _balance;
   }
 
   int get currentPage {
@@ -79,6 +87,29 @@ class Records with ChangeNotifier {
       }
       _transaction = [..._transaction, ...transaction];
       _currentPage += 1;
+      notifyListeners();
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<void> getBalance(
+    String date, {
+    TransactionType type,
+    TransactionCategory category,
+    IsMonthly isMonthly,
+  }) async {
+    try {
+      final params = QueryParamsTransaction(
+        date: date,
+        type: type,
+        category: category,
+        isMonthly: isMonthly,
+        page: 1,
+        limit: 0,
+      );
+      final balance = await _balanceService.fetchBalance(params);
+      _balance = balance;
       notifyListeners();
     } catch (error) {
       throw error;
