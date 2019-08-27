@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geldstroom/config/app.config.dart';
 import 'package:geldstroom/provider/auth.dart';
+import 'package:geldstroom/provider/overviews.dart';
 import 'package:geldstroom/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +23,9 @@ class App extends StatelessWidget {
         ),
         ChangeNotifierProvider.value(
           value: Records(),
+        ),
+        ChangeNotifierProvider.value(
+          value: Overviews(),
         )
       ],
       child: Consumer<Auth>(

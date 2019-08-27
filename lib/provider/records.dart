@@ -65,7 +65,7 @@ class Records with ChangeNotifier {
     }
   }
 
-  Future<void> loadMore(
+  Future<void> loadMoreTransactions(
     String date, {
     TransactionType type,
     TransactionCategory category,
@@ -93,7 +93,7 @@ class Records with ChangeNotifier {
     }
   }
 
-  Future<void> getBalance(
+  Future<void> fetchBalance(
     String date, {
     TransactionType type,
     TransactionCategory category,
