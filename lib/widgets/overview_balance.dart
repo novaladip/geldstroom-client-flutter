@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geldstroom/provider/overviews.dart';
 import 'package:geldstroom/utils/format_currency.dart';
 import 'package:geldstroom/widgets/shared/balance_chart.dart';
+import 'package:geldstroom/widgets/shared/loading_animated_switcher.dart';
 import 'package:provider/provider.dart';
 
 class OverviewBalance extends StatefulWidget {
@@ -109,9 +110,10 @@ class _OverviewBalanceState extends State<OverviewBalance> {
     );
   }
 
-  Widget _buildBalanceChart(Overviews overviews) => _isLoading
-      ? _loadingIndicator()
-      : BalanceChart(
+  Widget _buildBalanceChart(Overviews overviews) => LoadingAnimatedSwitcher(
+        isLoading: _isLoading,
+        onLoadingChild: _loadingIndicator(),
+        onFinishChild: BalanceChart(
           balanceSegment: [
             BalanceSegment(
               segment: 'Income',
@@ -124,7 +126,8 @@ class _OverviewBalanceState extends State<OverviewBalance> {
               color: Theme.of(context).accentColor,
             ),
           ],
-        );
+        ),
+      );
 
   Widget _loadingIndicator() => Container(
         height: 200,
