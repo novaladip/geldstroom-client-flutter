@@ -1,4 +1,6 @@
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
+
 import 'package:geldstroom/models/balance.dart';
 import 'package:geldstroom/models/query_params_transaction.dart';
 import 'package:geldstroom/models/transaction.dart';
@@ -11,7 +13,7 @@ class Overviews with ChangeNotifier {
   List<Transaction> _transaction = [];
   Balance _balance = Balance(expense: 0, income: 0);
   bool _isTransactionEmpty = false;
-  final today = '2019/08/27';
+  final today = DateFormat('y/MM/dd').format(DateTime.now().toUtc());
 
   List<Transaction> get transaction {
     return [..._transaction];
