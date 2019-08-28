@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:geldstroom/models/post_transaction_body.dart';
+import 'package:geldstroom/provider/overviews.dart';
+import 'package:geldstroom/provider/records.dart';
 import 'package:geldstroom/utils/validate_input.dart';
 import 'package:geldstroom/widgets/shared/choice_chip_category.dart';
 import 'package:geldstroom/widgets/shared/choice_chip_type.dart';
 import 'package:geldstroom/widgets/shared/quotes.dart';
 import 'package:geldstroom/widgets/shared/text_input.dart';
+import 'package:provider/provider.dart';
 
 class AddTransactionScreen extends StatefulWidget {
   static final routeName = '/add-transaction';
@@ -29,10 +33,20 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
 
       if (!isValid) return;
 
-      Future.delayed(Duration(seconds: 4), () {
-        setState(() => _isLoading = false);
-      });
+      await Provider.of<Records>(context, listen: false).postTransaction(
+        PostTransactionBody(
+          type: _type,
+          category: _category,
+          description: _descriptionController.text,
+          amount: int.parse(_amountController.text),
+        ),
+      );
+      Provider.of<Overviews>(context, listen: false)
+        ..fetchBalance()
+        ..fetchTransactions();
+      Navigator.of(context).pop();
     } catch (error) {
+      setState(() => _isLoading = false);
       throw error;
     }
   }
@@ -86,6 +100,11 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                   keyboardType: TextInputType.text,
                   textInputAction: TextInputAction.done,
                   validator: validateDescription,
+                  onFieldSubmitted: () {
+                    if (_amountController.text.isNotEmpty) {
+                      _onSubmit();
+                    }
+                  },
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),

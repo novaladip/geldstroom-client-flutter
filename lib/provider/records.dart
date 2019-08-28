@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
 import 'package:geldstroom/models/balance.dart';
+import 'package:geldstroom/models/post_transaction_body.dart';
 
 import 'package:geldstroom/models/query_params_transaction.dart';
 import 'package:geldstroom/models/transaction.dart';
@@ -36,6 +37,17 @@ class Records with ChangeNotifier {
 
   bool get isEmpty {
     return _isEmpty;
+  }
+
+  Future<void> postTransaction(PostTransactionBody postTransactionBody) async {
+    try {
+      final transaction =
+          await _transactionService.postTransaction(postTransactionBody);
+      _transaction = [transaction, ..._transaction];
+      notifyListeners();
+    } catch (error) {
+      throw error;
+    }
   }
 
   Future<void> fetchRecords(

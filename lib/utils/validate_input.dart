@@ -32,10 +32,6 @@ String validatePasswordComfirmation(String value, String password) {
 }
 
 String validateDescription(String value) {
-  if (value.isEmpty) {
-    return 'Description cannot be empty';
-  }
-
   if (value.length > 10) {
     return 'Description length cannot be more than 10 character';
   }
