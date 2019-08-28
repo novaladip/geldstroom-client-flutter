@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:geldstroom/config/app.config.dart';
 import 'package:geldstroom/provider/auth.dart';
 import 'package:geldstroom/provider/overviews.dart';
-import 'package:geldstroom/screens/home_screen.dart';
-import 'package:provider/provider.dart';
-
+import 'package:geldstroom/screens/tabs_screen.dart';
 import 'package:geldstroom/screens/login_screen.dart';
-
 import 'provider/records.dart';
 
 void main() {
@@ -33,7 +32,7 @@ class App extends StatelessWidget {
           title: AppConfig.title,
           theme: AppConfig.theme,
           routes: AppConfig.routes,
-          home: auth.isAuthenticated ? HomeScreen() : LoginScreen(),
+          home: auth.isAuthenticated ? TabsScreen() : LoginScreen(),
         ),
       ),
     );
