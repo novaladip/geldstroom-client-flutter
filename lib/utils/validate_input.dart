@@ -30,3 +30,29 @@ String validatePasswordComfirmation(String value, String password) {
 
   return null;
 }
+
+String validateDescription(String value) {
+  if (value.isEmpty) {
+    return 'Description cannot be empty';
+  }
+
+  if (value.length > 10) {
+    return 'Description length cannot be more than 10 character';
+  }
+
+  return null;
+}
+
+String validateAmount(String value) {
+  final amount = int.tryParse(value);
+
+  if (amount == null) {
+    return 'Invalid amount';
+  }
+
+  if (amount <= 0) {
+    return 'Amount must be positive number';
+  }
+
+  return null;
+}
