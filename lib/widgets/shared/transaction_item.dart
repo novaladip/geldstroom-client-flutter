@@ -18,32 +18,18 @@ class TransactionItem extends StatelessWidget {
     return prefix + formatCurrency(transaction.amount);
   }
 
-  String _formatDate(String date) {
-    final parsedDate = DateTime.parse(date);
-    return DateFormat.yMd().format(parsedDate);
-  }
-
-  IconData _getIconCategory(String category) {
-    switch (category) {
-      case 'FOOD':
-        return Icons.fastfood;
-
-      case 'HOBBY':
-        return Icons.games;
-
-      default:
-        return Icons.school;
-    }
+  String get _imageCategory {
+    return 'assets/images/category/${transaction.category}.png';
   }
 
   Widget _buildLeftItem() {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Container(
-          child: Icon(
-            _getIconCategory(
-              transaction.category,
-            ),
+          child: Image.asset(
+            _imageCategory,
+            width: 18,
           ),
         ),
         VerticalDivider(),
@@ -54,6 +40,7 @@ class TransactionItem extends StatelessWidget {
 
   Widget _buildRightItem() {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
         Text(
