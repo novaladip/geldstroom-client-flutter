@@ -26,6 +26,7 @@ dependencies:
   shared_preferences: ^0.5.3+4
   intl: ^0.15.2
   charts_flutter: ^0.7.0
+  pull_to_refresh: ^1.5.4
   flutter:
     sdk: flutter
 
