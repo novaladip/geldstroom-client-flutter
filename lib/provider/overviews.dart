@@ -65,4 +65,10 @@ class Overviews with ChangeNotifier {
       throw error;
     }
   }
+
+  void clearState() {
+    _balance = Balance(income: 0, expense: 0);
+    _transaction = [];
+    notifyListeners();
+  }
 }

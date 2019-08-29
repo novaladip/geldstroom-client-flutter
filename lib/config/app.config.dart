@@ -4,6 +4,7 @@ import 'package:geldstroom/screens/add_transaction_screen.dart';
 import 'package:geldstroom/screens/home_screen.dart';
 import 'package:geldstroom/screens/login_screen.dart';
 import 'package:geldstroom/screens/register_screen.dart';
+import 'package:geldstroom/screens/tabs_screen.dart';
 
 class AppConfig {
   static final title = 'Geldstroom';
@@ -21,6 +22,7 @@ class AppConfig {
     HomeScreen.routeName: (BuildContext context) => HomeScreen(),
     AddTransactionScreen.routeName: (BuildContext context) =>
         AddTransactionScreen(),
+    TabsScreen.routeName: (BuildContext context) => TabsScreen(),
   };
   static final quotes =
       "You can never understand everything. But, you should push yourself to understand the system. - Ryan Dahl";

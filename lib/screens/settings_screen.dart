@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:geldstroom/provider/auth.dart';
+import 'package:geldstroom/provider/overviews.dart';
+import 'package:geldstroom/provider/records.dart';
+import 'package:geldstroom/screens/login_screen.dart';
 import 'package:geldstroom/widgets/setting_item.dart';
+import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatelessWidget {
   SettingsScreen({Key key}) : super(key: key);
@@ -11,13 +16,13 @@ class SettingsScreen extends StatelessWidget {
       body: Stack(
         children: <Widget>[
           _buildSettingsTitle(height, width),
-          _buildMenu(height, width)
+          _buildMenu(height, width, context)
         ],
       ),
     );
   }
 
-  Positioned _buildMenu(double height, double width) {
+  Positioned _buildMenu(double height, double width, BuildContext context) {
     return Positioned(
       top: height * 0.15,
       left: 30.0,
@@ -35,13 +40,13 @@ class SettingsScreen extends StatelessWidget {
               Radius.circular(20),
             ),
           ),
-          child: _buildMenuItem(),
+          child: _buildMenuItem(context),
         ),
       ),
     );
   }
 
-  Padding _buildMenuItem() {
+  Padding _buildMenuItem(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 50, right: 25, left: 25),
       child: Column(
@@ -49,7 +54,12 @@ class SettingsScreen extends StatelessWidget {
           SettingItem(
             imageAssets: 'assets/images/settings/logout.png',
             title: 'Sign out',
-            onTap: () {},
+            onTap: () async {
+              await Provider.of<Auth>(context, listen: false).logout();
+              Provider.of<Records>(context, listen: false).clearState();
+              Provider.of<Overviews>(context, listen: false).clearState();
+              Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+            },
           ),
           SettingItem(
             imageAssets: 'assets/images/settings/rating.png',

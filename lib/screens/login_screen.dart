@@ -3,8 +3,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:geldstroom/config/app.config.dart';
 import 'package:geldstroom/provider/auth.dart';
-import 'package:geldstroom/screens/home_screen.dart';
 import 'package:geldstroom/screens/register_screen.dart';
+import 'package:geldstroom/screens/tabs_screen.dart';
 import 'package:geldstroom/utils/validate_input.dart';
 import 'package:geldstroom/widgets/shared/button_gradient.dart';
 import 'package:geldstroom/widgets/shared/quotes.dart';
@@ -38,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (isValid) {
         await Provider.of<Auth>(context)
             .login(_emailController.text, _passwordController.text);
-        Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+        Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
       }
       _setIsLoading(false);
     } catch (error) {
