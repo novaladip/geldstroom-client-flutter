@@ -21,7 +21,7 @@ class _BalanceChartState extends State<BalanceChart> {
   void _generateData() {
     setState(() {
       setState(() {
-        _seriesList.add(
+        _seriesList = [
           charts.Series(
             domainFn: (BalanceSegment balanceSegment, _) =>
                 balanceSegment.segment,
@@ -32,14 +32,22 @@ class _BalanceChartState extends State<BalanceChart> {
             colorFn: (BalanceSegment balanceSegment, _) =>
                 charts.ColorUtil.fromDartColor(balanceSegment.color),
           ),
-        );
+        ];
       });
     });
   }
 
   @override
+  void didUpdateWidget(BalanceChart oldWidget) {
+    if (oldWidget.balanceSegment[0].size != widget.balanceSegment[0].size ||
+        oldWidget.balanceSegment[1].size != widget.balanceSegment[1].size) {
+      _generateData();
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   void initState() {
-    _seriesList = List<charts.Series<BalanceSegment, String>>();
     _generateData();
     super.initState();
   }
