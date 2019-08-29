@@ -53,6 +53,9 @@ flutter:
    - assets/images/category/EDUCATION.png
    - assets/images/category/FOOD.png
    - assets/images/category/HOBBY.png
+   - assets/images/settings/logout.png
+   - assets/images/settings/rating.png
+   - assets/images/settings/version.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see
