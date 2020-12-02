@@ -31,6 +31,11 @@ dev_dependencies:
   injectable_generator: ^1.0.6
   network_image_mock: ^1.0.2
   flutter_gen:
+  
+  flutter_launcher_icons: ^0.8.1
+  flutter_native_splash: 
+    git:
+      url: https://github.com/henriquearthur/flutter_native_splash.git
 
 flutter:
   uses-material-design: true
@@ -47,3 +52,7 @@ flutter_gen:
 
   integrations:
     flutter_svg: true
+
+flutter_native_splash:
+  image: assets/images/splash.png
+  color: "272121"

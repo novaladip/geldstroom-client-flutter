@@ -13,6 +13,7 @@ class $AssetsImagesGen {
   SvgGenImage get beer => const SvgGenImage('assets/images/beer.svg');
   SvgGenImage get serverStatus =>
       const SvgGenImage('assets/images/server_status.svg');
+  AssetGenImage get splash => const AssetGenImage('assets/images/splash.png');
   SvgGenImage get visualData =>
       const SvgGenImage('assets/images/visual_data.svg');
   SvgGenImage get welcoming => const SvgGenImage('assets/images/welcoming.svg');

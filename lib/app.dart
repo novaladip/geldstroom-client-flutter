@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'config/routes.dart';
 import 'config/theme.dart';
+import 'page/splash_screen/splash_screen_page.dart';
 
 class App extends StatelessWidget {
   @override
@@ -28,6 +29,7 @@ class App extends StatelessWidget {
                 ),
           ),
           routes: routes,
+          home: SplashScreenPage(),
         );
       },
     );

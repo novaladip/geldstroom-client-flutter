@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../intro/intro_page.dart';
+import '../../constant/assets.gen.dart';
 
 class SplashScreenPage extends StatefulWidget {
   static const routeName = '/splash_screen';
@@ -16,13 +16,9 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
-        body: Center(
-          child: FlatButton(
-            child: Text('S'),
-            onPressed: () {
-              Navigator.of(context).pushReplacementNamed(IntroPage.routeName);
-            },
-          ),
+        body: Assets.images.splash.image(
+          width: double.infinity,
+          fit: BoxFit.contain,
         ),
       ),
     );
