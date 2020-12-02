@@ -2,24 +2,6 @@ name: CI
 on: 
   push: 
 
-jobs:
-  create-envfile:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Make env file
-      - uses: SpicyPizza/create-envfile@v1
-      - with:
-          file_name: .env
-          envkey_BASE_URL: ${{ secrets.BASE_URL }} 
-          envkey_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}   
-          envkey_ONE_SIGNAL_ID: ${{ secrets.ONE_SIGNAL_ID }}
-      - name: Make dev env file
-      - uses: SpicyPizza/create-envfile@v1
-      - with:
-          file_name: .dev.env
-          envkey_BASE_URL: ${{ secrets.BASE_URL }} 
-          envkey_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}   
-          envkey_ONE_SIGNAL_ID: ${{ secrets.ONE_SIGNAL_ID_DEV }}
 
 jobs:     
   build:
@@ -29,6 +11,20 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           channel: stable
+      - name: Create env file
+      - uses: SpicyPizza/create-envfile@v1
+      - with:
+          file_name: .env
+          envkey_BASE_URL: ${{ secrets.BASE_URL }} 
+          envkey_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}   
+          envkey_ONE_SIGNAL_ID: ${{ secrets.ONE_SIGNAL_ID }}
+      - name: Create dev env file
+      - uses: SpicyPizza/create-envfile@v1
+      - with:
+          file_name: .dev.env
+          envkey_BASE_URL: ${{ secrets.BASE_URL }} 
+          envkey_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}   
+          envkey_ONE_SIGNAL_ID: ${{ secrets.ONE_SIGNAL_ID_DEV }}    
       - name: Install Dependencies
         run: flutter pub get
       - name: Run Build Runner
