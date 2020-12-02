@@ -4,7 +4,7 @@ on:
 
 jobs:
   create-envfile:
-    run-on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Make env file
       - uses: SpicyPizza/create-envfile@v1
