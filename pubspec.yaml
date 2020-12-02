@@ -17,6 +17,10 @@ dependencies:
   google_fonts: ^1.1.1
   injectable: ^1.0.5
   shared_preferences: ^0.5.12+4
+  styled_widget: ^0.2.2
+  flutter_svg: ^0.19.0
+  introduction_screen: ^1.0.9
+  flutter_screenutil: ^4.0.0-beta
 
 dev_dependencies:
   flutter_test:
@@ -25,6 +29,8 @@ dev_dependencies:
 
   effective_dart: ^1.3.0
   injectable_generator: ^1.0.6
+  network_image_mock: ^1.0.2
+  flutter_gen:
 
 flutter:
   uses-material-design: true
@@ -32,3 +38,12 @@ flutter:
   assets:
     - .dev.env
     - .env
+    - assets/images/
+
+
+flutter_gen:
+  output: lib/constant/ # Optional (default: lib/gen/)
+  lineLength: 80 # Optional (default: 80)
+
+  integrations:
+    flutter_svg: true
