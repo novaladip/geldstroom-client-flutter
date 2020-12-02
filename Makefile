@@ -1,11 +1,8 @@
 build_apk: $(mode)
 	flutter build apk --dart-define mode=$(mode) --target-platform android-arm,android-arm64,android-x64 --split-per-abi
 
-test:
-	clear && flutter test --dart-define mode=test
-
-test-coverage:
-	clear && flutter test --coverage --dart-define mode=test
+test_coverage:
+	flutter test --coverage
 
 gen_code_coverage:
 	genhtml coverage/lcov.info -o coverage/html
