@@ -5,7 +5,7 @@ class Env {
   static const prod = 'production';
   static const test = 'testing';
 
-  static const mode = String.fromEnvironment('mode', defaultValue: dev);
+  static const mode = String.fromEnvironment('mode', defaultValue: test);
   static const envFile = mode == prod ? '.env' : '.dev.env';
   static final baseUrl = DotEnv().env['BASE_URL'];
   static final oneSignalId = DotEnv().env['ONE_SIGNAL_ID'];
