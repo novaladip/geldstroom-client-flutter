@@ -6,6 +6,7 @@ import '../../test_helper.dart';
 
 void main() {
   group('IntroPage', () {
+    final subject = buildTestableWidget(IntroPage());
     test('IntroContent ', () {
       final introContent = IntroContent(
         title: 'Lorem',
@@ -19,9 +20,7 @@ void main() {
 
     testWidgets('should render intro content correctly', (tester) async {
       await mockNetworkImagesFor(
-        () => tester.pumpWidget(
-          AppWrapper(IntroPage()),
-        ),
+        () => tester.pumpWidget(subject),
       );
 
       expect(find.text(kSkipButtonText), findsOneWidget);
@@ -49,9 +48,7 @@ void main() {
     testWidgets('should jump to last intro content when skip button pressed',
         (tester) async {
       await mockNetworkImagesFor(
-        () => tester.pumpWidget(
-          AppWrapper(IntroPage()),
-        ),
+        () => tester.pumpWidget(subject),
       );
 
       await tester.tap(find.text(kSkipButtonText));

@@ -15,9 +15,16 @@ class MockAuthCubit extends MockBloc<AuthState> implements AuthCubit {}
 void main() {
   group('SplashScreenPage()', () {
     AuthCubit mockAuthCubit;
+    Widget subject;
 
     setUp(() {
       mockAuthCubit = MockAuthCubit();
+      subject = buildTestableWidget(
+        BlocProvider.value(
+          value: mockAuthCubit,
+          child: AppWrapper(SplashScreenPage()),
+        ),
+      );
     });
 
     testWidgets(
@@ -25,12 +32,7 @@ void main() {
         (tester) async {
       when(mockAuthCubit.state).thenAnswer((_) => AuthState.initial());
 
-      await tester.pumpWidget(
-        BlocProvider<AuthCubit>(
-          create: (_) => mockAuthCubit,
-          child: AppWrapper(SplashScreenPage()),
-        ),
-      );
+      await tester.pumpWidget(subject);
 
       await tester.pump();
 
@@ -38,7 +40,7 @@ void main() {
     });
 
     testWidgets(
-        'listen for AuthState.authenticated should navigate to HomePage',
+        'test listen for AuthState.authenticated should navigate to HomePage',
         (tester) async {
       final finderHomePage = find.byKey(Key(HomePage.routeName));
 
@@ -50,12 +52,7 @@ void main() {
         ]),
       );
 
-      await tester.pumpWidget(
-        BlocProvider.value(
-          value: mockAuthCubit,
-          child: AppWrapper(SplashScreenPage()),
-        ),
-      );
+      await tester.pumpWidget(subject);
 
       await tester.pumpAndSettle();
 
@@ -63,8 +60,8 @@ void main() {
     });
 
     testWidgets(
-        'listen for AuthState.unauthenticated should navigate to IntroPage',
-        (tester) async {
+        'test listen for AuthState.unauthenticated '
+        'should navigate to IntroPage', (tester) async {
       final finderIntroPage = find.byKey(Key(IntroPage.routeName));
 
       whenListen(
@@ -75,12 +72,7 @@ void main() {
         ]),
       );
 
-      await tester.pumpWidget(
-        BlocProvider.value(
-          value: mockAuthCubit,
-          child: AppWrapper(SplashScreenPage()),
-        ),
-      );
+      await tester.pumpWidget(subject);
 
       await tester.pumpAndSettle();
 

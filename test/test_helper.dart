@@ -25,3 +25,7 @@ class AppWrapper extends StatelessWidget {
     );
   }
 }
+
+Widget buildTestableWidget(Widget child) {
+  return AppWrapper(child);
+}
