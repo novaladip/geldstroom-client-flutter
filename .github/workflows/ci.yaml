@@ -1,29 +1,27 @@
 name: CI
-on: 
-  push: 
+on:
+  push:
 
-
-jobs:     
+jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
       - name: Create env file
         uses: SpicyPizza/create-envfile@v1
         with:
           file_name: .env
-          envkey_BASE_URL: ${{ secrets.BASE_URL }} 
-          envkey_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}   
+          envkey_BASE_URL: ${{ secrets.BASE_URL }}
+          envkey_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
           envkey_ONE_SIGNAL_ID: ${{ secrets.ONE_SIGNAL_ID }}
       - name: Create dev env file
         uses: SpicyPizza/create-envfile@v1
         with:
           file_name: .dev.env
-          envkey_BASE_URL: ${{ secrets.BASE_URL }} 
-          envkey_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}   
-          envkey_ONE_SIGNAL_ID: ${{ secrets.ONE_SIGNAL_ID_DEV }}  
-          
+          envkey_BASE_URL: ${{ secrets.BASE_URL }}
+          envkey_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          envkey_ONE_SIGNAL_ID: ${{ secrets.ONE_SIGNAL_ID_DEV }}
+
       - uses: subosito/flutter-action@v1
         with:
           channel: stable
@@ -42,7 +40,7 @@ jobs:
         with:
           path: ./coverage/lcov.info
           min_coverage: 50
-          exclude: "**/*.freezed.dart **/*.config.dart **/*generated_plugin_registrant.dart ./lib/constant/assets.gen.dart"
+          exclude: "**/*.freezed.dart **/*.config.dart  **/*.gen.dart"
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
