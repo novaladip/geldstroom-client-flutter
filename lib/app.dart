@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'bloc/auth/auth_cubit.dart';
 import 'config/routes.dart';
 import 'config/theme.dart';
 import 'page/splash_screen/splash_screen_page.dart';
+import 'util/injector/injector.dart';
 
 class App extends StatelessWidget {
   @override
@@ -16,20 +19,23 @@ class App extends StatelessWidget {
           allowFontScaling: true,
         );
 
-        return MaterialApp(
-          title: 'Geldstroom',
-          theme: ThemeData(
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-            primaryColor: AppStyles.primaryColor,
-            scaffoldBackgroundColor: AppStyles.darkBackground,
-            textTheme: Theme.of(context).textTheme.apply(
-                  bodyColor: AppStyles.textWhite,
-                  displayColor: AppStyles.textWhite,
-                  fontFamily: AppStyles.fontFamilyBody,
-                ),
+        return BlocProvider<AuthCubit>(
+          create: (_) => getIt<AuthCubit>()..appStarted(),
+          child: MaterialApp(
+            title: 'Geldstroom',
+            theme: ThemeData(
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+              primaryColor: AppStyles.primaryColor,
+              scaffoldBackgroundColor: AppStyles.darkBackground,
+              textTheme: Theme.of(context).textTheme.apply(
+                    bodyColor: AppStyles.textWhite,
+                    displayColor: AppStyles.textWhite,
+                    fontFamily: AppStyles.fontFamilyBody,
+                  ),
+            ),
+            routes: routes,
+            home: SplashScreenPage(),
           ),
-          routes: routes,
-          home: SplashScreenPage(),
         );
       },
     );

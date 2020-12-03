@@ -35,6 +35,7 @@ class IntroPage extends StatelessWidget {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
+        key: Key(IntroPage.routeName),
         body: IntroductionScreen(
           curve: Curves.easeInOut,
           showNextButton: true,

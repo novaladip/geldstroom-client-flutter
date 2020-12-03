@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'app.dart';
 import 'config/env.dart';
+import 'util/injector/injector.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,8 +13,10 @@ void main() async {
 }
 
 Future<void> setUp() async {
+  await DotEnv().load(Env.envFile);
+  configInjector(env: Env.mode);
+
   await Future.wait([
-    DotEnv().load(Env.envFile),
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]),
