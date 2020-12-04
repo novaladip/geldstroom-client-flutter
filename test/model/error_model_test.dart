@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geldstroom/model/error_model.dart';
 
@@ -20,6 +21,37 @@ void main() {
       expect(serverError.error, json['error']);
       expect(serverError.message, json['message']);
       expect(serverError.errorCode, json['errorCode']);
+    });
+
+    test(
+        'fromDioError should return ServerError.unknownError() '
+        'when status code is >= 500', () {
+      final error = DioError(
+        response: Response(
+          statusCode: 500,
+          data: {'message': 'Internal server error'},
+        ),
+      );
+      final serverError = ServerError.fromDioError(error);
+      expect(serverError, ServerError.unknownError());
+    });
+
+    test(
+        'fromDioError should return ServerError.networkError() '
+        'when response is null', () {
+      final error = DioError(response: null);
+      final serverError = ServerError.fromDioError(error);
+      expect(serverError, ServerError.networkError());
+    });
+
+    test(
+        'fromDioError should return ServerError.unknownError() '
+        'when data is null and statusCode is < 500', () {
+      final error = DioError(
+        response: Response(data: null, statusCode: 400),
+      );
+      final serverError = ServerError.fromDioError(error);
+      expect(serverError, ServerError.unknownError());
     });
   });
 }

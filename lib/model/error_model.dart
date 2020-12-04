@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
@@ -32,6 +33,22 @@ class ServerError extends Equatable {
       message: 'Unknown error occurs, please try again later',
       errorCode: 'UNKNOWN_0001',
     );
+  }
+
+  factory ServerError.fromDioError(DioError e) {
+    if (e.response == null) {
+      return ServerError.networkError();
+    }
+
+    if (e.response.statusCode >= 500) {
+      return ServerError.unknownError();
+    }
+
+    if (e.response.data != null) {
+      return ServerError.fromJson(e.response.data);
+    }
+
+    return ServerError.unknownError();
   }
 
   @override
