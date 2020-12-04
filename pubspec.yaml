@@ -27,6 +27,7 @@ dependencies:
   jwt_decoder: ^1.0.3
   equatable: ^1.2.5
   meta: ^1.2.4
+  dartz: ^0.9.2
 
 dev_dependencies:
   flutter_test:

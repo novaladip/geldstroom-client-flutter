@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -28,4 +31,18 @@ class AppWrapper extends StatelessWidget {
 
 Widget buildTestableWidget(Widget child) {
   return AppWrapper(child);
+}
+
+ResponseBody buildResponseBody({
+  @required Map<String, dynamic> payload,
+  int statusCode = 200,
+  Map<String, List<String>> headers = const {
+    Headers.contentTypeHeader: [Headers.jsonContentType]
+  },
+}) {
+  return ResponseBody.fromString(
+    json.encode(payload),
+    statusCode,
+    headers: headers,
+  );
 }
