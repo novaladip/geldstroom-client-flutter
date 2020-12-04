@@ -9,5 +9,17 @@ void main() {
 
       expect(networkError == unknownError, false);
     });
+
+    test('fromJson test', () {
+      final json = {
+        'message': 'some error',
+        'errorCode': 'ERROR_CODE_400',
+        'error': {'email': 'Invalid email address'}
+      };
+      final serverError = ServerError.fromJson(json);
+      expect(serverError.error, json['error']);
+      expect(serverError.message, json['message']);
+      expect(serverError.errorCode, json['errorCode']);
+    });
   });
 }

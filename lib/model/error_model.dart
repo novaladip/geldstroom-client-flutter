@@ -12,6 +12,14 @@ class ServerError extends Equatable {
     this.error,
   });
 
+  factory ServerError.fromJson(Map<String, dynamic> json) {
+    return ServerError(
+      message: json['message'],
+      errorCode: json['errorCode'],
+      error: json['error'],
+    );
+  }
+
   factory ServerError.networkError() {
     return ServerError(
       message: 'Network error',
