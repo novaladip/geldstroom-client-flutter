@@ -40,7 +40,7 @@ jobs:
         with:
           path: ./coverage/lcov.info
           min_coverage: 50
-          exclude: "**/*.freezed.dart **/*.config.dart  **/*.gen.dart"
+          exclude: "**/*.freezed.dart **/*.config.dart  **/*.gen.dart **/*_test.dart"
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
