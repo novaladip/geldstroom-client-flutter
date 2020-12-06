@@ -57,7 +57,7 @@ flutter:
 
 
 flutter_gen:
-  output: lib/constant/ # Optional (default: lib/gen/)
+  output: 
   lineLength: 80 # Optional (default: 80)
 
   integrations:

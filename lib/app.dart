@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'bloc/auth/auth_cubit.dart';
-import 'config/routes.dart';
-import 'config/theme.dart';
-import 'page/splash_screen/splash_screen_page.dart';
-import 'util/injector/injector.dart';
+import 'core/bloc/bloc.dart';
+import 'shared/common/common.dart';
+import 'ui/ui.dart';
 
 class App extends StatelessWidget {
   @override

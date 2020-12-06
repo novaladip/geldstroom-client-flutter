@@ -3,8 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'app.dart';
-import 'config/env.dart';
-import 'util/injector/injector.dart';
+import 'shared/common/common.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

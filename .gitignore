@@ -48,3 +48,4 @@ app.*.map.json
 # generated code
 **/*.freezed.dart
 *.config.dart
+**/*.gen.dart
