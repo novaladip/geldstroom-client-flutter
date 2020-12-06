@@ -34,7 +34,7 @@ jobs:
       - name: Analyze
         run: flutter analyze .
       - name: Run tests
-        run: flutter test --coverage
+        run: flutter test --coverage lib
       - name: Check Code Coverage
         uses: VGVentures/very-good-coverage@v1.1.0
         with:
