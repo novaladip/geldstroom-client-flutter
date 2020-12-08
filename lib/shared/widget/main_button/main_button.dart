@@ -42,7 +42,7 @@ class MainButton extends StatelessWidget {
     return Styled.widget(child: child)
         .animate(Duration(seconds: 1), Curves.easeIn)
         .decorated(
-          color: Colors.brown[800],
+          color: AppStyles.primaryColor,
           borderRadius: BorderRadius.all(Radius.circular(8.w)),
         )
         .height(60.h)
