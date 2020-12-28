@@ -1,9 +1,8 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:geldstroom/core/bloc/auth/auth_cubit.dart';
+import 'package:geldstroom/shared/common/utils/jwt_ops/jwt_ops.dart';
 import 'package:mockito/mockito.dart';
-
-import '../../../shared/common/common.dart';
-import '../bloc.dart';
 
 const validToken =
     // ignore: lines_longer_than_80_chars

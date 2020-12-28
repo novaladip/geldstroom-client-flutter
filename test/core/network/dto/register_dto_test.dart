@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-
-import 'register_dto.dart';
+import 'package:geldstroom/core/network/dto/register_dto.dart';
 
 void main() {
   test(

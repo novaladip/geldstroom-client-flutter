@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../shared/common/config/config.dart';
 import '../../dto/login_dto.dart';
 import '../../dto/register_dto.dart';
 import '../../model/error_model.dart';
@@ -12,10 +11,7 @@ abstract class IAuthService {
   Future<Either<ServerError, None>> register(RegisterDto dto);
 }
 
-@LazySingleton(
-  as: IAuthService,
-  env: [Env.dev, Env.prod],
-)
+@Injectable(as: IAuthService)
 class AuthService implements IAuthService {
   const AuthService(this._dio);
 

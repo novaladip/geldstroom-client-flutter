@@ -7,6 +7,7 @@ import 'package:styled_widget/styled_widget.dart';
 
 import '../../gen/assets.gen.dart';
 import '../../shared/shared.dart';
+import '../login/login_page.dart';
 
 class IntroPage extends StatelessWidget {
   static const routeName = '/intro';
@@ -53,9 +54,8 @@ class IntroPage extends StatelessWidget {
               ),
             ),
           ),
-          onDone: () {
-            // @TODO
-          },
+          onDone: () =>
+              Navigator.of(context).pushReplacementNamed(LoginPage.routeName),
           pages: kIntroContents
               .map(
                 (content) => PageViewModel(

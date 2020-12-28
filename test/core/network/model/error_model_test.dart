@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'error_model.dart';
+import 'package:geldstroom/core/network/model/error_model.dart';
 
 void main() {
   group('ServerError', () {

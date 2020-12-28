@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:geldstroom/shared/widget/custom_text_form_field/custom_text_form_field.dart';
 
 import '../../../test_helper.dart';
-import 'custom_text_form_field.dart';
 
 class Home extends StatelessWidget {
   final emailController = TextEditingController();

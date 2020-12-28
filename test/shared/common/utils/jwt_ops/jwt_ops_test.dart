@@ -1,9 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:geldstroom/shared/common/utils/jwt_ops/jwt_ops.dart';
 import 'package:mockito/mockito.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'jwt_ops.dart';
 
 class MockSharedPreferences extends Mock implements SharedPreferences {}
 

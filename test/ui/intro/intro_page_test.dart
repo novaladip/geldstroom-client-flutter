@@ -1,13 +1,37 @@
+import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-
+import 'package:geldstroom/core/bloc/bloc.dart';
+import 'package:geldstroom/ui/intro/intro_page.dart';
+import 'package:geldstroom/ui/login/login_page.dart';
 import 'package:network_image_mock/network_image_mock.dart';
+import 'package:mockito/mockito.dart';
 
 import '../../test_helper.dart';
-import '../ui.dart';
+
+class MockLoginCubit extends MockBloc<LoginState> implements LoginCubit {}
 
 void main() {
   group('IntroPage', () {
-    final subject = buildTestableWidget(IntroPage());
+    Widget subject;
+    LoginCubit loginCubit;
+
+    setUp(() {
+      loginCubit = MockLoginCubit();
+
+      subject = buildTestableBlocWidget(
+        initialRoutes: IntroPage.routeName,
+        routes: {
+          IntroPage.routeName: (_) => IntroPage(),
+          LoginPage.routeName: (_) => BlocProvider<LoginCubit>(
+                create: (_) => loginCubit,
+                child: LoginPage(),
+              ),
+        },
+      );
+    });
+
     test('IntroContent ', () {
       final introContent = IntroContent(
         title: 'Lorem',
@@ -41,7 +65,11 @@ void main() {
           // if were on the last content pages, should render the done button
           expect(find.text(kDoneButtonText), findsOneWidget);
 
-          // @TODO tap the done button and verify LoginPage is pushed
+          when(loginCubit.state).thenAnswer((_) => LoginState.initial());
+          // tap the done button and verify login page appear
+          await tester.tap(find.text(kDoneButtonText));
+          await tester.pumpAndSettle();
+          expect(find.byKey(loginPageKey), findsOneWidget);
         }
       }
     });

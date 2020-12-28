@@ -2,12 +2,14 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:geldstroom/core/network/dto/login_dto.dart';
+import 'package:geldstroom/core/network/dto/register_dto.dart';
+import 'package:geldstroom/core/network/model/error_model.dart';
+import 'package:geldstroom/core/network/service/auth/auth_service.dart';
+import 'package:geldstroom/shared/common/config/env.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../../../shared/shared.dart';
 import '../../../../test_helper.dart';
-import '../../network.dart';
-import 'auth_service.dart';
 
 class DioAdapterMock extends Mock implements HttpClientAdapter {}
 
@@ -73,7 +75,9 @@ void main() {
       );
     });
 
-    test('register when successful should return Right(None)', () async {
+    test(
+        'register when failed should return Left(ServerError) '
+        'base on error payload', () async {
       final payload = {
         'message': 'Validation failed',
         'errorCode': UserErrorCode.validationError,
@@ -100,7 +104,7 @@ void main() {
       );
     });
 
-    test('register when failed should return Left(ServerError)', () async {
+    test('register when successful should return Right(None)', () async {
       final payload = {'message': 'register success'};
       final httpResponse = buildResponseBody(payload: payload);
       when(dioAdapterMock.fetch(any, any, any))

@@ -31,7 +31,7 @@ class App extends StatelessWidget {
                     fontFamily: AppStyles.fontFamilyBody,
                   ),
             ),
-            routes: routes,
+            routes: buildRoutes(),
             home: SplashScreenPage(),
           ),
         );

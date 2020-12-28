@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-
-import 'input_validator.dart';
+import 'package:geldstroom/shared/common/utils/input_validator/input_validator.dart';
 
 void main() {
   group('InputValidator', () {
