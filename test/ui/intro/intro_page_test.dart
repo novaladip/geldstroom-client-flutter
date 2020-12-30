@@ -12,22 +12,29 @@ import '../../test_helper.dart';
 
 class MockLoginCubit extends MockBloc<LoginState> implements LoginCubit {}
 
+class MockAuthCubit extends MockBloc<AuthState> implements AuthCubit {}
+
 void main() {
   group('IntroPage', () {
     Widget subject;
     LoginCubit loginCubit;
+    AuthCubit authCubit;
 
     setUp(() {
       loginCubit = MockLoginCubit();
+      authCubit = MockAuthCubit();
 
       subject = buildTestableBlocWidget(
         initialRoutes: IntroPage.routeName,
         routes: {
           IntroPage.routeName: (_) => IntroPage(),
-          LoginPage.routeName: (_) => BlocProvider<LoginCubit>(
-                create: (_) => loginCubit,
+          LoginPage.routeName: (_) => MultiBlocProvider(
+                providers: [
+                  BlocProvider.value(value: authCubit),
+                  BlocProvider.value(value: loginCubit),
+                ],
                 child: LoginPage(),
-              ),
+              )
         },
       );
     });

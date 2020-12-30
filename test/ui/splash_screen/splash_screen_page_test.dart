@@ -45,7 +45,7 @@ void main() {
     testWidgets(
         'test listen for AuthState.authenticated should navigate to HomePage',
         (tester) async {
-      final finderHomePage = find.byKey(Key(HomePage.routeName));
+      final finderHomePage = find.byKey(homePageKey);
 
       whenListen(
         authCubit,

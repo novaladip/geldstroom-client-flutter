@@ -4,16 +4,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../shared/common/config/config.dart';
 
+const loginFooterText = 'New to Geldstroom? ';
+const loginFooterText2 = 'Sign up';
+
 class LoginFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return <Widget>[
       _StyledText(
-        'New to Geldstroom? ',
+        loginFooterText,
         color: AppStyles.textGray,
       ),
       _StyledText(
-        'Sign up',
+        loginFooterText2,
         color: AppStyles.textWhite,
         fontWeight: FontWeight.bold,
       ),
