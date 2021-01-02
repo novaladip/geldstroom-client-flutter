@@ -24,6 +24,7 @@ void main() {
     Widget subject;
 
     final loginPageKey = UniqueKey();
+    final registerSuccessPageKey = UniqueKey();
 
     setUp(() {
       registerCubit = MockRegisterCubit();
@@ -33,6 +34,9 @@ void main() {
           RegisterPage.routeName: (_) => BlocProvider.value(
                 value: registerCubit,
                 child: RegisterPage(),
+              ),
+          RegisterSuccessPage.routeName: (_) => buildTestableWidget(
+                Scaffold(key: registerSuccessPageKey),
               ),
           LoginPage.routeName: (_) => buildTestableWidget(
                 Scaffold(key: loginPageKey),
@@ -155,8 +159,20 @@ void main() {
       // expect(find.text('Register failed'), findsOneWidget);
     });
 
-    // testWidgets('test listen for register state success', (tester) async {
-    //   // @TODO show success page
-    // });
+    testWidgets('test listen for register state success', (tester) async {
+      whenListen(
+        registerCubit,
+        Stream.fromIterable([
+          RegisterState.initial(),
+          RegisterState(status: FormStatus.success()),
+        ]),
+      );
+      when(registerCubit.state).thenReturn(
+        RegisterState(status: FormStatus.success()),
+      );
+      await tester.pumpWidget(subject);
+      await tester.pumpAndSettle();
+      expect(find.byKey(registerSuccessPageKey), findsOneWidget);
+    });
   });
 }

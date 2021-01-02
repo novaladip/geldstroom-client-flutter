@@ -1,8 +1,8 @@
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:styled_widget/styled_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:styled_widget/styled_widget.dart';
 
 import '../../../core/bloc/register/register_cubit.dart';
 import '../../../core/network/network.dart';
@@ -10,6 +10,7 @@ import '../../../shared/common/config/config.dart';
 import '../../../shared/common/utils/input_validator/input_validator.dart';
 import '../../../shared/widget/main_button/main_button.dart';
 import '../../../shared/widget/widget.dart';
+import '../../register_success/register_success_page.dart';
 
 class RegisterForm extends StatefulWidget {
   static const submitButtonText = 'Sign up';
@@ -117,6 +118,8 @@ class _RegisterFormState extends State<RegisterForm> {
         duration: Duration(seconds: 2),
         flushbarStyle: FlushbarStyle.GROUNDED,
       )..show(context),
+      success: () => Navigator.of(context)
+          .pushNamedAndRemoveUntil(RegisterSuccessPage.routeName, (_) => false),
       orElse: () {},
     );
   }
