@@ -24,6 +24,7 @@ void main() {
     AuthCubit authCubit;
     LoginCubit loginCubit;
     Widget subject;
+    final registerPageKey = UniqueKey();
 
     setUpAll(() {
       authCubit = MockAuthCubit();
@@ -31,6 +32,8 @@ void main() {
       subject = buildTestableBlocWidget(
         initialRoutes: LoginPage.routeName,
         routes: {
+          RegisterPage.routeName: (_) =>
+              buildTestableWidget(Scaffold(key: registerPageKey)),
           HomePage.routeName: (_) => HomePage(),
           LoginPage.routeName: (_) => MultiBlocProvider(
                 providers: [
@@ -62,10 +65,10 @@ void main() {
       expect(find.text(loginFooterText), findsOneWidget);
       expect(find.text(loginFooterText2), findsOneWidget);
 
+      // Navigate to RegisterPage
       await tester.tap(find.text(loginFooterText2));
-
-      // @TODO
-      // verify navigated to RegisterPage
+      await tester.pumpAndSettle();
+      expect(find.byKey(registerPageKey), findsOneWidget);
     });
 
     testWidgets(

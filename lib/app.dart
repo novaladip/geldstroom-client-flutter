@@ -22,6 +22,21 @@ class App extends StatelessWidget {
           child: MaterialApp(
             title: 'Geldstroom',
             theme: ThemeData(
+              appBarTheme: AppBarTheme(
+                elevation: 0,
+                color: AppStyles.appBarColor,
+                brightness: Brightness.dark,
+                iconTheme: IconThemeData(color: AppStyles.textWhite),
+                textTheme: TextTheme(
+                  headline6: TextStyle(
+                    color: AppStyles.textWhite,
+                    fontSize: 20,
+                    fontFamily: AppStyles.fontFamilyTitle,
+                    letterSpacing: 0.15,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
               visualDensity: VisualDensity.adaptivePlatformDensity,
               primaryColor: AppStyles.primaryColor,
               scaffoldBackgroundColor: AppStyles.darkBackground,

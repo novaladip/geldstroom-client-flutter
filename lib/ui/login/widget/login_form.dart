@@ -8,6 +8,7 @@ import 'package:styled_widget/styled_widget.dart';
 import '../../../core/bloc/bloc.dart';
 import '../../../core/network/dto/dto.dart';
 import '../../../core/network/model/model.dart';
+import '../../../shared/common/config/config.dart';
 import '../../../shared/common/utils/utils.dart';
 import '../../../shared/widget/widget.dart';
 import '../../ui.dart';
@@ -109,7 +110,11 @@ class _LoginFormState extends State<LoginForm> {
                   orElse: () => null,
                 ),
               ),
-              SizedBox(height: 13.h),
+              SizedBox(height: 4.h),
+              Text('Forgot password')
+                  .textColor(AppStyles.textGray)
+                  .alignment(Alignment.centerRight),
+              SizedBox(height: 20.h),
               MainButton(
                 key: submitButtonKey,
                 title: submitButtonText,

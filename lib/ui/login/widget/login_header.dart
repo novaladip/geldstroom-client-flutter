@@ -4,7 +4,7 @@ import 'package:styled_widget/styled_widget.dart';
 
 import '../../../shared/common/config/config.dart';
 
-const loginHeaderTitle = 'Geldstroom';
+const loginHeaderTitle = 'Hello';
 const loginHeaderSubtitle = 'Sign in to your account';
 
 class LoginHeader extends StatelessWidget {
@@ -12,7 +12,7 @@ class LoginHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return <Widget>[
       Text(loginHeaderTitle)
-          .fontSize(60.sp)
+          .fontSize(125.sp)
           .fontWeight(FontWeight.bold)
           .fontFamily(AppStyles.fontFamilyTitle),
       Text(loginHeaderSubtitle)
@@ -22,6 +22,6 @@ class LoginHeader extends StatelessWidget {
         .toColumn(
           crossAxisAlignment: CrossAxisAlignment.center,
         )
-        .padding(top: 0.08.sh);
+        .padding(top: 0.1.sh);
   }
 }

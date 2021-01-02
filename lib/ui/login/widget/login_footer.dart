@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:styled_widget/styled_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:styled_widget/styled_widget.dart';
 
 import '../../../shared/common/config/config.dart';
+import '../../ui.dart';
 
 const loginFooterText = 'New to Geldstroom? ';
 const loginFooterText2 = 'Sign up';
@@ -22,14 +23,11 @@ class LoginFooter extends StatelessWidget {
       ),
     ]
         .toRow(
-      mainAxisAlignment: MainAxisAlignment.center,
-    )
+          mainAxisAlignment: MainAxisAlignment.center,
+        )
         .gestures(
-      onTap: () {
-        // @TODO
-        // Push to Register Page
-      },
-    );
+          onTap: () => Navigator.of(context).pushNamed(RegisterPage.routeName),
+        );
   }
 }
 

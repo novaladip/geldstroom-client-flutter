@@ -7,16 +7,20 @@ import '../utils/utils.dart';
 
 Map<String, Widget Function(BuildContext)> buildRoutes() {
   final routes = <String, Widget Function(BuildContext)>{
-    SplashScreenPage.routeName: (_) => BlocProvider<AuthCubit>(
-          create: (_) => getIt<AuthCubit>(),
+    SplashScreenPage.routeName: (_) => BlocProvider.value(
+          value: getIt<AuthCubit>(),
           child: SplashScreenPage(),
         ),
     IntroPage.routeName: (_) => IntroPage(),
     HomePage.routeName: (_) => HomePage(),
-    LoginPage.routeName: (_) => BlocProvider<LoginCubit>(
-          create: (_) => getIt<LoginCubit>(),
+    LoginPage.routeName: (_) => BlocProvider.value(
+          value: getIt<LoginCubit>(),
           child: LoginPage(),
         ),
+    RegisterPage.routeName: (_) => BlocProvider.value(
+          value: getIt<RegisterCubit>(),
+          child: RegisterPage(),
+        )
   };
 
   return routes;
