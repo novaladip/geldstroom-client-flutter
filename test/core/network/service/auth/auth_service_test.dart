@@ -126,5 +126,35 @@ void main() {
         },
       );
     });
+
+    test('requestOtp when successful should return Right(None)', () async {
+      final payload = {'message': 'code OTP has been send to your email'};
+      final httpResponse = buildResponseBody(payload: payload);
+      when(dioAdapterMock.fetch(any, any, any))
+          .thenAnswer((_) async => httpResponse);
+      final result = await authService.requestOtp('john@email.com');
+      result.fold(
+        (l) => expect(l, null),
+        (r) => expect(r, None()),
+      );
+    });
+
+    test(
+        'requestOtp when failed should return Left(ServerError) '
+        'base on error payload', () async {
+      final payload = {
+        'message': 'Validation failed',
+        'errorCode': UserErrorCode.validationError,
+        'error': {'email': 'Invalid email address'}
+      };
+      final httpResponse = buildResponseBody(payload: payload, statusCode: 400);
+      when(dioAdapterMock.fetch(any, any, any))
+          .thenAnswer((_) async => httpResponse);
+      final result = await authService.requestOtp('john@email.com');
+      result.fold(
+        (l) => expect(l, ServerError.fromJson(payload)),
+        (r) => expect(r, null),
+      );
+    });
   });
 }
