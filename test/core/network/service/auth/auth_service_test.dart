@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:geldstroom/core/network/dto/dto.dart';
 import 'package:geldstroom/core/network/dto/login_dto.dart';
 import 'package:geldstroom/core/network/dto/register_dto.dart';
 import 'package:geldstroom/core/network/model/error_model.dart';
@@ -151,6 +152,44 @@ void main() {
       when(dioAdapterMock.fetch(any, any, any))
           .thenAnswer((_) async => httpResponse);
       final result = await authService.requestOtp('john@email.com');
+      result.fold(
+        (l) => expect(l, ServerError.fromJson(payload)),
+        (r) => expect(r, null),
+      );
+    });
+
+    test('resetPassword when successful should return Right(None)', () async {
+      final payload = {'message': 'your password has been updated'};
+      final httpResponse = buildResponseBody(payload: payload);
+      when(dioAdapterMock.fetch(any, any, any))
+          .thenAnswer((_) async => httpResponse);
+      final result = await authService.resetPassword(ResetPasswordDto(
+        email: 'john@email.com',
+        otp: '123456',
+        password: 'johnpassword',
+      ));
+      result.fold(
+        (l) => expect(l, null),
+        (r) => expect(r, None()),
+      );
+    });
+
+    test(
+        'resetPassword when failed should return Left(ServerError) '
+        'base on error payload', () async {
+      final payload = {
+        'message': 'Validation failed',
+        'errorCode': UserErrorCode.validationError,
+        'error': {'email': 'Invalid email address'}
+      };
+      final httpResponse = buildResponseBody(payload: payload, statusCode: 400);
+      when(dioAdapterMock.fetch(any, any, any))
+          .thenAnswer((_) async => httpResponse);
+      final result = await authService.resetPassword(ResetPasswordDto(
+        email: 'john@email.com',
+        otp: '123456',
+        password: 'johnpassword',
+      ));
       result.fold(
         (l) => expect(l, ServerError.fromJson(payload)),
         (r) => expect(r, null),

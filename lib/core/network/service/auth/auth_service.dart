@@ -2,14 +2,14 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../dto/login_dto.dart';
-import '../../dto/register_dto.dart';
-import '../../model/error_model.dart';
+import '../../dto/dto.dart';
+import '../../model/model.dart';
 
 abstract class IAuthService {
   Future<Either<ServerError, String>> loginWithEmail(LoginDto dto);
   Future<Either<ServerError, None>> register(RegisterDto dto);
   Future<Either<ServerError, None>> requestOtp(String email);
+  Future<Either<ServerError, None>> resetPassword(ResetPasswordDto dto);
 }
 
 @Injectable(as: IAuthService)
@@ -43,6 +43,16 @@ class AuthService implements IAuthService {
   Future<Either<ServerError, None>> requestOtp(String email) async {
     try {
       await _dio.post('/user/request/otp', data: {'email': email});
+      return Right(None());
+    } on DioError catch (e) {
+      return Left(ServerError.fromDioError(e));
+    }
+  }
+
+  @override
+  Future<Either<ServerError, None>> resetPassword(ResetPasswordDto dto) async {
+    try {
+      await _dio.post('/user/reset/password', data: dto.toMap);
       return Right(None());
     } on DioError catch (e) {
       return Left(ServerError.fromDioError(e));
