@@ -52,7 +52,7 @@ class AuthService implements IAuthService {
   @override
   Future<Either<ServerError, None>> resetPassword(ResetPasswordDto dto) async {
     try {
-      await _dio.post('/user/reset/password', data: dto.toMap);
+      await _dio.put('/user/reset/password', data: dto.toMap);
       return Right(None());
     } on DioError catch (e) {
       return Left(ServerError.fromDioError(e));
