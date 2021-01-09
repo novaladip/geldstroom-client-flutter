@@ -9,3 +9,4 @@ linter:
     avoid_classes_with_only_static_members: false
     avoid_print: true
     prefer_single_quotes: true
+    avoid_positional_boolean_parameters: false

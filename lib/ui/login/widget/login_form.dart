@@ -113,7 +113,10 @@ class _LoginFormState extends State<LoginForm> {
               SizedBox(height: 4.h),
               Text('Forgot password')
                   .textColor(AppStyles.textGray)
-                  .alignment(Alignment.centerRight),
+                  .alignment(Alignment.centerRight)
+                  .gestures(
+                      onTap: () => Navigator.of(context)
+                          .pushNamed(ResetPasswordPage.routeName)),
               SizedBox(height: 20.h),
               MainButton(
                 key: submitButtonKey,

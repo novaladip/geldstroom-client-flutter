@@ -157,7 +157,7 @@ void main() {
       await tester.tap(submitButton);
       verifyNever(loginCubit.submit(any));
 
-      expect(find.byKey(loadingIndicatorKey), findsOneWidget);
+      expect(find.byKey(MainButton.loadingIndicatorKey), findsOneWidget);
     });
 
     testWidgets('when submit button pressed should execute loginCubit.submit()',
@@ -217,7 +217,7 @@ void main() {
           .thenReturn(LoginState(status: FormStatus.loading()));
       await tester.pumpWidget(subject);
 
-      expect(find.byKey(loadingIndicatorKey), findsOneWidget);
+      expect(find.byKey(MainButton.loadingIndicatorKey), findsOneWidget);
     });
 
     testWidgets(

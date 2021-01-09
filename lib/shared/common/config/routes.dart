@@ -22,6 +22,17 @@ Map<String, WidgetBuilder> buildRoutes() {
           child: RegisterPage(),
         ),
     RegisterSuccessPage.routeName: (_) => RegisterSuccessPage(),
+    ResetPasswordPage.routeName: (_) => MultiBlocProvider(
+          providers: [
+            BlocProvider.value(
+              value: getIt<ResetPasswordCubit>(),
+            ),
+            BlocProvider.value(
+              value: getIt<RequestOtpCubit>(),
+            ),
+          ],
+          child: ResetPasswordPage(),
+        ),
   };
 
   return routes;

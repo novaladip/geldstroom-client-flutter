@@ -48,7 +48,7 @@ class CustomTextFormField extends StatelessWidget {
 
     final inputDecoration = InputDecoration(
       focusColor: color,
-      contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      contentPadding: EdgeInsets.symmetric(horizontal: 13.w),
       labelStyle: TextStyle(
         fontFamily: AppStyles.fontFamilyTitle,
         color: AppStyles.textGray,
@@ -78,7 +78,7 @@ class CustomTextFormField extends StatelessWidget {
     );
 
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 13.h),
+      margin: EdgeInsets.symmetric(vertical: 10.h),
       child: TextFormField(
         autocorrect: false,
         initialValue: initialValue,

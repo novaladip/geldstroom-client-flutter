@@ -5,9 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../common/config/config.dart';
 
-final titleKey = UniqueKey();
-final loadingIndicatorKey = UniqueKey();
-
 class MainButton extends StatelessWidget {
   const MainButton({
     Key key,
@@ -17,12 +14,15 @@ class MainButton extends StatelessWidget {
     this.disabled = false,
   }) : super(key: key);
 
+  static const titleKey = Key('main_button_title');
+  static const loadingIndicatorKey = Key('main_button_loading');
+
   final String title;
   final bool loading;
   final bool disabled;
   final VoidCallback onTap;
 
-  Widget styledTitle() => Text(title, key: titleKey)
+  Widget styledTitle() => Text(title, key: MainButton.titleKey)
       .fontFamily(AppStyles.fontFamilyTitle)
       .fontWeight(FontWeight.bold)
       .fontSize(28.sp)
@@ -30,7 +30,7 @@ class MainButton extends StatelessWidget {
       .center();
 
   Widget loadingIndicator() => SpinKitRotatingCircle(
-        key: loadingIndicatorKey,
+        key: MainButton.loadingIndicatorKey,
         color: AppStyles.textWhite,
         size: 28.sp,
       );

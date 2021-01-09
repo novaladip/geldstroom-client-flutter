@@ -117,7 +117,8 @@ void main() {
       );
       await tester.pumpWidget(subject);
       expect(find.text(RegisterForm.submitButtonText), findsNothing);
-      expect(find.byKey(main_button.loadingIndicatorKey), findsOneWidget);
+      expect(find.byKey(main_button.MainButton.loadingIndicatorKey),
+          findsOneWidget);
     });
 
     testWidgets('when register state is error should show an error text',

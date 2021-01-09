@@ -14,16 +14,21 @@ class ResetPasswordCubit extends Cubit<ResetPasswordState> {
   final IAuthService _authService;
 
   Future<void> submit(ResetPasswordDto dto) async {
-    emit(ResetPasswordState(status: FormStatus.loading()));
+    emit(state.copyWith(status: FormStatus.loading()));
     final result = await _authService.resetPassword(dto);
     result.fold(
       (l) {
-        emit(ResetPasswordState(status: FormStatus.error(error: l)));
+        emit(state.copyWith(status: FormStatus.error(error: l)));
       },
       (r) {
-        emit(ResetPasswordState(status: FormStatus.success()));
+        emit(state.copyWith(status: FormStatus.success()));
       },
     );
+  }
+
+  void changeShowAllForm(bool value) {
+    if (state.showAllForm == value) return;
+    emit(state.copyWith(showAllForm: value));
   }
 
   void clear() {

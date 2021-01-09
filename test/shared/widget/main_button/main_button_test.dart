@@ -17,7 +17,7 @@ void main() {
       await tester.pumpWidget(subject);
 
       final titleFinder = find.text('Tap Me');
-      final loadingIndicatorFinder = find.byKey(loadingIndicatorKey);
+      final loadingIndicatorFinder = find.byKey(MainButton.loadingIndicatorKey);
 
       expect(isTapped, false);
       expect(titleFinder, findsOneWidget);
@@ -38,7 +38,7 @@ void main() {
       await tester.pumpWidget(subject);
 
       final titleFinder = find.text('Tap Me');
-      final loadingIndicatorFinder = find.byKey(loadingIndicatorKey);
+      final loadingIndicatorFinder = find.byKey(MainButton.loadingIndicatorKey);
 
       expect(titleFinder, findsNothing);
       expect(loadingIndicatorFinder, findsOneWidget);

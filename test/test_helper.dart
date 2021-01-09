@@ -60,7 +60,7 @@ Widget buildTestableWidget(Widget child) {
 }
 
 Widget buildTestableBlocWidget({
-  @required Map<String, Widget Function(BuildContext)> routes,
+  @required Map<String, WidgetBuilder> routes,
   String initialRoutes = '/',
 }) {
   return Material(

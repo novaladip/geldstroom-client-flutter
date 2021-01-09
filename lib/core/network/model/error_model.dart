@@ -10,14 +10,14 @@ class ServerError extends Equatable {
   const ServerError({
     @required this.message,
     @required this.errorCode,
-    this.error,
+    this.error = const {},
   });
 
   factory ServerError.fromJson(Map<String, dynamic> json) {
     return ServerError(
       message: json['message'],
       errorCode: json['errorCode'],
-      error: json['error'],
+      error: json['error'] ?? {},
     );
   }
 
@@ -25,6 +25,7 @@ class ServerError extends Equatable {
     return ServerError(
       message: 'Network error',
       errorCode: 'NETWORK_0001',
+      error: {},
     );
   }
 
@@ -32,6 +33,7 @@ class ServerError extends Equatable {
     return ServerError(
       message: 'Unknown error occurs, please try again later',
       errorCode: 'UNKNOWN_0001',
+      error: {},
     );
   }
 
