@@ -66,5 +66,18 @@ void main() {
       act: (cubit) => cubit.clear(),
       expect: [ResetPasswordState.initial()],
     );
+
+    blocTest<ResetPasswordCubit, ResetPasswordState>(
+      'emits ResetPasswordState with showAllTrue: true '
+      'when changeShowAllForm(true)',
+      build: () => ResetPasswordCubit(authService),
+      act: (cubit) => cubit.changeShowAllForm(true),
+      expect: [
+        ResetPasswordState(
+          status: FormStatus.idle(),
+          showAllForm: true,
+        )
+      ],
+    );
   });
 }

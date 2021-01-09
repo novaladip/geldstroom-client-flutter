@@ -13,12 +13,13 @@ import '../../../shared/common/utils/utils.dart';
 import '../../../shared/widget/widget.dart';
 import '../../ui.dart';
 
-const submitButtonText = 'Sign in';
-final emailInputKey = UniqueKey();
-final passwordInputKey = UniqueKey();
-final submitButtonKey = UniqueKey();
-
 class LoginForm extends StatefulWidget {
+  static const submitButtonText = 'Sign in';
+  static const forgotPasswordText = 'Forgot Password';
+  static const emailInputKey = Key('login_form_email_input');
+  static const passwordInputKey = Key('login_form_password_input');
+  static const submitButtonKey = Key('login_form_submit_button');
+
   @override
   _LoginFormState createState() => _LoginFormState();
 }
@@ -79,7 +80,7 @@ class _LoginFormState extends State<LoginForm> {
             key: form,
             child: <Widget>[
               CustomTextFormField(
-                key: emailInputKey,
+                key: LoginForm.emailInputKey,
                 labelText: 'Email',
                 controller: email,
                 keyboardType: TextInputType.emailAddress,
@@ -94,7 +95,7 @@ class _LoginFormState extends State<LoginForm> {
                 ),
               ),
               CustomTextFormField(
-                key: passwordInputKey,
+                key: LoginForm.passwordInputKey,
                 labelText: 'Password',
                 controller: password,
                 focusNode: passwordFocusNode,
@@ -111,7 +112,7 @@ class _LoginFormState extends State<LoginForm> {
                 ),
               ),
               SizedBox(height: 4.h),
-              Text('Forgot password')
+              Text(LoginForm.forgotPasswordText)
                   .textColor(AppStyles.textGray)
                   .alignment(Alignment.centerRight)
                   .gestures(
@@ -119,8 +120,8 @@ class _LoginFormState extends State<LoginForm> {
                           .pushNamed(ResetPasswordPage.routeName)),
               SizedBox(height: 20.h),
               MainButton(
-                key: submitButtonKey,
-                title: submitButtonText,
+                key: LoginForm.submitButtonKey,
+                title: LoginForm.submitButtonText,
                 onTap: onSubmit,
                 loading: state.status.maybeWhen(
                   loading: () => true,

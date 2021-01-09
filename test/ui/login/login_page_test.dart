@@ -25,6 +25,7 @@ void main() {
     LoginCubit loginCubit;
     Widget subject;
     final registerPageKey = UniqueKey();
+    final resetPasswordPageKey = UniqueKey();
 
     setUpAll(() {
       authCubit = MockAuthCubit();
@@ -41,7 +42,9 @@ void main() {
                   BlocProvider.value(value: loginCubit),
                 ],
                 child: LoginPage(),
-              )
+              ),
+          ResetPasswordPage.routeName: (_) =>
+              buildTestableWidget(Scaffold(key: resetPasswordPageKey)),
         },
       );
     });
@@ -59,7 +62,8 @@ void main() {
       // Form
       expect(find.text('Email'), findsOneWidget);
       expect(find.text('Password'), findsOneWidget);
-      expect(find.text(submitButtonText), findsOneWidget);
+      expect(find.text(LoginForm.submitButtonText), findsOneWidget);
+      expect(find.text(LoginForm.forgotPasswordText), findsOneWidget);
 
       // Footer
       expect(find.text(loginFooterText), findsOneWidget);
@@ -69,6 +73,19 @@ void main() {
       await tester.tap(find.text(loginFooterText2));
       await tester.pumpAndSettle();
       expect(find.byKey(registerPageKey), findsOneWidget);
+    });
+
+    testWidgets('should able navigate to ResetPasswordPage', (tester) async {
+      when(loginCubit.state).thenAnswer((_) => LoginState.initial());
+
+      await tester.pumpWidget(subject);
+
+      expect(find.text(LoginForm.forgotPasswordText), findsOneWidget);
+
+      // Navigate to ResetPasswordPage
+      await tester.tap(find.text(LoginForm.forgotPasswordText));
+      await tester.pumpAndSettle();
+      expect(find.byKey(resetPasswordPageKey), findsOneWidget);
     });
 
     testWidgets(
@@ -81,9 +98,9 @@ void main() {
 
       final invalidEmail = 'johnemail.com';
 
-      final emailInput = find.byKey(emailInputKey);
-      final passwordInput = find.byKey(passwordInputKey);
-      final submitButton = find.byKey(submitButtonKey);
+      final emailInput = find.byKey(LoginForm.emailInputKey);
+      final passwordInput = find.byKey(LoginForm.passwordInputKey);
+      final submitButton = find.byKey(LoginForm.submitButtonKey);
 
       expect(emailInput, findsOneWidget);
       expect(passwordInput, findsOneWidget);
@@ -146,9 +163,9 @@ void main() {
       final email = 'john@email.com';
       final password = 'johnpassword';
 
-      final emailInput = find.byKey(emailInputKey);
-      final passwordInput = find.byKey(passwordInputKey);
-      final submitButton = find.byKey(submitButtonKey);
+      final emailInput = find.byKey(LoginForm.emailInputKey);
+      final passwordInput = find.byKey(LoginForm.passwordInputKey);
+      final submitButton = find.byKey(LoginForm.submitButtonKey);
 
       verifyNever(loginCubit.submit(any));
 
@@ -169,9 +186,9 @@ void main() {
       final email = 'john@email.com';
       final password = 'johnpassword';
 
-      final emailInput = find.byKey(emailInputKey);
-      final passwordInput = find.byKey(passwordInputKey);
-      final submitButton = find.byKey(submitButtonKey);
+      final emailInput = find.byKey(LoginForm.emailInputKey);
+      final passwordInput = find.byKey(LoginForm.passwordInputKey);
+      final submitButton = find.byKey(LoginForm.submitButtonKey);
 
       verifyNever(loginCubit.submit(any));
 
