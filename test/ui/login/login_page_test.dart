@@ -26,6 +26,7 @@ void main() {
     Widget subject;
     final registerPageKey = UniqueKey();
     final resetPasswordPageKey = UniqueKey();
+    final homePageKey = UniqueKey();
 
     setUpAll(() {
       authCubit = MockAuthCubit();
@@ -35,7 +36,7 @@ void main() {
         routes: {
           RegisterPage.routeName: (_) =>
               buildTestableWidget(Scaffold(key: registerPageKey)),
-          HomePage.routeName: (_) => HomePage(),
+          HomePage.routeName: (_) => HomePage(key: homePageKey),
           LoginPage.routeName: (_) => MultiBlocProvider(
                 providers: [
                   BlocProvider.value(value: authCubit),

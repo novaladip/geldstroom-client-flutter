@@ -14,6 +14,7 @@ void main() {
   group('SplashScreenPage()', () {
     AuthCubit authCubit;
     Widget subject;
+    final homePageKey = UniqueKey();
 
     setUp(() {
       authCubit = MockAuthCubit();
@@ -24,7 +25,7 @@ void main() {
                 child: SplashScreenPage(),
               ),
           IntroPage.routeName: (_) => IntroPage(),
-          HomePage.routeName: (_) => HomePage(),
+          HomePage.routeName: (_) => HomePage(key: homePageKey),
         },
         initialRoutes: SplashScreenPage.routeName,
       );
