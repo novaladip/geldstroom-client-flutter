@@ -1,6 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geldstroom/core/bloc/auth/auth_cubit.dart';
+import 'package:geldstroom/core/bloc/overview_balance/overview_balance_cubit.dart';
 import 'package:geldstroom/shared/common/utils/jwt_ops/jwt_ops.dart';
 import 'package:mockito/mockito.dart';
 
@@ -14,19 +15,24 @@ const invalidToken =
 
 class MockJwtOps extends Mock implements JwtOps {}
 
+class MockOverviewBalanceCubit extends MockBloc<OverviewBalanceState>
+    implements OverviewBalanceCubit {}
+
 void main() {
   group('AuthCubit', () {
     JwtOps mockJwtOps;
+    OverviewBalanceCubit overviewBalanceCubit;
 
     setUp(() {
       mockJwtOps = MockJwtOps();
+      overviewBalanceCubit = MockOverviewBalanceCubit();
     });
     group('appStarted()', () {
       blocTest<AuthCubit, AuthState>(
         'emits [AuthState.authenticated] when a valid token is saved',
         build: () {
           when(mockJwtOps.getToken()).thenReturn(validToken);
-          return AuthCubit(mockJwtOps);
+          return AuthCubit(mockJwtOps, overviewBalanceCubit);
         },
         act: (cubit) => cubit.appStarted(),
         expect: [AuthState.authenticated()],
@@ -36,7 +42,7 @@ void main() {
         'emits [AuthState.unauthenticated] when a expired token is saved',
         build: () {
           when(mockJwtOps.getToken()).thenReturn(invalidToken);
-          return AuthCubit(mockJwtOps);
+          return AuthCubit(mockJwtOps, overviewBalanceCubit);
         },
         act: (cubit) => cubit.appStarted(),
         expect: [AuthState.unauthenticated()],
@@ -46,7 +52,7 @@ void main() {
         'emits [AuthState.unauthenticated] when there is no token saved',
         build: () {
           when(mockJwtOps.getToken()).thenReturn(null);
-          return AuthCubit(mockJwtOps);
+          return AuthCubit(mockJwtOps, overviewBalanceCubit);
         },
         act: (cubit) => cubit.appStarted(),
         expect: [AuthState.unauthenticated()],
@@ -57,7 +63,7 @@ void main() {
       blocTest<AuthCubit, AuthState>(
         'emits [AuthState.authenticated] when called with a given token '
         'should verify JwtOps.setDefaultHeader() is called with a given token',
-        build: () => AuthCubit(mockJwtOps),
+        build: () => AuthCubit(mockJwtOps, overviewBalanceCubit),
         act: (cubit) => cubit.loggedIn(validToken),
         expect: [AuthState.authenticated()],
         verify: (_) {
@@ -69,9 +75,12 @@ void main() {
     group('loggedOut()', () {
       blocTest<AuthCubit, AuthState>(
         'emits [AuthState.unauthenticated] when called with an empty string',
-        build: () => AuthCubit(mockJwtOps),
+        build: () => AuthCubit(mockJwtOps, overviewBalanceCubit),
         act: (cubit) => cubit.loggedOut(),
         expect: [AuthState.unauthenticated()],
+        verify: (_) {
+          verify(overviewBalanceCubit.clear()).called(1);
+        },
       );
     });
   });
