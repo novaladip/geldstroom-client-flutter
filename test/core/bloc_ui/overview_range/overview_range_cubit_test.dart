@@ -46,7 +46,7 @@ void main() {
         act: (cubit) => cubit.onChangeRange(weekly),
         expect: <OverviewRangeState>[weekly],
         verify: (cubit) {
-          expect(cubit.state.currentValue, 'weekly');
+          expect(cubit.state.currentValue, 'Weekly');
         },
       );
 
@@ -56,7 +56,7 @@ void main() {
         act: (cubit) => cubit.onChangeRange(monthly),
         expect: <OverviewRangeState>[monthly],
         verify: (cubit) {
-          expect(cubit.state.currentValue, 'monthly');
+          expect(cubit.state.currentValue, 'Monthly');
         },
       );
     });

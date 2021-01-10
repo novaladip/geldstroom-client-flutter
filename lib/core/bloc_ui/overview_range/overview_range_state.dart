@@ -17,8 +17,8 @@ abstract class OverviewRangeState with _$OverviewRangeState {
 
 extension OverviewRangeStateX on OverviewRangeState {
   String get currentValue => when<String>(
-        weekly: () => 'weekly',
-        monthly: () => 'monthly',
+        weekly: () => 'Weekly',
+        monthly: () => 'Monthly',
       );
 
   Map<String, dynamic> get toJson => {
