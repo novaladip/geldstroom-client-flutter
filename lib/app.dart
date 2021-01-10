@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'core/bloc/bloc.dart';
+import 'core/bloc_ui/ui_bloc.dart';
 import 'shared/common/common.dart';
 import 'ui/ui.dart';
 
@@ -17,14 +18,21 @@ class App extends StatelessWidget {
           allowFontScaling: true,
         );
 
-        return BlocProvider<AuthCubit>(
-          create: (_) => getIt<AuthCubit>()..appStarted(),
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider.value(
+              value: getIt<AuthCubit>()..appStarted(),
+            ),
+            BlocProvider.value(
+              value: getIt<OverviewRangeCubit>(),
+            ),
+          ],
           child: MaterialApp(
             title: 'Geldstroom',
             theme: ThemeData(
               appBarTheme: AppBarTheme(
                 elevation: 0,
-                color: AppStyles.appBarColor,
+                color: Colors.transparent,
                 brightness: Brightness.dark,
                 iconTheme: IconThemeData(color: AppStyles.textWhite),
                 textTheme: TextTheme(

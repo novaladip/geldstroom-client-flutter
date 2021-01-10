@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/bloc/bloc.dart';
+import '../../../core/bloc_ui/ui_bloc.dart';
 import '../../../ui/ui.dart';
 import '../utils/utils.dart';
 
@@ -12,7 +13,12 @@ Map<String, WidgetBuilder> buildRoutes() {
           child: SplashScreenPage(),
         ),
     IntroPage.routeName: (_) => IntroPage(),
-    HomePage.routeName: (_) => HomePage(),
+    HomePage.routeName: (_) => MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: getIt<OverviewRangeCubit>()),
+          ],
+          child: HomePage(),
+        ),
     LoginPage.routeName: (_) => BlocProvider.value(
           value: getIt<LoginCubit>(),
           child: LoginPage(),
