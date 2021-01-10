@@ -17,7 +17,6 @@ dependencies:
   equatable: ^1.2.5
   flushbar: ^1.10.4
   flutter_bloc: ^6.1.1
-  hydrated_bloc: ^6.1.0
   flutter_dotenv: ^2.1.0
   flutter_screenutil: ^4.0.0-beta
   flutter_spinkit: ^4.1.2+1
@@ -25,7 +24,9 @@ dependencies:
   freezed_annotation: ^0.12.0
   get_it: ^5.0.1
   google_fonts: ^1.1.1
+  hydrated_bloc: ^6.1.0
   injectable: ^1.0.5
+  intl: ^0.16.1
   introduction_screen: ^1.0.9
   jiffy: ^3.0.1
   jwt_decoder: ^1.0.3
