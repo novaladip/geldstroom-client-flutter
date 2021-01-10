@@ -8,6 +8,7 @@ import '../../config/config.dart';
 abstract class RegisterModule {
   @preResolve
   Future<SharedPreferences> get pref => SharedPreferences.getInstance();
+  @lazySingleton
   Dio get dio => Dio(
         BaseOptions(
           baseUrl: Env.baseUrl,
