@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../common/config/config.dart';
+import '../../common/styles/styles.dart';
 
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
@@ -44,33 +45,7 @@ class CustomTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).primaryColor;
-
-    final inputDecoration = InputDecoration(
-      focusColor: color,
-      contentPadding: EdgeInsets.symmetric(horizontal: 13.w),
-      labelStyle: TextStyle(
-        fontFamily: AppStyles.fontFamilyTitle,
-        color: AppStyles.textGray,
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(
-          color: Colors.white,
-          width: 0.8,
-        ),
-        borderRadius: BorderRadius.all(Radius.circular(8.w)),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(
-          color: color,
-          width: 1,
-        ),
-        borderRadius: BorderRadius.all(Radius.circular(8.w)),
-      ),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(8.w)),
-      ),
-      filled: true,
+    final inputDecoration = customInputDecoration(
       labelText: labelText,
       enabled: enabled,
       errorText: errorText,
