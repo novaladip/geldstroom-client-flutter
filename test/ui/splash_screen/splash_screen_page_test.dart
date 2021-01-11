@@ -25,7 +25,7 @@ void main() {
                 child: SplashScreenPage(),
               ),
           IntroPage.routeName: (_) => IntroPage(),
-          HomePage.routeName: (_) => HomePage(key: homePageKey),
+          HomePage.routeName: (_) => Scaffold(key: homePageKey),
         },
         initialRoutes: SplashScreenPage.routeName,
       );

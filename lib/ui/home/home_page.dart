@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:styled_widget/styled_widget.dart';
 
-import 'widget/home_header.dart';
+import 'widget/overview_balance.dart';
 import 'widget/overview_range_form.dart';
 
 class HomePage extends StatelessWidget {
@@ -25,9 +24,11 @@ class HomePage extends StatelessWidget {
           )
         ],
       ),
-      body: <Widget>[
-        HomeHeader(),
-      ].toColumn(),
+      body: ListView(
+        children: [
+          OverviewBalance(),
+        ],
+      ),
     );
   }
 

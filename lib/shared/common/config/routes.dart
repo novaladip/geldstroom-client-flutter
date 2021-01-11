@@ -16,6 +16,7 @@ Map<String, WidgetBuilder> buildRoutes() {
     HomePage.routeName: (_) => MultiBlocProvider(
           providers: [
             BlocProvider.value(value: getIt<OverviewRangeCubit>()),
+            BlocProvider.value(value: getIt<OverviewBalanceCubit>()),
           ],
           child: HomePage(),
         ),
