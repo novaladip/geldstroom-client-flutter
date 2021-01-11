@@ -45,7 +45,7 @@ class GetBalanceDto extends Equatable implements BaseDto {
   @override
   Map<String, dynamic> get toMap => {
         'categoryId': categoryId,
-        'start': start.millisecondsSinceEpoch,
-        'end': end.millisecondsSinceEpoch,
+        'start': start.millisecondsSinceEpoch ~/ 1000,
+        'end': end.millisecondsSinceEpoch ~/ 1000,
       };
 }
