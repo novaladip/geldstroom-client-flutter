@@ -7,7 +7,9 @@ import '../../model/model.dart';
 
 abstract class ITransactionService {
   Future<Either<ServerError, TransactionTotal>> getBalance(GetBalanceDto dto);
-  Future<Either<ServerError, List<Transaction>>> getTransactions();
+  Future<Either<ServerError, List<Transaction>>> getTransactions(
+    GetTransactionDto dto,
+  );
 }
 
 @Injectable(as: ITransactionService)
@@ -32,8 +34,19 @@ class TransactionService implements ITransactionService {
   }
 
   @override
-  Future<Either<ServerError, List<Transaction>>> getTransactions() {
-    // TODO: implement getTransactions
-    throw UnimplementedError();
+  Future<Either<ServerError, List<Transaction>>> getTransactions(
+      GetTransactionDto dto) async {
+    try {
+      final res = await _dio.get(
+        '/transaction',
+        queryParameters: dto.toMap,
+      );
+      final data = res.data;
+      final transactionList =
+          (data as List).map((json) => Transaction.fromJson(json)).toList();
+      return Right(transactionList);
+    } on DioError catch (e) {
+      return Left(ServerError.fromDioError(e));
+    }
   }
 }

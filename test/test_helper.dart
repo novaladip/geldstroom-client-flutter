@@ -72,7 +72,7 @@ Widget buildTestableBlocWidget({
 }
 
 ResponseBody buildResponseBody({
-  @required Map<String, dynamic> payload,
+  @required dynamic payload,
   int statusCode = 200,
   Map<String, List<String>> headers = const {
     Headers.contentTypeHeader: [Headers.jsonContentType]

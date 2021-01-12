@@ -36,12 +36,8 @@ class Transaction extends Equatable {
       description: json['description'],
       type: json['type'],
       userId: json['userId'],
-      createdAt: DateTime.fromMillisecondsSinceEpoch(
-        (json['createdAt'] as int) * 1000,
-      ),
-      updatedAt: DateTime.fromMillisecondsSinceEpoch(
-        (json['updatedAt'] as int) * 1000,
-      ),
+      createdAt: DateTime.fromMicrosecondsSinceEpoch(json['createdAt']),
+      updatedAt: DateTime.fromMicrosecondsSinceEpoch(json['updatedAt']),
       category: TransactionCategory.fromJson(json['category']),
     );
   }
@@ -52,8 +48,8 @@ class Transaction extends Equatable {
         'description': description,
         'type': type,
         'userId': userId,
-        'createdAt': createdAt.millisecondsSinceEpoch,
-        'updatedAt': updatedAt.millisecondsSinceEpoch,
+        'createdAt': createdAt.microsecondsSinceEpoch,
+        'updatedAt': updatedAt.microsecondsSinceEpoch,
         'category': category.toJson,
       };
 
