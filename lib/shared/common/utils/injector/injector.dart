@@ -8,8 +8,8 @@ final GetIt getIt = GetIt.instance;
 @InjectableInit(
   initializerName: 'init',
   preferRelativeImports: true,
-  asExtension: false,
+  asExtension: true,
 )
 void configInjector({String env}) {
-  init(getIt, environment: env);
+  getIt.init(environment: env);
 }
