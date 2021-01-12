@@ -1,11 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:geldstroom/core/bloc/auth/auth_cubit.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../bloc_ui/overview_range/overview_range_cubit.dart';
 import '../../network/network.dart';
 import '../../network/service/service.dart';
+import '../auth/auth_cubit.dart';
 
 part 'overview_balance_cubit.freezed.dart';
 part 'overview_balance_state.dart';
