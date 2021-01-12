@@ -1,6 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:geldstroom/core/bloc/overview_balance/overview_balance_cubit.dart';
 import 'package:geldstroom/core/bloc_ui/ui_bloc.dart';
 
@@ -13,11 +12,9 @@ void main() {
   initHydratedBloc();
   group('OverviewRangeCubit', () {
     OverviewRangeCubit overviewRangeCubit;
-    OverviewBalanceCubit overviewBalanceCubit;
 
     setUp(() {
-      overviewBalanceCubit = MockOverviewBalanceCubit();
-      overviewRangeCubit = OverviewRangeCubit(overviewBalanceCubit);
+      overviewRangeCubit = OverviewRangeCubit();
     });
 
     tearDown(() {
@@ -49,23 +46,21 @@ void main() {
 
       blocTest<OverviewRangeCubit, OverviewRangeState>(
         'emits correct range for OverviewRangeState.weekly',
-        build: () => OverviewRangeCubit(overviewBalanceCubit),
+        build: () => OverviewRangeCubit(),
         act: (cubit) => cubit.onChangeRange(weekly),
         expect: <OverviewRangeState>[weekly],
         verify: (cubit) {
           expect(cubit.state.currentValue, 'Weekly');
-          verify(overviewBalanceCubit.fetch(weekly)).called(1);
         },
       );
 
       blocTest<OverviewRangeCubit, OverviewRangeState>(
         'emits correct range for OverviewRangeState.monthly',
-        build: () => OverviewRangeCubit(overviewBalanceCubit),
+        build: () => OverviewRangeCubit(),
         act: (cubit) => cubit.onChangeRange(monthly),
         expect: <OverviewRangeState>[monthly],
         verify: (cubit) {
           expect(cubit.state.currentValue, 'Monthly');
-          verify(overviewBalanceCubit.fetch(monthly)).called(1);
         },
       );
     });

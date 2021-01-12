@@ -2,21 +2,17 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../bloc/bloc.dart';
+import '../../../shared/common/utils/utils.dart';
 
 part 'overview_range_cubit.freezed.dart';
 part 'overview_range_state.dart';
 
 @lazySingleton
 class OverviewRangeCubit extends HydratedCubit<OverviewRangeState> {
-  OverviewRangeCubit(this._overviewBalanceCubit)
-      : super(OverviewRangeState.initial());
-
-  final OverviewBalanceCubit _overviewBalanceCubit;
+  OverviewRangeCubit() : super(OverviewRangeState.initial());
 
   void onChangeRange(OverviewRangeState newState) {
     emit(newState);
-    _overviewBalanceCubit.fetch(newState);
   }
 
   @override

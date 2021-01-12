@@ -20,7 +20,7 @@ void main() {
 
     test('toMap work properly', () {
       final map = weekly.toMap;
-      expect(map['categoryId'], 'ALL');
+      expect(map['category'], 'ALL');
       expect(map['start'], weekly.start.millisecondsSinceEpoch ~/ 1000);
       expect(map['end'], weekly.end.millisecondsSinceEpoch ~/ 1000);
     });

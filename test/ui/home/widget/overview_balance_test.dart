@@ -73,8 +73,7 @@ void main() {
 
         await tester.pumpWidget(subject);
 
-        verify(overviewBalanceCubit.fetch(OverviewRangeState.weekly()))
-            .called(1);
+        verify(overviewBalanceCubit.fetch()).called(1);
       });
 
       testWidgets('fetch with OverviewViewState.monthly on initState',
@@ -85,8 +84,7 @@ void main() {
 
         await tester.pumpWidget(subject);
 
-        verify(overviewBalanceCubit.fetch(OverviewRangeState.monthly()))
-            .called(1);
+        verify(overviewBalanceCubit.fetch()).called(1);
       });
 
       testWidgets(
@@ -100,7 +98,7 @@ void main() {
 
         await tester.pumpWidget(subject);
 
-        verifyNever(overviewBalanceCubit.fetch(OverviewRangeState.monthly()));
+        verifyNever(overviewBalanceCubit.fetch());
       });
     });
   });

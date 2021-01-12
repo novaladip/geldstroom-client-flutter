@@ -27,4 +27,9 @@ extension OverviewRangeStateX on OverviewRangeState {
           monthly: () => 'monthly',
         ),
       };
+
+  DateRange get dateRange => when<DateRange>(
+        monthly: () => DateRange.monthly(),
+        weekly: () => DateRange.weekly(),
+      );
 }

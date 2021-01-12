@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:geldstroom/core/bloc/auth/auth_cubit.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../bloc_ui/overview_range/overview_range_cubit.dart';
@@ -13,15 +14,31 @@ part 'overview_balance_state.dart';
 class OverviewBalanceCubit extends Cubit<OverviewBalanceState> {
   OverviewBalanceCubit(
     this._service,
-  ) : super(OverviewBalanceState.initial());
+    this._overviewRangeCubit,
+    this._authCubit,
+  ) : super(OverviewBalanceState.initial()) {
+    _overviewRangeCubit.listen((overviewRangeState) {
+      fetch();
+    });
+
+    _authCubit.listen((authState) {
+      authState.maybeWhen(
+        unauthenticated: clear,
+        orElse: () {},
+      );
+    });
+  }
 
   final ITransactionService _service;
+  final OverviewRangeCubit _overviewRangeCubit;
+  final AuthCubit _authCubit;
 
-  Future<void> fetch(OverviewRangeState overviewRangeState) async {
+  Future<void> fetch() async {
     emit(state.copyWith(status: Status.loading()));
-    var dto = overviewRangeState.when<GetBalanceDto>(
-      monthly: () => GetBalanceDto.monthly(),
-      weekly: () => GetBalanceDto.weekly(),
+    final dto = GetBalanceDto(
+      categoryId: 'ALL',
+      start: _overviewRangeCubit.state.dateRange.start,
+      end: _overviewRangeCubit.state.dateRange.end,
     );
     final result = await _service.getBalance(dto);
     result.fold((l) {

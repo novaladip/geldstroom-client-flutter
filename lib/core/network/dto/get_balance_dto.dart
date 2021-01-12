@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:meta/meta.dart';
 
+import '../../../shared/common/utils/utils.dart';
 import 'dto.dart';
 
 class GetBalanceDto extends Equatable implements BaseDto {
@@ -16,26 +16,22 @@ class GetBalanceDto extends Equatable implements BaseDto {
   final DateTime end; // timestamp
 
   factory GetBalanceDto.weekly() {
-    final now = Jiffy();
-    final start = now.startOf(Units.WEEK);
-    final end = now.endOf(Units.WEEK);
+    final dateRange = DateRange.weekly();
 
     return GetBalanceDto(
       categoryId: 'ALL',
-      start: start,
-      end: end,
+      start: dateRange.start,
+      end: dateRange.end,
     );
   }
 
   factory GetBalanceDto.monthly() {
-    final now = Jiffy();
-    final start = now.startOf(Units.MONTH);
-    final end = now.endOf(Units.MONTH);
+    final dateRange = DateRange.monthly();
 
     return GetBalanceDto(
       categoryId: 'ALL',
-      start: start,
-      end: end,
+      start: dateRange.start,
+      end: dateRange.end,
     );
   }
 
@@ -44,7 +40,7 @@ class GetBalanceDto extends Equatable implements BaseDto {
 
   @override
   Map<String, dynamic> get toMap => {
-        'categoryId': categoryId,
+        'category': categoryId,
         'start': start.millisecondsSinceEpoch ~/ 1000,
         'end': end.millisecondsSinceEpoch ~/ 1000,
       };
