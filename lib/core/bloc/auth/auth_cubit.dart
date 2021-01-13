@@ -4,18 +4,15 @@ import 'package:injectable/injectable.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 import '../../../shared/common/utils/utils.dart';
-import '../bloc.dart';
 
 part 'auth_cubit.freezed.dart';
 part 'auth_state.dart';
 
 @lazySingleton
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit(this._jwtOps, this._overviewBalanceCubit)
-      : super(AuthState.initial());
+  AuthCubit(this._jwtOps) : super(AuthState.initial());
 
   final JwtOps _jwtOps;
-  final OverviewBalanceCubit _overviewBalanceCubit;
 
   void appStarted() async {
     final token = await _jwtOps.getToken();
@@ -41,6 +38,5 @@ class AuthCubit extends Cubit<AuthState> {
     _jwtOps.setDefaultAuthHeader('');
     await _jwtOps.removeToken();
     emit(AuthState.unauthenticated());
-    _overviewBalanceCubit.clear();
   }
 }

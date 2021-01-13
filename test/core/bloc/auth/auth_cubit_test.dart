@@ -21,18 +21,16 @@ class MockOverviewBalanceCubit extends MockBloc<OverviewBalanceState>
 void main() {
   group('AuthCubit', () {
     JwtOps mockJwtOps;
-    OverviewBalanceCubit overviewBalanceCubit;
 
     setUp(() {
       mockJwtOps = MockJwtOps();
-      overviewBalanceCubit = MockOverviewBalanceCubit();
     });
     group('appStarted()', () {
       blocTest<AuthCubit, AuthState>(
         'emits [AuthState.authenticated] when a valid token is saved',
         build: () {
           when(mockJwtOps.getToken()).thenReturn(validToken);
-          return AuthCubit(mockJwtOps, overviewBalanceCubit);
+          return AuthCubit(mockJwtOps);
         },
         act: (cubit) => cubit.appStarted(),
         expect: [AuthState.authenticated()],
@@ -42,7 +40,7 @@ void main() {
         'emits [AuthState.unauthenticated] when a expired token is saved',
         build: () {
           when(mockJwtOps.getToken()).thenReturn(invalidToken);
-          return AuthCubit(mockJwtOps, overviewBalanceCubit);
+          return AuthCubit(mockJwtOps);
         },
         act: (cubit) => cubit.appStarted(),
         expect: [AuthState.unauthenticated()],
@@ -52,7 +50,7 @@ void main() {
         'emits [AuthState.unauthenticated] when there is no token saved',
         build: () {
           when(mockJwtOps.getToken()).thenReturn(null);
-          return AuthCubit(mockJwtOps, overviewBalanceCubit);
+          return AuthCubit(mockJwtOps);
         },
         act: (cubit) => cubit.appStarted(),
         expect: [AuthState.unauthenticated()],
@@ -63,7 +61,7 @@ void main() {
       blocTest<AuthCubit, AuthState>(
         'emits [AuthState.authenticated] when called with a given token '
         'should verify JwtOps.setDefaultHeader() is called with a given token',
-        build: () => AuthCubit(mockJwtOps, overviewBalanceCubit),
+        build: () => AuthCubit(mockJwtOps),
         act: (cubit) => cubit.loggedIn(validToken),
         expect: [AuthState.authenticated()],
         verify: (_) {
@@ -75,12 +73,9 @@ void main() {
     group('loggedOut()', () {
       blocTest<AuthCubit, AuthState>(
         'emits [AuthState.unauthenticated] when called with an empty string',
-        build: () => AuthCubit(mockJwtOps, overviewBalanceCubit),
+        build: () => AuthCubit(mockJwtOps),
         act: (cubit) => cubit.loggedOut(),
         expect: [AuthState.unauthenticated()],
-        verify: (_) {
-          verify(overviewBalanceCubit.clear()).called(1);
-        },
       );
     });
   });
