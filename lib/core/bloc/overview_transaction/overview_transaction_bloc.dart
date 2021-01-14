@@ -37,7 +37,7 @@ class OverviewTransactionBloc
     });
   }
 
-  final TransactionService _service;
+  final ITransactionService _service;
   final AuthCubit _authCubit;
   final OverviewRangeCubit _overviewRangeCubit;
 
@@ -118,7 +118,9 @@ class OverviewTransactionBloc
     if (state.isReachEnd) return;
 
     yield state.copyWith(status: FetchStatus.fetchMoreInProgress());
-    final result = await _service.getTransactions(_dto);
+    final result = await _service.getTransactions(
+      _dto.copyWith(offset: state.data.length),
+    );
     yield* result.fold(
       (l) async* {
         yield state.copyWith(status: FetchStatus.fetchMoreFailure(error: l));
