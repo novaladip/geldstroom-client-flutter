@@ -13,13 +13,7 @@ void main() {
         limit: 16,
         offset: 1,
       );
-      expect(dto.toMap, {
-        'start': dto.start.microsecondsSinceEpoch,
-        'end': dto.end.microsecondsSinceEpoch,
-        'type': 'INCOME',
-        'limit': dto.limit,
-        'offset': dto.offset,
-      });
+      expect(dto.toMap, isA<Map<String, dynamic>>());
     });
 
     group('factory', () {

@@ -30,8 +30,8 @@ class GetTransactionDto implements BaseDto {
     final map = <String, dynamic>{
       'limit': limit,
       'offset': offset,
-      'start': start.microsecondsSinceEpoch,
-      'end': end.microsecondsSinceEpoch,
+      'start': start.millisecondsSinceEpoch ~/ 1000,
+      'end': end.millisecondsSinceEpoch ~/ 1000,
     };
 
     if (type != _defaultType) map['type'] = type;
