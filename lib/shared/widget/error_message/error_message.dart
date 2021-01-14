@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:geldstroom/gen/assets.gen.dart';
-import 'package:geldstroom/shared/common/config/config.dart';
 import 'package:styled_widget/styled_widget.dart';
+
+import '../../../gen/assets.gen.dart';
+import '../../common/config/config.dart';
 
 class ErrorMessage extends StatelessWidget {
   const ErrorMessage({
