@@ -10,3 +10,13 @@ abstract class OverviewTransactionState with _$OverviewTransactionState {
     @Default(false) bool isReachEnd,
   }) = _OverviewTransactionState;
 }
+
+extension OverviewTransactionStateX on OverviewTransactionState {
+  bool get isEmpty {
+    final isLoadSuccess = status.maybeWhen<bool>(
+      loadSuccess: () => true,
+      orElse: () => false,
+    );
+    return isLoadSuccess && data.isEmpty;
+  }
+}
