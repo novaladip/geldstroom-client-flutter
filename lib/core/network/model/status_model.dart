@@ -14,26 +14,17 @@ abstract class FormStatus with _$FormStatus {
 }
 
 @freezed
-abstract class FetchStatus<T> with _$FetchStatus<T> {
+abstract class FetchStatus with _$FetchStatus {
   const factory FetchStatus.initial() = FetchStatusInitial;
-  const factory FetchStatus.loading() = FetchStatusLoading;
-  const factory FetchStatus.loaded({
-    @required T data,
-    @required StatusLoaded status,
-  }) = FetchStatusLoaded;
-  const factory FetchStatus.error({
-    @required ServerError error,
-  }) = FetchStatusError;
-}
-
-enum StatusLoadedErrorType { refresh, fetchmore }
-
-@freezed
-abstract class StatusLoaded with _$StatusLoaded {
-  const factory StatusLoaded.refresh() = StatusLoadedRefresh;
-  const factory StatusLoaded.fetchMore() = StatusLoadedFetchMore;
-  const factory StatusLoaded.error({
-    @required StatusLoadedErrorType type,
-    @required ServerError error,
-  }) = StatusLoadedError;
+  const factory FetchStatus.loadInProgress() = FetchStatusLoadInProgress;
+  const factory FetchStatus.loadSuccess() = FetchStatusLoadSuccess;
+  const factory FetchStatus.loadFailure({@required ServerError error}) =
+      FetchStatusLoadFailure;
+  const factory FetchStatus.refreshInProgress() = FetchStatusRefreshInProgress;
+  const factory FetchStatus.refreshFailure({@required ServerError error}) =
+      FetchStatusRefreshFailure;
+  const factory FetchStatus.fetchMoreInProgress() =
+      FetchStatusFetchMoreInProgress;
+  const factory FetchStatus.fetchMoreFailure({@required ServerError error}) =
+      FetchStatusFetchMoreFailure;
 }
