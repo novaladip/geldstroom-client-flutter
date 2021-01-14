@@ -22,26 +22,27 @@ class OverviewBalanceItem extends StatelessWidget {
     @required this.position,
   }) : super(key: key);
 
+  CrossAxisAlignment get crossAxisLignment {
+    if (position == OverviewBalanceItemPosition.left) {
+      return CrossAxisAlignment.start;
+    }
+    return CrossAxisAlignment.end;
+  }
+
   @override
   Widget build(BuildContext context) {
     return <Widget>[
       Text(title)
           .fontSize(32.sp)
-          .fontFamily(AppStyles.fontFamilyBody)
+          .textColor(Colors.white)
           .fontWeight(FontWeight.w500)
-          .textColor(Colors.white),
+          .fontFamily(AppStyles.fontFamilyBody),
       Text(FormatCurrency.toIDR(amount))
-          .textColor(AppStyles.primaryColor)
           .fontSize(30.sp)
-          .fontFamily(AppStyles.fontFamilyBody)
+          .textColor(AppStyles.primaryColor)
           .fontWeight(FontWeight.w600)
+          .fontFamily(AppStyles.fontFamilyBody)
           .fittedBox(),
-    ]
-        .toColumn(
-          crossAxisAlignment: position == OverviewBalanceItemPosition.left
-              ? CrossAxisAlignment.start
-              : CrossAxisAlignment.end,
-        )
-        .flexible();
+    ].toColumn(crossAxisAlignment: crossAxisLignment).flexible();
   }
 }

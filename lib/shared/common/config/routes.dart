@@ -17,6 +17,7 @@ Map<String, WidgetBuilder> buildRoutes() {
           providers: [
             BlocProvider.value(value: getIt<OverviewRangeCubit>()),
             BlocProvider.value(value: getIt<OverviewBalanceCubit>()),
+            BlocProvider.value(value: getIt<OverviewTransactionBloc>()),
           ],
           child: HomePage(),
         ),

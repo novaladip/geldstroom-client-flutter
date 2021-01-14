@@ -62,14 +62,14 @@ class _OverviewBalanceState extends State<OverviewBalance> {
 
   @override
   void initState() {
-    fetchData();
+    fetchInitialData();
     super.initState();
   }
 
-  void fetchData() {
+  void fetchInitialData() {
     final cubit = context.read<OverviewBalanceCubit>();
     cubit.state.status.maybeWhen(
-      initial: () => cubit.fetch(context.read<OverviewRangeCubit>().state),
+      initial: cubit.fetch,
       orElse: () {},
     );
   }
