@@ -32,5 +32,31 @@ void main() {
         expect(dto, isA<GetTransactionDto>());
       });
     });
+
+    test('copyWith', () {
+      final now = DateTime.now();
+      var dto = GetTransactionDto.weekly();
+      final categoryId = '123';
+      final start = now;
+      final end = now;
+      final limit = 20;
+      final offset = 60;
+      final type = 'EXPENSE';
+
+      dto = dto.copyWith(
+        categoryId: categoryId,
+        start: start,
+        end: end,
+        limit: limit,
+        offset: offset,
+        type: type,
+      );
+      expect(dto.categoryId, categoryId);
+      expect(dto.start, start);
+      expect(dto.end, dto.end);
+      expect(dto.limit, limit);
+      expect(dto.offset, offset);
+      expect(dto.type, type);
+    });
   });
 }

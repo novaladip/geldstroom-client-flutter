@@ -71,4 +71,22 @@ class GetTransactionDto implements BaseDto {
       end: dateRange.end,
     );
   }
+
+  GetTransactionDto copyWith({
+    String categoryId,
+    String type,
+    int limit,
+    int offset,
+    DateTime start,
+    DateTime end,
+  }) {
+    return GetTransactionDto(
+      categoryId: categoryId ?? this.categoryId,
+      type: type ?? this.type,
+      limit: limit ?? this.limit,
+      offset: offset ?? this.limit,
+      start: start ?? this.start,
+      end: end ?? this.end,
+    );
+  }
 }
