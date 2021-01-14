@@ -2,7 +2,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geldstroom/core/network/network.dart';
-import 'package:geldstroom/shared/widget/transaction_card/transaction_card.dart';
+import 'package:geldstroom/ui/home/widget/overview_transaction_list.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -62,7 +62,7 @@ void main() {
       });
 
       testWidgets(
-          'should render a list of TransactionCard when status is loadSuccess',
+          'should render OverviewTransactionList when status is loadSuccess',
           (tester) async {
         when(overviewTransactionBloc.state).thenReturn(
           OverviewTransactionState(
@@ -75,8 +75,7 @@ void main() {
         );
         await tester.pumpWidget(subject);
         await tester.pumpAndSettle();
-        expect(find.byType(TransactionCard),
-            findsNWidgets(overviewTransactionBloc.state.data.length));
+        expect(find.byType(OverviewTransactionList), findsWidgets);
       });
     });
 

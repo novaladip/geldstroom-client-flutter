@@ -7,6 +7,7 @@ import 'package:styled_widget/styled_widget.dart';
 import '../../../core/bloc/bloc.dart';
 import '../../../core/network/model/model.dart';
 import '../../../shared/widget/widget.dart';
+import 'overview_transaction_list.dart';
 
 class OverviewTransaction extends StatefulWidget {
   const OverviewTransaction({Key key}) : super(key: key);
@@ -21,9 +22,11 @@ class OverviewTransaction extends StatefulWidget {
 class _OverviewTransactionState extends State<OverviewTransaction> {
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<OverviewTransactionBloc>().state;
+    final status = context.select<OverviewTransactionBloc, FetchStatus>(
+      (bloc) => bloc.state.status,
+    );
 
-    return state.status.maybeWhen<Widget>(
+    return status.maybeWhen<Widget>(
       loadFailure: (_) => ErrorMessage(message: OverviewTransaction.errorText)
           .parent(({child}) => SliverToBoxAdapter(child: child)),
       loadInProgress: () => SpinKitCubeGrid(
@@ -34,34 +37,7 @@ class _OverviewTransactionState extends State<OverviewTransaction> {
           .padding(top: .15.sh)
           .center()
           .parent(({child}) => SliverToBoxAdapter(child: child)),
-      orElse: () => SliverList(
-        delegate: SliverChildBuilderDelegate(
-          (context, index) {
-            if (state.data.length - 1 != index) {
-              return TransactionCard(
-                data: state.data[index],
-                onDelete: () {},
-                onEdit: () {},
-              );
-            }
-
-            return <Widget>[
-              TransactionCard(
-                data: state.data[index],
-                onDelete: () {},
-                onEdit: () {},
-              ),
-              if (state.status == FetchStatus.fetchMoreInProgress())
-                SpinKitCircle(
-                  size: 80.sp,
-                  color: Colors.white,
-                ).center(),
-              SizedBox(height: 100.h),
-            ].toColumn();
-          },
-          childCount: state.data.length,
-        ),
-      ),
+      orElse: () => OverviewTransactionList(),
     );
   }
 
