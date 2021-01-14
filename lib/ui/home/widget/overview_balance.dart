@@ -34,7 +34,7 @@ class _OverviewBalanceState extends State<OverviewBalance> {
 
     return <Widget>[
       Text('${OverviewBalance.title} $overviewRange')
-          .fontSize(35.sp)
+          .fontSize(40.sp)
           .fontFamily(AppStyles.fontFamilyBody)
           .fontWeight(FontWeight.bold)
           .padding(right: 200.w),
