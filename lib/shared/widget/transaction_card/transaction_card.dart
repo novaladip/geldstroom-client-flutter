@@ -21,6 +21,8 @@ class TransactionCard extends StatelessWidget {
   final VoidCallback onDelete;
   final VoidCallback onEdit;
 
+  Color get borderColor =>
+      data.type.toLowerCase() == 'income' ? Colors.green : Colors.red;
   String get formattedAmount => FormatCurrency.toIDR(data.amount);
 
   String get formattedCreatedAt {
@@ -57,22 +59,22 @@ class TransactionCard extends StatelessWidget {
         <Widget>[
           CachedNetworkImage(
             imageUrl: data.category.iconUrl,
-            width: 66.w,
+            width: 50.w,
             fit: BoxFit.fitHeight,
           ),
           SizedBox(width: 13.w),
           Text(data.category.name)
-              .fontSize(30.sp)
+              .fontSize(29.sp)
               .fontFamily(AppStyles.fontFamilyBody)
               .fontWeight(FontWeight.w500),
         ].toRow(),
         <Widget>[
           Text(formattedAmount)
-              .fontSize(30.sp)
+              .fontSize(29.sp)
               .fontFamily(AppStyles.fontFamilyBody),
           SizedBox(height: 3.h),
           Text(formattedCreatedAt)
-              .fontSize(30.sp)
+              .fontSize(23.sp)
               .fontFamily(AppStyles.fontFamilyBody)
               .textColor(Colors.grey),
         ].toColumn(
@@ -85,7 +87,11 @@ class TransactionCard extends StatelessWidget {
           )
           .padding(
             horizontal: AppStyles.defaultPaddingHorizontal / 2,
-            vertical: 5.h,
+            vertical: 8.h,
+          )
+          .border(
+            right: 4.w,
+            color: borderColor,
           )
           .backgroundColor(AppStyles.darkBackground),
     ).backgroundColor(AppStyles.darkBackground);
