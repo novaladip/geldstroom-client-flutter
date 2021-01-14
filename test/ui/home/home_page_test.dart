@@ -11,6 +11,7 @@ import 'package:geldstroom/ui/home/widget/overview_balance.dart';
 import 'package:geldstroom/ui/home/widget/overview_range_form.dart';
 import 'package:geldstroom/ui/home/widget/overview_transaction.dart';
 import 'package:mockito/mockito.dart';
+import 'package:network_image_mock/network_image_mock.dart';
 
 import '../../helper_tests/tranasction_json.dart';
 import '../../test_helper.dart';
@@ -50,7 +51,7 @@ void main() {
         child: buildTestableBlocWidget(
           initialRoutes: HomePage.routeName,
           routes: {
-            HomePage.routeName: (_) => HomePage(),
+            HomePage.routeName: (_) => mockNetworkImagesFor(() => HomePage()),
           },
         ),
       );
@@ -96,6 +97,38 @@ void main() {
     });
 
     group('calls', () {
+      testWidgets(
+          'when pull to refresh should add OverviewTransactionEvent.fetch',
+          (tester) async {
+        when(overviewRangeCubit.state).thenReturn(OverviewRangeState.weekly());
+        when(overviewBalanceCubit.state)
+            .thenReturn(OverviewBalanceState.initial());
+        when(overviewTransactionBloc.state).thenReturn(
+          OverviewTransactionState(
+            status: FetchStatus.loadSuccess(),
+            data: List<Transaction>.generate(
+              15,
+              (_) => Transaction.fromJson(TransactionJson.listTransaction[0]),
+            ),
+            isReachEnd: false,
+          ),
+        );
+        await tester.pumpWidget(subject);
+
+        await tester.drag(
+          find.byType(OverviewBalance),
+          const Offset(0.0, 300.0),
+          touchSlopY: 0,
+        );
+
+        await tester.pumpAndSettle();
+
+        verify(overviewBalanceCubit.fetch()).called(2);
+        verify(
+          overviewTransactionBloc.add(OverviewTransactionEvent.fetch()),
+        ).called(2);
+      });
+
       testWidgets(
           'add OverviewTransactionEvent.fetchMore when scroll reach end',
           (tester) async {

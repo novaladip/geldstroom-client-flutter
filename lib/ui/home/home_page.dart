@@ -5,6 +5,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../core/bloc/bloc.dart';
+import '../../shared/common/config/config.dart';
 import 'widget/overview_balance.dart';
 import 'widget/overview_range_form.dart';
 import 'widget/overview_transaction.dart';
@@ -38,18 +39,30 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      body: CustomScrollView(
-        key: HomePage.customScrollViewKey,
-        controller: scrollController,
-        physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-        slivers: <Widget>[
-          SliverToBoxAdapter(
-            child: OverviewBalance().padding(bottom: 30.h),
-          ),
-          OverviewTransaction(),
-        ],
+      body: RefreshIndicator(
+        color: AppStyles.darkBackground,
+        onRefresh: onRefresh,
+        child: CustomScrollView(
+          key: HomePage.customScrollViewKey,
+          controller: scrollController,
+          physics:
+              AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+          slivers: <Widget>[
+            SliverToBoxAdapter(
+              child: OverviewBalance().padding(bottom: 30.h),
+            ),
+            OverviewTransaction(),
+          ],
+        ),
       ),
     );
+  }
+
+  Future<void> onRefresh() async {
+    context
+        .read<OverviewTransactionBloc>()
+        .add(OverviewTransactionEvent.fetch());
+    context.read<OverviewBalanceCubit>().fetch();
   }
 
   void showOverviewRangeFilter(BuildContext context) {
