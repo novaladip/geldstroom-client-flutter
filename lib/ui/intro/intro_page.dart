@@ -6,7 +6,7 @@ import 'package:introduction_screen/introduction_screen.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../gen/assets.gen.dart';
-import '../../shared/shared.dart';
+import '../../shared/common/config/config.dart';
 import '../login/login_page.dart';
 
 class IntroPage extends StatelessWidget {

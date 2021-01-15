@@ -4,7 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'core/bloc/bloc.dart';
 import 'core/bloc_ui/ui_bloc.dart';
-import 'shared/common/common.dart';
+import 'shared/common/config/config.dart';
+import 'shared/common/utils/utils.dart';
 import 'ui/ui.dart';
 
 class App extends StatelessWidget {

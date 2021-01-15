@@ -4,7 +4,7 @@ import 'package:styled_widget/styled_widget.dart';
 
 import '../../../core/bloc/bloc.dart';
 import '../../../core/network/model/model.dart';
-import '../../../shared/common/config/theme.dart';
+import '../../../shared/common/config/config.dart';
 import '../../../shared/widget/widget.dart';
 import 'overview_transaction_loading_footer.dart';
 

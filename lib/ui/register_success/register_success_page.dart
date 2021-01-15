@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../gen/assets.gen.dart';
-import '../../shared/common/config/theme.dart';
+import '../../shared/common/config/config.dart';
 import '../../shared/widget/widget.dart';
 import '../ui.dart';
 

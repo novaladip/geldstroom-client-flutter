@@ -7,7 +7,7 @@ import 'package:geldstroom/core/network/dto/login_dto.dart';
 import 'package:geldstroom/core/network/dto/register_dto.dart';
 import 'package:geldstroom/core/network/model/error_model.dart';
 import 'package:geldstroom/core/network/service/auth/auth_service.dart';
-import 'package:geldstroom/shared/common/config/env.dart';
+import 'package:geldstroom/shared/common/config/config.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../../../test_helper.dart';

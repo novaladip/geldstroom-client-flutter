@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:styled_widget/styled_widget.dart';
 
-import '../../../shared/common/config/theme.dart';
+import '../../../shared/common/config/config.dart';
 import '../../../shared/common/utils/utils.dart';
 
 enum OverviewBalanceItemPosition {

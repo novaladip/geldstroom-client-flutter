@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:geldstroom/core/network/dto/dto.dart';
 import 'package:geldstroom/core/network/network.dart';
 import 'package:geldstroom/core/network/service/transaction/transaction_service.dart';
-import 'package:geldstroom/shared/common/config/env.dart';
+import 'package:geldstroom/shared/common/config/config.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../../../test_helper.dart';

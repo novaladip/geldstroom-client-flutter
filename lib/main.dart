@@ -4,7 +4,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 import 'app.dart';
-import 'shared/common/common.dart';
+import 'shared/common/config/config.dart';
+import 'shared/common/utils/utils.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
