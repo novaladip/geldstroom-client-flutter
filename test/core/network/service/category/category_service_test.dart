@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geldstroom/core/network/model/model.dart';
 import 'package:geldstroom/core/network/service/category/category_service.dart';
@@ -15,6 +16,7 @@ void main() {
     DioAdapterMock dioAdapterMock;
 
     setUp(() {
+      DotEnv().env = {'mode': 'test'};
       dio = Dio(BaseOptions(baseUrl: Env.baseUrl));
       dioAdapterMock = DioAdapterMock();
       dio.httpClientAdapter = dioAdapterMock;
