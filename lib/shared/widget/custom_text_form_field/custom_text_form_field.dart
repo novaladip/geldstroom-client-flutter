@@ -60,6 +60,7 @@ class CustomTextFormField extends StatelessWidget {
         style: TextStyle(
           fontFamily: AppStyles.fontFamilyTitle,
           color: AppStyles.textWhite,
+          fontSize: 30.sp,
         ),
         enabled: enabled,
         onTap: onTap,
