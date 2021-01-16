@@ -7,3 +7,12 @@ abstract class CategoryState with _$CategoryState {
     @Default(FetchStatus.initial()) FetchStatus status,
   }) = _CategoryState;
 }
+
+extension CategoryStateX on CategoryState {
+  List<TransactionCategory> filter(String query) {
+    return data
+        .where((category) =>
+            category.name.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+  }
+}
