@@ -27,6 +27,9 @@ class App extends StatelessWidget {
             BlocProvider.value(
               value: getIt<OverviewRangeCubit>(),
             ),
+            BlocProvider.value(
+              value: getIt<CategoryCubit>(),
+            ),
           ],
           child: MaterialApp(
             title: 'Geldstroom',
