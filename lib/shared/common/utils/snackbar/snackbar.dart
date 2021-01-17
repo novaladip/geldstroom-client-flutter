@@ -98,8 +98,7 @@ class CustomSnackbar {
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason> show(
     BuildContext context,
   ) {
-    Scaffold.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(snackbar);
+    Scaffold.of(context).hideCurrentSnackBar();
+    return Scaffold.of(context).showSnackBar(snackbar);
   }
 }
