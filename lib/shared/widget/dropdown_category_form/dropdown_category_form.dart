@@ -24,6 +24,7 @@ class DropdownCategoryForm extends StatelessWidget {
   void showOptions(BuildContext context) {
     showMaterialModalBottomSheet(
       context: context,
+      useRootNavigator: true,
       expand: true,
       builder: (_) => CategoriesPicker(
         onChange: onChange,

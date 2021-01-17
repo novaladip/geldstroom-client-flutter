@@ -29,20 +29,20 @@ class Subject extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: BlocProvider(
-          create: (_) => cubit,
-          child: Builder(
-            builder: (context) {
-              return WidgetWrapper(
+    return BlocProvider(
+      create: (_) => cubit,
+      child: MaterialApp(
+        home: Builder(
+          builder: (context) {
+            return Scaffold(
+              body: WidgetWrapper(
                 DropdownCategoryForm(
                   currentValue: currentValue,
                   onChange: onChange,
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ),
     );
