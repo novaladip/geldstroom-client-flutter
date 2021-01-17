@@ -10,6 +10,7 @@ abstract class ITransactionService {
   Future<Either<ServerError, List<Transaction>>> getTransactions(
     GetTransactionDto dto,
   );
+  Future<Either<ServerError, Transaction>> edit(TransactionEditDto dto);
 }
 
 @Injectable(as: ITransactionService)
@@ -45,6 +46,21 @@ class TransactionService implements ITransactionService {
       final transactionList =
           (data as List).map((json) => Transaction.fromJson(json)).toList();
       return Right(transactionList);
+    } on DioError catch (e) {
+      return Left(ServerError.fromDioError(e));
+    }
+  }
+
+  @override
+  Future<Either<ServerError, Transaction>> edit(TransactionEditDto dto) async {
+    try {
+      final res = await _dio.put(
+        '/transaction',
+        queryParameters: dto.toMap,
+      );
+      final data = res.data;
+      final transaction = Transaction.fromJson(data);
+      return Right(transaction);
     } on DioError catch (e) {
       return Left(ServerError.fromDioError(e));
     }

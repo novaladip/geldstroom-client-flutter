@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geldstroom/core/network/dto/dto.dart';
+import 'package:geldstroom/core/network/dto/transaction_edit_dto.dart';
 import 'package:geldstroom/core/network/network.dart';
 import 'package:geldstroom/core/network/service/transaction/transaction_service.dart';
 import 'package:geldstroom/shared/common/config/config.dart';
@@ -100,6 +101,55 @@ void main() {
 
         final dto = GetTransactionDto.weekly();
         final result = await service.getTransactions(dto);
+        result.fold(
+          (l) {
+            expect(l, ServerError.networkError());
+          },
+          (r) {
+            expect(r, null);
+          },
+        );
+      });
+    });
+
+    group('update', () {
+      test('when successful', () async {
+        final transaction = Transaction.fromJson(getTransactionJson[0]);
+        final httpResponse = buildResponseBody(payload: getTransactionJson[0]);
+        when(dioAdapterMock.fetch(any, any, any))
+            .thenAnswer((_) async => httpResponse);
+
+        final dto = TransactionEditDto(
+          id: transaction.id,
+          amount: transaction.amount,
+          type: transaction.type,
+          categoryId: transaction.category.id,
+          description: transaction.description,
+        );
+        final result = await service.edit(dto);
+        result.fold(
+          (l) {
+            expect(l, null);
+          },
+          (r) {
+            expect(r, transaction);
+          },
+        );
+      });
+
+      test('when failure', () async {
+        final httpResponse = buildResponseBody(payload: null, statusCode: null);
+        when(dioAdapterMock.fetch(any, any, any))
+            .thenAnswer((_) async => httpResponse);
+
+        final dto = TransactionEditDto(
+          id: '1',
+          amount: 123,
+          type: 'INCOME',
+          categoryId: '1',
+          description: 'some description',
+        );
+        final result = await service.edit(dto);
         result.fold(
           (l) {
             expect(l, ServerError.networkError());
