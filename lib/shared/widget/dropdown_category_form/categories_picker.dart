@@ -60,7 +60,7 @@ class _CategoriesPickerState extends State<CategoriesPicker> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
             ),
-            loadInProgress: () => LoadingIndicator(center: true),
+            loadInProgress: () => LoadingIndicator(),
             orElse: () => ScrollablePositionedList.builder(
               initialScrollIndex: findSelectedIndex(categories),
               itemCount: categories.length,
