@@ -23,6 +23,44 @@ class CustomSnackbar {
     this.duration = const Duration(seconds: 2),
   });
 
+  Widget get snackbar => SnackBar(
+        behavior: snackBarBehavior,
+        backgroundColor: backgroundColor,
+        duration: duration,
+        content: <Widget>[
+          if (iconData != null)
+            ...<Widget>[
+              Icon(iconData).iconColor(textColor).iconSize(40.sp),
+              SizedBox(width: 5.w),
+            ].toList(),
+          <Widget>[
+            if (title != null)
+              ...<Widget>[
+                Text(title)
+                    .fontSize(27.sp)
+                    .fontFamily(AppStyles.fontFamilyTitle)
+                    .fontWeight(FontWeight.w500)
+                    .textColor(textColor),
+                SizedBox(height: 1.h),
+              ].toList(),
+            Text(message)
+                .fontSize(25.sp)
+                .fontFamily(AppStyles.fontFamilyBody)
+                .textColor(textColor)
+          ].toColumn(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+          )
+        ]
+            .toRow(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+            )
+            .fittedBox(),
+      );
+
   factory CustomSnackbar.createError({
     @required String message,
     String title,
@@ -60,42 +98,8 @@ class CustomSnackbar {
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason> show(
     BuildContext context,
   ) {
-    Scaffold.of(context).hideCurrentSnackBar();
-    return Scaffold.of(context).showSnackBar(
-      SnackBar(
-        behavior: snackBarBehavior,
-        backgroundColor: backgroundColor,
-        duration: duration,
-        content: <Widget>[
-          if (iconData != null)
-            ...<Widget>[
-              Icon(iconData).iconColor(textColor).iconSize(60.sp),
-              SizedBox(width: 20.w),
-            ].toList(),
-          <Widget>[
-            if (title != null)
-              Text(title)
-                  .fontSize(30.sp)
-                  .fontFamily(AppStyles.fontFamilyTitle)
-                  .fontWeight(FontWeight.bold)
-                  .textColor(textColor),
-            SizedBox(height: 6.h),
-            Text(message)
-                .fontSize(28.sp)
-                .fontFamily(AppStyles.fontFamilyBody)
-                .fontWeight(FontWeight.w500)
-                .textColor(textColor),
-          ].toColumn(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-          ),
-        ].toRow(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-        ),
-      ),
-    );
+    Scaffold.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(snackbar);
   }
 }
