@@ -55,8 +55,8 @@ class TransactionService implements ITransactionService {
   Future<Either<ServerError, Transaction>> edit(TransactionEditDto dto) async {
     try {
       final res = await _dio.put(
-        '/transaction',
-        queryParameters: dto.toMap,
+        '/transaction/${dto.id}',
+        data: dto.toMap,
       );
       final data = res.data;
       final transaction = Transaction.fromJson(data);
