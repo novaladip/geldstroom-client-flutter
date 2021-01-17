@@ -14,6 +14,16 @@ abstract class FormStatus with _$FormStatus {
 }
 
 @freezed
+abstract class FormStatusData<Data> with _$FormStatusData<Data> {
+  const factory FormStatusData.idle() = FormStatusDataIdle;
+  const factory FormStatusData.loading() = FormStatusDataLoading;
+  const factory FormStatusData.success({@required Data data}) =
+      FormStatusDataSuccess;
+  const factory FormStatusData.error({@required ServerError error}) =
+      FormStatusDataError;
+}
+
+@freezed
 abstract class FetchStatus with _$FetchStatus {
   const factory FetchStatus.initial() = FetchStatusInitial;
   const factory FetchStatus.loadInProgress() = FetchStatusLoadInProgress;
