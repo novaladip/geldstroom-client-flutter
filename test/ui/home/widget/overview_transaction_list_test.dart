@@ -2,9 +2,11 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:geldstroom/core/bloc/category/category_cubit.dart';
 import 'package:geldstroom/core/network/network.dart';
 import 'package:geldstroom/shared/widget/transaction_card/transaction_card.dart';
 import 'package:geldstroom/ui/home/widget/overview_transaction_list.dart';
+import 'package:geldstroom/ui/transaction_edit/transaction_edit_page.dart';
 import 'package:mockito/mockito.dart';
 import 'package:geldstroom/core/bloc/overview_transaction/overview_transaction_bloc.dart';
 
@@ -13,10 +15,14 @@ import '../../../test_helper.dart';
 class MockOverviewTransctionBloc extends MockBloc<OverviewTransactionState>
     implements OverviewTransactionBloc {}
 
+class MockCategoryCubit extends MockBloc<CategoryState>
+    implements CategoryCubit {}
+
 void main() {
   group('OverviewTransactionList', () {
     Widget subject;
     OverviewTransactionBloc overviewTransactionBloc;
+    CategoryCubit categoryCubit;
     final transaction = Transaction(
       id: '231321',
       amount: 32222,
@@ -29,13 +35,15 @@ void main() {
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
       description: '',
-      type: 'Income',
+      type: 'INCOME',
       userId: '321321',
     );
     final data = <Transaction>[transaction];
 
     setUp(() {
       overviewTransactionBloc = MockOverviewTransctionBloc();
+      categoryCubit = MockCategoryCubit();
+      when(categoryCubit.state).thenReturn(CategoryState());
       when(overviewTransactionBloc.state).thenReturn(
         OverviewTransactionState(
           data: data,
@@ -43,14 +51,21 @@ void main() {
           status: FetchStatus.loadSuccess(),
         ),
       );
-      subject = buildTestableWidget(
-        BlocProvider.value(
-          value: overviewTransactionBloc,
-          child: CustomScrollView(
-            slivers: [
-              OverviewTransactionList(),
-            ],
-          ),
+
+      subject = MultiBlocProvider(
+        providers: [
+          BlocProvider.value(value: overviewTransactionBloc),
+          BlocProvider.value(value: categoryCubit),
+        ],
+        child: buildTestableBlocWidget(
+          initialRoutes: '/',
+          routes: {
+            '/': (_) => Scaffold(
+                  body: CustomScrollView(
+                    slivers: [OverviewTransactionList()],
+                  ),
+                ),
+          },
         ),
       );
     });
@@ -71,6 +86,7 @@ void main() {
         await tester.tap(editButton);
         await tester.pumpAndSettle();
         expect(editButton.hitTestable(), findsNothing);
+        expect(find.byType(TransactionEditPage), findsOneWidget);
       });
 
       testWidgets('tap Delete action', (tester) async {
