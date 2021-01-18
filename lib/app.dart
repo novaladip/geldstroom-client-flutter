@@ -21,15 +21,10 @@ class App extends StatelessWidget {
 
         return MultiBlocProvider(
           providers: [
-            BlocProvider.value(
-              value: getIt<AuthCubit>()..appStarted(),
-            ),
-            BlocProvider.value(
-              value: getIt<OverviewRangeCubit>(),
-            ),
-            BlocProvider.value(
-              value: getIt<CategoryCubit>(),
-            ),
+            BlocProvider.value(value: getIt<AuthCubit>()..appStarted()),
+            BlocProvider.value(value: getIt<OverviewRangeCubit>()),
+            BlocProvider.value(value: getIt<CategoryCubit>()),
+            BlocProvider.value(value: getIt<TransactionEditCubit>()),
           ],
           child: MaterialApp(
             title: 'Geldstroom',

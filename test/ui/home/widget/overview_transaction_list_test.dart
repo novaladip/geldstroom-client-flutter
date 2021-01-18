@@ -2,6 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:geldstroom/core/bloc/bloc.dart';
 import 'package:geldstroom/core/bloc/category/category_cubit.dart';
 import 'package:geldstroom/core/network/network.dart';
 import 'package:geldstroom/shared/widget/transaction_card/transaction_card.dart';
@@ -11,6 +12,9 @@ import 'package:mockito/mockito.dart';
 import 'package:geldstroom/core/bloc/overview_transaction/overview_transaction_bloc.dart';
 
 import '../../../test_helper.dart';
+
+class MockTransactionEditCubit extends MockBloc<FormStatusData<Transaction>>
+    implements TransactionEditCubit {}
 
 class MockOverviewTransctionBloc extends MockBloc<OverviewTransactionState>
     implements OverviewTransactionBloc {}
@@ -23,6 +27,7 @@ void main() {
     Widget subject;
     OverviewTransactionBloc overviewTransactionBloc;
     CategoryCubit categoryCubit;
+    TransactionEditCubit transactionEditCubit;
     final transaction = Transaction(
       id: '231321',
       amount: 32222,
@@ -43,7 +48,9 @@ void main() {
     setUp(() {
       overviewTransactionBloc = MockOverviewTransctionBloc();
       categoryCubit = MockCategoryCubit();
+      transactionEditCubit = MockTransactionEditCubit();
       when(categoryCubit.state).thenReturn(CategoryState());
+      when(transactionEditCubit.state).thenReturn(FormStatusData.idle());
       when(overviewTransactionBloc.state).thenReturn(
         OverviewTransactionState(
           data: data,
@@ -56,6 +63,7 @@ void main() {
         providers: [
           BlocProvider.value(value: overviewTransactionBloc),
           BlocProvider.value(value: categoryCubit),
+          BlocProvider.value(value: transactionEditCubit),
         ],
         child: buildTestableBlocWidget(
           initialRoutes: '/',

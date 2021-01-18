@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:styled_widget/styled_widget.dart';
 
+import '../../../core/bloc/bloc.dart';
+import '../../../core/network/dto/dto.dart';
 import '../../../core/network/model/model.dart';
 import '../../../shared/common/utils/utils.dart';
 import '../../../shared/widget/widget.dart';
@@ -13,6 +16,7 @@ class TransactionEditForm extends StatefulWidget {
     @required this.data,
   }) : super(key: key);
 
+  static const submitButtonTitle = 'Update';
   final Transaction data;
 
   @override
@@ -24,38 +28,18 @@ class _TransactionEditFormState extends State<TransactionEditForm> {
   GlobalKey<FormState> form;
   TextEditingController amount;
   TextEditingController description;
-  TextEditingController type;
   TransactionCategory category;
-
-  void onSubmit() {
-    if (!form.currentState.validate()) return;
-  }
-
-  void onChangeType(String value) => setState(() => type.text = value);
-
-  @override
-  void initState() {
-    final data = widget.data;
-    form = GlobalKey<FormState>();
-    amountFormatter = AmountFormatter();
-    amount = TextEditingController(
-        text: FormatCurrency.toIDR(data.amount).replaceAll('IDR', ''));
-    description = TextEditingController(text: data.description);
-    type = TextEditingController(text: data.type);
-    category = widget.data.category;
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    amount.dispose();
-    description.dispose();
-    type.dispose();
-    super.dispose();
-  }
+  String type;
 
   @override
   Widget build(BuildContext context) {
+    final loading = context.select<TransactionEditCubit, bool>(
+      (cubit) => cubit.state.maybeWhen(
+        loading: () => true,
+        orElse: () => false,
+      ),
+    );
+
     return Form(
       key: form,
       child: <Widget>[
@@ -78,7 +62,7 @@ class _TransactionEditFormState extends State<TransactionEditForm> {
         ),
         DropdownForm<String>(
           labelText: 'Type',
-          currentValue: type.text,
+          currentValue: type,
           onChanged: onChangeType,
           options: ['EXPENSE', 'INCOME'],
           renderItem: (value) =>
@@ -94,10 +78,46 @@ class _TransactionEditFormState extends State<TransactionEditForm> {
         ),
         SizedBox(height: 20.h),
         MainButton(
-          title: 'Update',
+          loading: loading,
+          title: TransactionEditForm.submitButtonTitle,
           onTap: onSubmit,
         ),
       ].toColumn(),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    final data = widget.data;
+    form = GlobalKey<FormState>();
+    amountFormatter = AmountFormatter();
+    amount = TextEditingController(
+        text: FormatCurrency.toIDR(data.amount).replaceAll('IDR', ''));
+    description = TextEditingController(text: data.description);
+    type = data.type;
+    category = widget.data.category;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    amount.dispose();
+    description.dispose();
+  }
+
+  void onChangeType(String value) => setState(() => type = value);
+
+  void onSubmit() {
+    if (!form.currentState.validate()) return;
+
+    final dto = TransactionEditDto(
+      id: widget.data.id,
+      amount: int.parse(amount.text.replaceAll('.', '')),
+      categoryId: category.id,
+      type: type,
+      description: description.text,
+    );
+    context.read<TransactionEditCubit>().submit(dto);
   }
 }
