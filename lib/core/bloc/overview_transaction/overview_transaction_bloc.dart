@@ -19,6 +19,7 @@ class OverviewTransactionBloc
     this._service,
     this._authCubit,
     this._overviewRangeCubit,
+    this._transactionEditCubit,
   ) : super(OverviewTransactionState()) {
     // listen for Authstate
     // reset state to inital when AuthState is unauthenticated
@@ -35,11 +36,23 @@ class OverviewTransactionBloc
     _overviewRangeCubit.listen((state) {
       add(OverviewTransactionEvent.fetch());
     });
+
+    // listen for TransactionEditState
+    // add OverviewTransactionEvent.update when TransactionEditState.success
+    _transactionEditCubit.listen((state) {
+      state.maybeWhen(
+        success: (transaction) => add(
+          OverviewTransactionEvent.update(transaction),
+        ),
+        orElse: () {},
+      );
+    });
   }
 
   final ITransactionService _service;
   final AuthCubit _authCubit;
   final OverviewRangeCubit _overviewRangeCubit;
+  final TransactionEditCubit _transactionEditCubit;
 
   GetTransactionDto get _dto =>
       _overviewRangeCubit.state.when<GetTransactionDto>(
@@ -73,6 +86,7 @@ class OverviewTransactionBloc
       fetch: _mapOnFetch,
       add: _mapOnAdd,
       delete: _mapOnDelete,
+      update: _mapOnUpdate,
       fetchMore: _mapOnFetchMore,
       clear: _onClear,
     );
@@ -90,6 +104,16 @@ class OverviewTransactionBloc
 
   Stream<OverviewTransactionState> _mapOnDelete(String id) async* {
     final newData = state.data.where((data) => data.id != id).toList();
+    yield state.copyWith(data: newData);
+  }
+
+  Stream<OverviewTransactionState> _mapOnUpdate(
+      Transaction transaction) async* {
+    final index = state.data.indexWhere((trx) => trx.id == transaction.id);
+    if (index == -1) return;
+
+    final newData = List<Transaction>.from(state.data);
+    newData[index] = transaction;
     yield state.copyWith(data: newData);
   }
 

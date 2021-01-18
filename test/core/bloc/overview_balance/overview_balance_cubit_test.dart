@@ -3,16 +3,21 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geldstroom/core/bloc/auth/auth_cubit.dart';
 import 'package:geldstroom/core/bloc/overview_balance/overview_balance_cubit.dart';
+import 'package:geldstroom/core/bloc/transaction_edit/transaction_edit_cubit.dart';
 import 'package:geldstroom/core/bloc_ui/ui_bloc.dart';
 import 'package:geldstroom/core/network/network.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../../helper_tests/hydrated_bloc.dart';
+import '../../network/service/transaction/json.dart';
 
 class MockTransactionService extends Mock implements ITransactionService {}
 
 class MockOverviewRangeCubit extends MockBloc<OverviewRangeState>
     implements OverviewRangeCubit {}
+
+class MockTransactionEditCubit extends MockBloc<FormStatusData<Transaction>>
+    implements TransactionEditCubit {}
 
 class MockAuthCubit extends MockBloc<AuthState> implements AuthCubit {}
 
@@ -24,16 +29,19 @@ void main() {
 
     OverviewBalanceCubit overviewBalanceCubit;
     OverviewRangeCubit overviewRangeCubit;
+    TransactionEditCubit transactionEditCubit;
     AuthCubit authCubit;
     ITransactionService transactionService;
 
     setUp(() {
       transactionService = MockTransactionService();
       authCubit = MockAuthCubit();
+      transactionEditCubit = MockTransactionEditCubit();
       overviewRangeCubit = MockOverviewRangeCubit();
       overviewBalanceCubit = OverviewBalanceCubit(
         transactionService,
         overviewRangeCubit,
+        transactionEditCubit,
         authCubit,
       );
     });
@@ -124,6 +132,7 @@ void main() {
             return OverviewBalanceCubit(
               transactionService,
               overviewRangeCubit,
+              transactionEditCubit,
               authCubit,
             );
           },
@@ -131,6 +140,62 @@ void main() {
             state.copyWith(status: Status.loading()),
             state.copyWith(status: Status.loaded(), data: transactionTotal),
           ],
+        );
+      });
+
+      group('listen TransactionEditState', () {
+        blocTest<OverviewBalanceCubit, OverviewBalanceState>(
+          'call fetch when state is success',
+          build: () {
+            when(transactionService.getBalance(any)).thenAnswer(
+              (_) async => Right(transactionTotal),
+            );
+            when(overviewRangeCubit.state)
+                .thenReturn(OverviewRangeState.weekly());
+            whenListen(
+              transactionEditCubit,
+              Stream.value(
+                FormStatusData<Transaction>.success(
+                  data: Transaction.fromJson(getTransactionJson[0]),
+                ),
+              ),
+            );
+            return OverviewBalanceCubit(
+              transactionService,
+              overviewRangeCubit,
+              transactionEditCubit,
+              authCubit,
+            );
+          },
+          expect: [
+            state.copyWith(status: Status.loading()),
+            state.copyWith(status: Status.loaded(), data: transactionTotal),
+          ],
+          verify: (_) {
+            verify(transactionService.getBalance(any)).called(1);
+          },
+        );
+
+        blocTest<OverviewBalanceCubit, OverviewBalanceState>(
+          'do nothing when state is not success',
+          build: () {
+            when(transactionService.getBalance(any)).thenAnswer(
+              (_) async => Right(transactionTotal),
+            );
+            when(overviewRangeCubit.state)
+                .thenReturn(OverviewRangeState.weekly());
+            whenListen(
+              transactionEditCubit,
+              Stream.value(FormStatusData<Transaction>.loading()),
+            );
+            return OverviewBalanceCubit(
+              transactionService,
+              overviewRangeCubit,
+              transactionEditCubit,
+              authCubit,
+            );
+          },
+          expect: [],
         );
       });
 
@@ -145,6 +210,7 @@ void main() {
             return OverviewBalanceCubit(
               transactionService,
               overviewRangeCubit,
+              transactionEditCubit,
               authCubit,
             );
           },
@@ -161,6 +227,7 @@ void main() {
             return OverviewBalanceCubit(
               transactionService,
               overviewRangeCubit,
+              transactionEditCubit,
               authCubit,
             );
           },

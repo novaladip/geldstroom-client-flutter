@@ -18,11 +18,15 @@ class MockAuthCubit extends MockBloc<AuthState> implements AuthCubit {}
 class MockOverviewRangeCubit extends MockBloc<OverviewRangeState>
     implements OverviewRangeCubit {}
 
+class MockTransactionEditCubit extends MockBloc<FormStatusData<Transaction>>
+    implements TransactionEditCubit {}
+
 void main() {
   group('OverviewTransactionBloc', () {
     TransactionService service;
     OverviewTransactionBloc overviewTransactionBloc;
     OverviewRangeCubit overviewRangeCubit;
+    TransactionEditCubit transactionEditCubit;
     AuthCubit authCubit;
 
     final transactions = TransactionJson.listTransaction
@@ -33,10 +37,12 @@ void main() {
       service = MockTransactionService();
       authCubit = MockAuthCubit();
       overviewRangeCubit = MockOverviewRangeCubit();
+      transactionEditCubit = MockTransactionEditCubit();
       overviewTransactionBloc = OverviewTransactionBloc(
         service,
         authCubit,
         overviewRangeCubit,
+        transactionEditCubit,
       );
     });
 
@@ -279,6 +285,7 @@ void main() {
               service,
               authCubit,
               overviewRangeCubit,
+              transactionEditCubit,
             );
           },
           expect: [OverviewTransactionState()],
@@ -298,6 +305,7 @@ void main() {
               service,
               authCubit,
               overviewRangeCubit,
+              transactionEditCubit,
             );
           },
           expect: [],
@@ -317,6 +325,7 @@ void main() {
               service,
               authCubit,
               overviewRangeCubit,
+              transactionEditCubit,
             );
           },
           verify: (_) {
@@ -337,11 +346,92 @@ void main() {
               service,
               authCubit,
               overviewRangeCubit,
+              transactionEditCubit,
             );
           },
           verify: (_) {
             verify(service.getTransactions(any)).called(1);
           },
+        );
+      });
+
+      group('listen for TransactionEditState', () {
+        blocTest<OverviewTransactionBloc, OverviewTransactionState>(
+          'should add OverviewTransactionEvent.update when state is success',
+          seed: OverviewTransactionState(
+            data: transactions,
+            status: FetchStatus.loadSuccess(),
+          ),
+          build: () {
+            when(overviewRangeCubit.state)
+                .thenReturn(OverviewRangeState.monthly());
+            when(authCubit.state).thenReturn(AuthState.authenticated());
+            whenListen(
+              transactionEditCubit,
+              Stream.value(
+                FormStatusData<Transaction>.success(
+                  data: Transaction(
+                    id: transactions[0].id,
+                    amount: 20000,
+                    category: transactions[0].category,
+                    description: '',
+                    createdAt: transactions[0].createdAt,
+                    updatedAt: transactions[0].updatedAt,
+                    type: transactions[0].type,
+                    userId: transactions[0].userId,
+                  ),
+                ),
+              ),
+            );
+            return OverviewTransactionBloc(
+              service,
+              authCubit,
+              overviewRangeCubit,
+              transactionEditCubit,
+            );
+          },
+          expect: [
+            OverviewTransactionState(
+              data: [
+                Transaction(
+                  id: transactions[0].id,
+                  amount: 20000,
+                  category: transactions[0].category,
+                  description: '',
+                  createdAt: transactions[0].createdAt,
+                  updatedAt: transactions[0].updatedAt,
+                  type: transactions[0].type,
+                  userId: transactions[0].userId,
+                ),
+                transactions[1],
+              ],
+              status: FetchStatus.loadSuccess(),
+            ),
+          ],
+        );
+
+        blocTest<OverviewTransactionBloc, OverviewTransactionState>(
+          'do nothing when state is not success',
+          seed: OverviewTransactionState(
+            data: transactions,
+            status: FetchStatus.loadSuccess(),
+          ),
+          build: () {
+            when(overviewRangeCubit.state)
+                .thenReturn(OverviewRangeState.monthly());
+            when(authCubit.state).thenReturn(AuthState.authenticated());
+            whenListen(
+              transactionEditCubit,
+              Stream.value(FormStatusData<Transaction>.loading()),
+            );
+            return OverviewTransactionBloc(
+              service,
+              authCubit,
+              overviewRangeCubit,
+              transactionEditCubit,
+            );
+          },
+          expect: [],
         );
       });
     });

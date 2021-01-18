@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 import '../../bloc_ui/overview_range/overview_range_cubit.dart';
 import '../../network/network.dart';
 import '../../network/service/service.dart';
-import '../auth/auth_cubit.dart';
+import '../bloc.dart';
 
 part 'overview_balance_cubit.freezed.dart';
 part 'overview_balance_state.dart';
@@ -15,10 +15,18 @@ class OverviewBalanceCubit extends Cubit<OverviewBalanceState> {
   OverviewBalanceCubit(
     this._service,
     this._overviewRangeCubit,
+    this._transactionEditCubit,
     this._authCubit,
   ) : super(OverviewBalanceState.initial()) {
     _overviewRangeCubit.listen((overviewRangeState) {
       fetch();
+    });
+
+    _transactionEditCubit.listen((transactionEditState) {
+      transactionEditState.maybeWhen(
+        success: (_) => fetch(),
+        orElse: () {},
+      );
     });
 
     _authCubit.listen((authState) {
@@ -30,8 +38,9 @@ class OverviewBalanceCubit extends Cubit<OverviewBalanceState> {
   }
 
   final ITransactionService _service;
-  final OverviewRangeCubit _overviewRangeCubit;
   final AuthCubit _authCubit;
+  final OverviewRangeCubit _overviewRangeCubit;
+  final TransactionEditCubit _transactionEditCubit;
 
   Future<void> fetch() async {
     emit(state.copyWith(status: Status.loading()));
