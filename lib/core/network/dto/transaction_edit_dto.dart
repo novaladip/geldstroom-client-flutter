@@ -1,8 +1,9 @@
+import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
 import 'dto.dart';
 
-class TransactionEditDto implements BaseDto {
+class TransactionEditDto extends Equatable implements BaseDto {
   const TransactionEditDto({
     @required this.id,
     @required this.amount,
@@ -24,4 +25,7 @@ class TransactionEditDto implements BaseDto {
         'type': type,
         'categoryId': categoryId,
       };
+
+  @override
+  List<Object> get props => [id, amount, description, type, categoryId];
 }

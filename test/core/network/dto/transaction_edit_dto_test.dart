@@ -19,5 +19,9 @@ void main() {
         'description': dto.description,
       });
     });
+
+    test('support comparations value', () {
+      expect(dto, dto);
+    });
   });
 }
