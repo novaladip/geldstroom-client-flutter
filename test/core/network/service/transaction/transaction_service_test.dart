@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -153,6 +154,40 @@ void main() {
         result.fold(
           (l) {
             expect(l, ServerError.networkError());
+          },
+          (r) {
+            expect(r, null);
+          },
+        );
+      });
+    });
+    group('deleteOneById', () {
+      test('return Right(None) when successful', () async {
+        final httpResponse = buildResponseBody(payload: {'message': 'ok'});
+        when(dioAdapterMock.fetch(any, any, any))
+            .thenAnswer((_) async => httpResponse);
+
+        final result = await service.deleteOneById('1');
+        result.fold(
+          (l) {
+            expect(l, null);
+          },
+          (r) {
+            expect(r, None());
+          },
+        );
+      });
+
+      test('return Left(ServerError) when failure', () async {
+        final httpResponse = buildResponseBody(
+            payload: {'message': 'internal server error'}, statusCode: 501);
+        when(dioAdapterMock.fetch(any, any, any))
+            .thenAnswer((_) async => httpResponse);
+
+        final result = await service.deleteOneById('1');
+        result.fold(
+          (l) {
+            expect(l, ServerError.unknownError());
           },
           (r) {
             expect(r, null);

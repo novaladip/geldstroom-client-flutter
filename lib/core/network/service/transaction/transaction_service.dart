@@ -11,6 +11,7 @@ abstract class ITransactionService {
     GetTransactionDto dto,
   );
   Future<Either<ServerError, Transaction>> edit(TransactionEditDto dto);
+  Future<Either<ServerError, None>> deleteOneById(String transactionId);
 }
 
 @Injectable(as: ITransactionService)
@@ -61,6 +62,16 @@ class TransactionService implements ITransactionService {
       final data = res.data;
       final transaction = Transaction.fromJson(data);
       return Right(transaction);
+    } on DioError catch (e) {
+      return Left(ServerError.fromDioError(e));
+    }
+  }
+
+  @override
+  Future<Either<ServerError, None>> deleteOneById(String transactionId) async {
+    try {
+      await _dio.delete('/transaction/$transactionId');
+      return Right(None());
     } on DioError catch (e) {
       return Left(ServerError.fromDioError(e));
     }
