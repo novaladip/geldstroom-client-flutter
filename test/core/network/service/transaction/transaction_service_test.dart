@@ -113,6 +113,48 @@ void main() {
       });
     });
 
+    group('create', () {
+      test('when successful', () async {
+        final payload = getTransactionJson[0];
+        final httpResponse = buildResponseBody(payload: payload);
+        when(dioAdapterMock.fetch(any, any, any))
+            .thenAnswer((_) async => httpResponse);
+        final result = await service.create(TransactionCreateDto(
+          amount: 123123,
+          categoryId: '123-123-123',
+          description: '',
+          type: 'EXPENSE',
+        ));
+        result.fold(
+          (l) {
+            expect(l, null);
+          },
+          (r) {
+            expect(r, Transaction.fromJson(payload));
+          },
+        );
+      });
+      test('when failure', () async {
+        final httpResponse = buildResponseBody(payload: null, statusCode: 500);
+        when(dioAdapterMock.fetch(any, any, any))
+            .thenAnswer((_) async => httpResponse);
+        final result = await service.create(TransactionCreateDto(
+          amount: 123123,
+          categoryId: '123-123-123',
+          description: '',
+          type: 'EXPENSE',
+        ));
+        result.fold(
+          (l) {
+            expect(l, ServerError.unknownError());
+          },
+          (r) {
+            expect(r, null);
+          },
+        );
+      });
+    });
+
     group('update', () {
       test('when successful', () async {
         final transaction = Transaction.fromJson(getTransactionJson[0]);

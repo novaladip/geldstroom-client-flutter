@@ -10,6 +10,7 @@ abstract class ITransactionService {
   Future<Either<ServerError, List<Transaction>>> getTransactions(
     GetTransactionDto dto,
   );
+  Future<Either<ServerError, Transaction>> create(TransactionCreateDto dto);
   Future<Either<ServerError, Transaction>> edit(TransactionEditDto dto);
   Future<Either<ServerError, None>> deleteOneById(String transactionId);
 }
@@ -72,6 +73,18 @@ class TransactionService implements ITransactionService {
     try {
       await _dio.delete('/transaction/$transactionId');
       return Right(None());
+    } on DioError catch (e) {
+      return Left(ServerError.fromDioError(e));
+    }
+  }
+
+  @override
+  Future<Either<ServerError, Transaction>> create(
+      TransactionCreateDto dto) async {
+    try {
+      final res = await _dio.post('/transaction', data: dto.toMap);
+      final data = Transaction.fromJson(res.data);
+      return Right(data);
     } on DioError catch (e) {
       return Left(ServerError.fromDioError(e));
     }
