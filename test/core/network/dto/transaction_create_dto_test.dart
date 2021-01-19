@@ -11,7 +11,13 @@ void main() {
     );
 
     test('support comparations value', () {
-      expect(subject, subject);
+      final dto = TransactionCreateDto(
+        description: 'beli lotek2',
+        amount: 320000,
+        categoryId: '123-123-123',
+        type: 'EXPENSE',
+      );
+      expect(subject == dto, false);
     });
 
     test('toMap', () {
