@@ -24,6 +24,9 @@ class MockOverviewRangeCubit extends MockBloc<OverviewRangeState>
 class MockOverviewBalanceCubit extends MockBloc<OverviewBalanceState>
     implements OverviewBalanceCubit {}
 
+class MockCategoryCubit extends MockBloc<CategoryState>
+    implements CategoryCubit {}
+
 class MockOverviewTransactionBloc extends MockBloc<OverviewTransactionState>
     implements OverviewTransactionBloc {}
 
@@ -39,6 +42,7 @@ void main() {
     OverviewRangeCubit overviewRangeCubit;
     OverviewBalanceCubit overviewBalanceCubit;
     OverviewTransactionBloc overviewTransactionBloc;
+    CategoryCubit categoryCubit;
     TransactionCreateCubit transactionCreateCubit;
     TransactionDeleteCubit transactionDeleteCubit;
 
@@ -46,8 +50,10 @@ void main() {
       overviewRangeCubit = MockOverviewRangeCubit();
       overviewBalanceCubit = MockOverviewBalanceCubit();
       overviewTransactionBloc = MockOverviewTransactionBloc();
+      categoryCubit = MockCategoryCubit();
       transactionCreateCubit = MockTransactionCreateCubit();
       transactionDeleteCubit = MockTransactionDeleteCubit();
+      when(categoryCubit.state).thenReturn(CategoryState());
       when(transactionCreateCubit.state)
           .thenReturn(FormStatusData<Transaction>.idle());
       when(transactionDeleteCubit.state)
@@ -65,6 +71,7 @@ void main() {
           BlocProvider.value(value: overviewTransactionBloc),
           BlocProvider.value(value: transactionCreateCubit),
           BlocProvider.value(value: transactionDeleteCubit),
+          BlocProvider.value(value: categoryCubit),
         ],
         child: buildTestableBlocWidget(
           initialRoutes: HomePage.routeName,
@@ -77,9 +84,11 @@ void main() {
 
     tearDown(() {
       overviewTransactionBloc.close();
+      overviewRangeCubit.close();
       overviewBalanceCubit.close();
       transactionDeleteCubit.close();
       overviewRangeCubit.close();
+      categoryCubit.close();
     });
 
     testWidgets('renders correctly', (tester) async {

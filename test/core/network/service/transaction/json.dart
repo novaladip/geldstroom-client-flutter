@@ -6,7 +6,7 @@ const getTransactionJson = [
     'type': 'EXPENSE',
     'category': {
       'id': '1f8820da-f1b2-48c4-8ffb-ac49abbb7067',
-      'name': 'Food',
+      'name': 'Sports',
       'iconURL':
           'https://res.cloudinary.com/dwxrp75d0/image/upload/v1602479481/sickfits/gcdxgwj2ddj0fmtxuujm.png',
       'credit': ''

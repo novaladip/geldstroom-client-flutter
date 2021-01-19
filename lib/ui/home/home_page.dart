@@ -96,6 +96,7 @@ class _HomePageState extends State<HomePage> {
   void showOverviewRangeFilter(BuildContext context) {
     showMaterialModalBottomSheet(
       builder: (_) => OverviewRangeForm(),
+      useRootNavigator: true,
       context: context,
     );
   }
@@ -103,6 +104,7 @@ class _HomePageState extends State<HomePage> {
   void showTransactionCreatePage(BuildContext context) {
     showMaterialModalBottomSheet(
       builder: (_) => TransactionCreatePage(),
+      useRootNavigator: true,
       context: context,
     );
   }

@@ -82,7 +82,11 @@ class TransactionService implements ITransactionService {
   Future<Either<ServerError, Transaction>> create(
       TransactionCreateDto dto) async {
     try {
-      final res = await _dio.post('/transaction', data: dto.toMap);
+      final res = await _dio.post(
+        '/transaction',
+        data: dto.toMap,
+        options: Options(contentType: 'application/x-www-form-urlencoded'),
+      );
       final data = Transaction.fromJson(res.data);
       return Right(data);
     } on DioError catch (e) {
