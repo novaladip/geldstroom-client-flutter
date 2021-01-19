@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -13,11 +14,13 @@ class TransactionCard extends StatelessWidget {
   const TransactionCard({
     Key key,
     @required this.data,
+    this.isDeleting = false,
     @required this.onDelete,
     @required this.onEdit,
   }) : super(key: key);
 
   final Transaction data;
+  final bool isDeleting;
   final VoidCallback onDelete;
   final VoidCallback onEdit;
 
@@ -57,11 +60,17 @@ class TransactionCard extends StatelessWidget {
       ],
       child: <Widget>[
         <Widget>[
-          CachedNetworkImage(
-            imageUrl: data.category.iconUrl,
-            width: 50.w,
-            fit: BoxFit.fitHeight,
-          ),
+          if (isDeleting)
+            SpinKitChasingDots(
+              color: Colors.white,
+              size: 35.sp,
+            ),
+          if (!isDeleting)
+            CachedNetworkImage(
+              imageUrl: data.category.iconUrl,
+              width: 50.w,
+              fit: BoxFit.fitHeight,
+            ),
           SizedBox(width: 13.w),
           Text(data.category.name)
               .fontSize(29.sp)

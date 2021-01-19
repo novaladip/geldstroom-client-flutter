@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geldstroom/core/network/network.dart';
 import 'package:geldstroom/shared/common/utils/utils.dart';
@@ -61,6 +62,28 @@ void main() {
 
         expect(find.text(data.category.name), findsOneWidget);
         expect(find.byType(CachedNetworkImage), findsOneWidget);
+        expect(find.text(FormatCurrency.toIDR(data.amount)), findsOneWidget);
+        expect(find.text('a day ago'), findsOneWidget);
+        expect(find.text('Edit').hitTestable(), findsNothing);
+        expect(find.text('Delete').hitTestable(), findsNothing);
+      });
+
+      testWidgets('correctly when isDeleting is true', (tester) async {
+        final subject = mockNetworkImagesFor(
+          () => buildTestableWidget(
+            TransactionCard(
+              data: data,
+              isDeleting: true,
+              onDelete: () {},
+              onEdit: () {},
+            ),
+          ),
+        );
+
+        await tester.pumpWidget(subject);
+        expect(find.byType(SpinKitChasingDots), findsOneWidget);
+        expect(find.text(data.category.name), findsOneWidget);
+        expect(find.byType(CachedNetworkImage), findsNothing);
         expect(find.text(FormatCurrency.toIDR(data.amount)), findsOneWidget);
         expect(find.text('a day ago'), findsOneWidget);
         expect(find.text('Edit').hitTestable(), findsNothing);
