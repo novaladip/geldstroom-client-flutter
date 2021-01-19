@@ -11,6 +11,7 @@ import 'package:geldstroom/ui/home/home_page.dart';
 import 'package:geldstroom/ui/home/widget/overview_balance.dart';
 import 'package:geldstroom/ui/home/widget/overview_range_form.dart';
 import 'package:geldstroom/ui/home/widget/overview_transaction.dart';
+import 'package:geldstroom/ui/transaction_create/transaction_create_page.dart';
 import 'package:mockito/mockito.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
@@ -26,6 +27,9 @@ class MockOverviewBalanceCubit extends MockBloc<OverviewBalanceState>
 class MockOverviewTransactionBloc extends MockBloc<OverviewTransactionState>
     implements OverviewTransactionBloc {}
 
+class MockTransactionCreateCubit extends MockBloc<FormStatusData<Transaction>>
+    implements TransactionCreateCubit {}
+
 class MockTransactionDeleteCubit extends MockBloc<TransactionDeleteState>
     implements TransactionDeleteCubit {}
 
@@ -35,13 +39,17 @@ void main() {
     OverviewRangeCubit overviewRangeCubit;
     OverviewBalanceCubit overviewBalanceCubit;
     OverviewTransactionBloc overviewTransactionBloc;
+    TransactionCreateCubit transactionCreateCubit;
     TransactionDeleteCubit transactionDeleteCubit;
 
     setUp(() {
       overviewRangeCubit = MockOverviewRangeCubit();
       overviewBalanceCubit = MockOverviewBalanceCubit();
       overviewTransactionBloc = MockOverviewTransactionBloc();
+      transactionCreateCubit = MockTransactionCreateCubit();
       transactionDeleteCubit = MockTransactionDeleteCubit();
+      when(transactionCreateCubit.state)
+          .thenReturn(FormStatusData<Transaction>.idle());
       when(transactionDeleteCubit.state)
           .thenReturn(TransactionDeleteState.initial());
       when(overviewTransactionBloc.state).thenReturn(
@@ -55,6 +63,7 @@ void main() {
           BlocProvider.value(value: overviewRangeCubit),
           BlocProvider.value(value: overviewBalanceCubit),
           BlocProvider.value(value: overviewTransactionBloc),
+          BlocProvider.value(value: transactionCreateCubit),
           BlocProvider.value(value: transactionDeleteCubit),
         ],
         child: buildTestableBlocWidget(
@@ -85,6 +94,7 @@ void main() {
       );
       await tester.pumpWidget(subject);
 
+      expect(find.byType(FloatingActionButton), findsOneWidget);
       expect(find.text(HomePage.appBarTitle), findsOneWidget);
       expect(find.byType(OverviewBalance), findsOneWidget);
       expect(find.byType(OverviewTransaction), findsOneWidget);
@@ -171,6 +181,42 @@ void main() {
     });
 
     group('calls', () {
+      testWidgets(
+          'hide FAB when scroll to bottom and show FAB when scroll to top '
+          'when tap the FAB should show TransactionCreatePage', (tester) async {
+        when(overviewRangeCubit.state).thenReturn(OverviewRangeState.weekly());
+        when(overviewBalanceCubit.state)
+            .thenReturn(OverviewBalanceState.initial());
+        when(overviewTransactionBloc.state).thenReturn(OverviewTransactionState(
+            data: [], isReachEnd: false, status: FetchStatus.initial()));
+        await tester.pumpWidget(subject);
+
+        final fab = find.byType(FloatingActionButton);
+
+        expect(fab, findsOneWidget);
+        // scroll to bottom
+        await tester.drag(
+          find.byType(OverviewBalance),
+          const Offset(0.0, -100.0),
+          touchSlopY: 0,
+        );
+        await tester.pumpAndSettle();
+        expect(fab, findsNothing);
+
+        // scroll to top
+        await tester.drag(
+          find.byType(OverviewBalance),
+          const Offset(0.0, 100),
+          touchSlopY: 0,
+        );
+        await tester.pumpAndSettle();
+        expect(fab, findsOneWidget);
+
+        await tester.tap(fab.hitTestable());
+        await tester.pumpAndSettle();
+        expect(find.byType(TransactionCreatePage), findsOneWidget);
+      });
+
       testWidgets(
           'when pull to refresh should add OverviewTransactionEvent.fetch',
           (tester) async {
