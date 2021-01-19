@@ -15,12 +15,26 @@ class OverviewBalanceCubit extends Cubit<OverviewBalanceState> {
   OverviewBalanceCubit(
     this._service,
     this._overviewRangeCubit,
+    this._transactionCreateCubit,
     this._transactionEditCubit,
     this._transactionDeleteCubit,
     this._authCubit,
   ) : super(OverviewBalanceState.initial()) {
+    _authCubit.listen((authState) {
+      authState.maybeWhen(
+        unauthenticated: clear,
+        orElse: () {},
+      );
+    });
+
     _overviewRangeCubit.listen((overviewRangeState) {
       fetch();
+    });
+
+    _transactionCreateCubit.listen((transactionCreateState) {
+      if (transactionCreateState is FormStatusDataSuccess<Transaction>) {
+        fetch();
+      }
     });
 
     _transactionEditCubit.listen((transactionEditState) {
@@ -30,16 +44,8 @@ class OverviewBalanceCubit extends Cubit<OverviewBalanceState> {
       );
     });
 
-    _authCubit.listen((authState) {
-      authState.maybeWhen(
-        unauthenticated: clear,
-        orElse: () {},
-      );
-    });
-
     _transactionDeleteCubit.listen(
       (transactionDeleteState) {
-        // if onDeleteSuccessIds is not equal to lastDeletedIds, then fetch data
         if (_prevTransactionDeleteState != transactionDeleteState &&
             transactionDeleteState
                 .shouldListenDeleteSuccess(_prevTransactionDeleteState)) {
@@ -49,10 +55,12 @@ class OverviewBalanceCubit extends Cubit<OverviewBalanceState> {
       },
     );
   }
+
   var _prevTransactionDeleteState = TransactionDeleteState.initial();
   final ITransactionService _service;
   final AuthCubit _authCubit;
   final OverviewRangeCubit _overviewRangeCubit;
+  final TransactionCreateCubit _transactionCreateCubit;
   final TransactionEditCubit _transactionEditCubit;
   final TransactionDeleteCubit _transactionDeleteCubit;
 

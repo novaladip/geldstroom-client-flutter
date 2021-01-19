@@ -19,6 +19,7 @@ class OverviewTransactionBloc
     this._service,
     this._authCubit,
     this._overviewRangeCubit,
+    this._transactionCreateCubit,
     this._transactionEditCubit,
     this._transactionDeleteCubit,
   ) : super(OverviewTransactionState()) {
@@ -36,6 +37,12 @@ class OverviewTransactionBloc
     // OverviewRangeState changed
     _overviewRangeCubit.listen((state) {
       add(OverviewTransactionEvent.fetch());
+    });
+
+    _transactionCreateCubit.listen((state) {
+      if (state is FormStatusDataSuccess<Transaction>) {
+        add(OverviewTransactionEvent.add(state.data));
+      }
     });
 
     // listen for TransactionEditState
@@ -67,6 +74,7 @@ class OverviewTransactionBloc
   final ITransactionService _service;
   final AuthCubit _authCubit;
   final OverviewRangeCubit _overviewRangeCubit;
+  final TransactionCreateCubit _transactionCreateCubit;
   final TransactionEditCubit _transactionEditCubit;
   final TransactionDeleteCubit _transactionDeleteCubit;
 

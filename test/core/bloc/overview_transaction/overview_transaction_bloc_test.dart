@@ -18,6 +18,9 @@ class MockAuthCubit extends MockBloc<AuthState> implements AuthCubit {}
 class MockOverviewRangeCubit extends MockBloc<OverviewRangeState>
     implements OverviewRangeCubit {}
 
+class MockTransactionCreateCubit extends MockBloc<FormStatusData<Transaction>>
+    implements TransactionCreateCubit {}
+
 class MockTransactionEditCubit extends MockBloc<FormStatusData<Transaction>>
     implements TransactionEditCubit {}
 
@@ -29,6 +32,7 @@ void main() {
     TransactionService service;
     OverviewTransactionBloc overviewTransactionBloc;
     OverviewRangeCubit overviewRangeCubit;
+    TransactionCreateCubit transactionCreateCubit;
     TransactionEditCubit transactionEditCubit;
     TransactionDeleteCubit transactionDeleteCubit;
     AuthCubit authCubit;
@@ -41,22 +45,26 @@ void main() {
       service = MockTransactionService();
       authCubit = MockAuthCubit();
       overviewRangeCubit = MockOverviewRangeCubit();
+      transactionCreateCubit = MockTransactionCreateCubit();
       transactionEditCubit = MockTransactionEditCubit();
       transactionDeleteCubit = MockTransactionDeleteCubit();
       overviewTransactionBloc = OverviewTransactionBloc(
         service,
         authCubit,
         overviewRangeCubit,
+        transactionCreateCubit,
         transactionEditCubit,
         transactionDeleteCubit,
       );
     });
 
     tearDown(() {
-      overviewTransactionBloc.close();
-      transactionDeleteCubit.close();
-      overviewRangeCubit.close();
       authCubit.close();
+      overviewRangeCubit.close();
+      overviewTransactionBloc.close();
+      transactionCreateCubit.close();
+      transactionEditCubit.close();
+      transactionDeleteCubit.close();
     });
 
     test('correct initial state', () {
@@ -292,6 +300,7 @@ void main() {
               service,
               authCubit,
               overviewRangeCubit,
+              transactionCreateCubit,
               transactionEditCubit,
               transactionDeleteCubit,
             );
@@ -313,6 +322,7 @@ void main() {
               service,
               authCubit,
               overviewRangeCubit,
+              transactionCreateCubit,
               transactionEditCubit,
               transactionDeleteCubit,
             );
@@ -334,6 +344,7 @@ void main() {
               service,
               authCubit,
               overviewRangeCubit,
+              transactionCreateCubit,
               transactionEditCubit,
               transactionDeleteCubit,
             );
@@ -356,6 +367,7 @@ void main() {
               service,
               authCubit,
               overviewRangeCubit,
+              transactionCreateCubit,
               transactionEditCubit,
               transactionDeleteCubit,
             );
@@ -363,6 +375,42 @@ void main() {
           verify: (_) {
             verify(service.getTransactions(any)).called(1);
           },
+        );
+      });
+
+      group('listen for TransactionCreateState', () {
+        blocTest<OverviewTransactionBloc, OverviewTransactionState>(
+          'should add OverviewTransactionEvent.add when state is success',
+          seed: OverviewTransactionState(
+            data: [],
+            isReachEnd: true,
+            status: FetchStatus.loadSuccess(),
+          ),
+          build: () {
+            when(overviewRangeCubit.state)
+                .thenReturn(OverviewRangeState.monthly());
+            whenListen(
+              transactionCreateCubit,
+              Stream.value(
+                FormStatusDataSuccess<Transaction>(data: transactions[0]),
+              ),
+            );
+            return OverviewTransactionBloc(
+              service,
+              authCubit,
+              overviewRangeCubit,
+              transactionCreateCubit,
+              transactionEditCubit,
+              transactionDeleteCubit,
+            );
+          },
+          expect: [
+            OverviewTransactionState(
+              data: [transactions[0]],
+              isReachEnd: true,
+              status: FetchStatus.loadSuccess(),
+            ),
+          ],
         );
       });
 
@@ -398,6 +446,7 @@ void main() {
               service,
               authCubit,
               overviewRangeCubit,
+              transactionCreateCubit,
               transactionEditCubit,
               transactionDeleteCubit,
             );
@@ -440,6 +489,7 @@ void main() {
               service,
               authCubit,
               overviewRangeCubit,
+              transactionCreateCubit,
               transactionEditCubit,
               transactionDeleteCubit,
             );
@@ -468,6 +518,7 @@ void main() {
               service,
               authCubit,
               overviewRangeCubit,
+              transactionCreateCubit,
               transactionEditCubit,
               transactionDeleteCubit,
             );
