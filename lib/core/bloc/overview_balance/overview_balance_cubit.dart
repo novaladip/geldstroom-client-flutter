@@ -16,6 +16,7 @@ class OverviewBalanceCubit extends Cubit<OverviewBalanceState> {
     this._service,
     this._overviewRangeCubit,
     this._transactionEditCubit,
+    this._transactionDeleteCubit,
     this._authCubit,
   ) : super(OverviewBalanceState.initial()) {
     _overviewRangeCubit.listen((overviewRangeState) {
@@ -35,12 +36,25 @@ class OverviewBalanceCubit extends Cubit<OverviewBalanceState> {
         orElse: () {},
       );
     });
-  }
 
+    _transactionDeleteCubit.listen(
+      (transactionDeleteState) {
+        // if onDeleteSuccessIds is not equal to lastDeletedIds, then fetch data
+        if (_prevTransactionDeleteState != transactionDeleteState &&
+            transactionDeleteState
+                .shouldListenDeleteSuccess(_prevTransactionDeleteState)) {
+          _prevTransactionDeleteState = transactionDeleteState;
+          fetch();
+        }
+      },
+    );
+  }
+  var _prevTransactionDeleteState = TransactionDeleteState.initial();
   final ITransactionService _service;
   final AuthCubit _authCubit;
   final OverviewRangeCubit _overviewRangeCubit;
   final TransactionEditCubit _transactionEditCubit;
+  final TransactionDeleteCubit _transactionDeleteCubit;
 
   Future<void> fetch() async {
     emit(state.copyWith(status: Status.loading()));

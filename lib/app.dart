@@ -25,6 +25,7 @@ class App extends StatelessWidget {
             BlocProvider.value(value: getIt<OverviewRangeCubit>()),
             BlocProvider.value(value: getIt<CategoryCubit>()),
             BlocProvider.value(value: getIt<TransactionEditCubit>()),
+            BlocProvider.value(value: getIt<TransactionDeleteCubit>()),
           ],
           child: MaterialApp(
             title: 'Geldstroom',

@@ -6,6 +6,7 @@ import 'package:styled_widget/styled_widget.dart';
 
 import '../../core/bloc/bloc.dart';
 import '../../shared/common/config/config.dart';
+import '../../shared/common/utils/utils.dart';
 import 'widget/overview_balance.dart';
 import 'widget/overview_range_form.dart';
 import 'widget/overview_transaction.dart';
@@ -39,20 +40,34 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      body: RefreshIndicator(
-        color: AppStyles.darkBackground,
-        onRefresh: onRefresh,
-        child: CustomScrollView(
-          key: HomePage.customScrollViewKey,
-          controller: scrollController,
-          physics:
-              AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-          slivers: <Widget>[
-            SliverToBoxAdapter(
-              child: OverviewBalance().padding(bottom: 30.h),
-            ),
-            OverviewTransaction(),
-          ],
+      body: MultiBlocListener(
+        listeners: [
+          BlocListener<TransactionDeleteCubit, TransactionDeleteState>(
+            listener: deleteSuccessListener,
+            listenWhen: (prevState, state) =>
+                state.shouldListenDeleteSuccess(prevState),
+          ),
+          BlocListener<TransactionDeleteCubit, TransactionDeleteState>(
+            listener: deleteFailureListener,
+            listenWhen: (prevState, state) =>
+                state.shoudListenDeleteFailure(prevState),
+          )
+        ],
+        child: RefreshIndicator(
+          color: AppStyles.darkBackground,
+          onRefresh: onRefresh,
+          child: CustomScrollView(
+            key: HomePage.customScrollViewKey,
+            controller: scrollController,
+            physics:
+                AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+            slivers: <Widget>[
+              SliverToBoxAdapter(
+                child: OverviewBalance().padding(bottom: 30.h),
+              ),
+              OverviewTransaction(),
+            ],
+          ),
         ),
       ),
     );
@@ -81,6 +96,24 @@ class _HomePageState extends State<HomePage> {
           .read<OverviewTransactionBloc>()
           .add(OverviewTransactionEvent.fetchMore());
     }
+  }
+
+  void deleteSuccessListener(
+    BuildContext context,
+    TransactionDeleteState state,
+  ) {
+    CustomSnackbar.createSuccess(
+      message: 'Transaction has been deleted',
+    )..show(context);
+  }
+
+  void deleteFailureListener(
+    BuildContext context,
+    TransactionDeleteState state,
+  ) {
+    CustomSnackbar.createError(
+      message: 'Failed to delete transaction',
+    )..show(context);
   }
 
   @override

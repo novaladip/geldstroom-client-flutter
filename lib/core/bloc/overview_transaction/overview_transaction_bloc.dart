@@ -20,6 +20,7 @@ class OverviewTransactionBloc
     this._authCubit,
     this._overviewRangeCubit,
     this._transactionEditCubit,
+    this._transactionDeleteCubit,
   ) : super(OverviewTransactionState()) {
     // listen for Authstate
     // reset state to inital when AuthState is unauthenticated
@@ -47,12 +48,27 @@ class OverviewTransactionBloc
         orElse: () {},
       );
     });
+
+    _transactionDeleteCubit.listen((transactionDeleteState) {
+      if (_prevTransactionDeleteState != transactionDeleteState &&
+          transactionDeleteState
+              .shouldListenDeleteSuccess(_prevTransactionDeleteState)) {
+        _prevTransactionDeleteState = transactionDeleteState;
+        add(
+          OverviewTransactionEvent.delete(
+            transactionDeleteState.onDeleteSuccessIds[0],
+          ),
+        );
+      }
+    });
   }
 
+  var _prevTransactionDeleteState = TransactionDeleteState.initial();
   final ITransactionService _service;
   final AuthCubit _authCubit;
   final OverviewRangeCubit _overviewRangeCubit;
   final TransactionEditCubit _transactionEditCubit;
+  final TransactionDeleteCubit _transactionDeleteCubit;
 
   GetTransactionDto get _dto =>
       _overviewRangeCubit.state.when<GetTransactionDto>(

@@ -2,6 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:geldstroom/core/bloc/bloc.dart';
 import 'package:geldstroom/core/bloc/overview_balance/overview_balance_cubit.dart';
 import 'package:geldstroom/core/bloc/overview_transaction/overview_transaction_bloc.dart';
 import 'package:geldstroom/core/bloc_ui/ui_bloc.dart';
@@ -25,17 +26,24 @@ class MockOverviewBalanceCubit extends MockBloc<OverviewBalanceState>
 class MockOverviewTransactionBloc extends MockBloc<OverviewTransactionState>
     implements OverviewTransactionBloc {}
 
+class MockTransactionDeleteCubit extends MockBloc<TransactionDeleteState>
+    implements TransactionDeleteCubit {}
+
 void main() {
   group('HomePage', () {
     Widget subject;
     OverviewRangeCubit overviewRangeCubit;
     OverviewBalanceCubit overviewBalanceCubit;
     OverviewTransactionBloc overviewTransactionBloc;
+    TransactionDeleteCubit transactionDeleteCubit;
 
     setUp(() {
       overviewRangeCubit = MockOverviewRangeCubit();
       overviewBalanceCubit = MockOverviewBalanceCubit();
       overviewTransactionBloc = MockOverviewTransactionBloc();
+      transactionDeleteCubit = MockTransactionDeleteCubit();
+      when(transactionDeleteCubit.state)
+          .thenReturn(TransactionDeleteState.initial());
       when(overviewTransactionBloc.state).thenReturn(
         OverviewTransactionState(
           status: FetchStatus.loadSuccess(),
@@ -47,6 +55,7 @@ void main() {
           BlocProvider.value(value: overviewRangeCubit),
           BlocProvider.value(value: overviewBalanceCubit),
           BlocProvider.value(value: overviewTransactionBloc),
+          BlocProvider.value(value: transactionDeleteCubit),
         ],
         child: buildTestableBlocWidget(
           initialRoutes: HomePage.routeName,
@@ -58,6 +67,9 @@ void main() {
     });
 
     tearDown(() {
+      overviewTransactionBloc.close();
+      overviewBalanceCubit.close();
+      transactionDeleteCubit.close();
       overviewRangeCubit.close();
     });
 
@@ -94,6 +106,68 @@ void main() {
       await tester.tap(icon);
       await tester.pumpAndSettle();
       expect(find.byType(OverviewRangeForm), findsOneWidget);
+    });
+
+    group('listen TransactionEditState', () {
+      testWidgets('should show snackbar when onDeleteSuccessIds is changed',
+          (tester) async {
+        whenListen(
+          transactionDeleteCubit,
+          Stream.fromIterable([
+            TransactionDeleteState(
+              onDeleteFailureIds: [],
+              onDeleteProgressIds: [],
+              onDeleteSuccessIds: ['1'],
+            ),
+          ]),
+        );
+        when(overviewRangeCubit.state).thenReturn(OverviewRangeState.weekly());
+        when(overviewBalanceCubit.state)
+            .thenReturn(OverviewBalanceState.initial());
+        when(overviewTransactionBloc.state).thenReturn(
+          OverviewTransactionState(
+            status: FetchStatus.loadSuccess(),
+            data: List<Transaction>.generate(
+              15,
+              (_) => Transaction.fromJson(TransactionJson.listTransaction[0]),
+            ),
+            isReachEnd: false,
+          ),
+        );
+        await tester.pumpWidget(subject);
+        await tester.pump(Duration(seconds: 1));
+        expect(find.text('Transaction has been deleted'), findsOneWidget);
+      });
+
+      testWidgets('should show snackbar when onDeleteFailureIds is changed',
+          (tester) async {
+        whenListen(
+          transactionDeleteCubit,
+          Stream.fromIterable([
+            TransactionDeleteState(
+              onDeleteFailureIds: ['1'],
+              onDeleteProgressIds: [],
+              onDeleteSuccessIds: [],
+            ),
+          ]),
+        );
+        when(overviewRangeCubit.state).thenReturn(OverviewRangeState.weekly());
+        when(overviewBalanceCubit.state)
+            .thenReturn(OverviewBalanceState.initial());
+        when(overviewTransactionBloc.state).thenReturn(
+          OverviewTransactionState(
+            status: FetchStatus.loadSuccess(),
+            data: List<Transaction>.generate(
+              15,
+              (_) => Transaction.fromJson(TransactionJson.listTransaction[0]),
+            ),
+            isReachEnd: false,
+          ),
+        );
+        await tester.pumpWidget(subject);
+        await tester.pump(Duration(seconds: 1));
+        expect(find.text('Failed to delete transaction'), findsOneWidget);
+      });
     });
 
     group('calls', () {

@@ -51,4 +51,14 @@ extension TransactionDeleteStateX on TransactionDeleteState {
           onDeleteFailureIds.where((id) => id != transactionId).toList(),
     );
   }
+
+  bool shouldListenDeleteSuccess(TransactionDeleteState prevState) {
+    return onDeleteSuccessIds.isNotEmpty &&
+        prevState.onDeleteSuccessIds != onDeleteSuccessIds;
+  }
+
+  bool shoudListenDeleteFailure(TransactionDeleteState prevState) {
+    return onDeleteFailureIds.isNotEmpty &&
+        prevState.onDeleteProgressIds != onDeleteFailureIds;
+  }
 }

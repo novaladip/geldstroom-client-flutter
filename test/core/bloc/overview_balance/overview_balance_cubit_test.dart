@@ -1,7 +1,9 @@
+// ignore_for_file: lines_longer_than_80_chars
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geldstroom/core/bloc/auth/auth_cubit.dart';
+import 'package:geldstroom/core/bloc/bloc.dart';
 import 'package:geldstroom/core/bloc/overview_balance/overview_balance_cubit.dart';
 import 'package:geldstroom/core/bloc/transaction_edit/transaction_edit_cubit.dart';
 import 'package:geldstroom/core/bloc_ui/ui_bloc.dart';
@@ -19,6 +21,9 @@ class MockOverviewRangeCubit extends MockBloc<OverviewRangeState>
 class MockTransactionEditCubit extends MockBloc<FormStatusData<Transaction>>
     implements TransactionEditCubit {}
 
+class MockTransactionDeleteCubit extends MockBloc<TransactionDeleteState>
+    implements TransactionDeleteCubit {}
+
 class MockAuthCubit extends MockBloc<AuthState> implements AuthCubit {}
 
 void main() {
@@ -30,6 +35,7 @@ void main() {
     OverviewBalanceCubit overviewBalanceCubit;
     OverviewRangeCubit overviewRangeCubit;
     TransactionEditCubit transactionEditCubit;
+    TransactionDeleteCubit transactionDeleteCubit;
     AuthCubit authCubit;
     ITransactionService transactionService;
 
@@ -37,11 +43,14 @@ void main() {
       transactionService = MockTransactionService();
       authCubit = MockAuthCubit();
       transactionEditCubit = MockTransactionEditCubit();
+      transactionDeleteCubit = MockTransactionDeleteCubit();
       overviewRangeCubit = MockOverviewRangeCubit();
+
       overviewBalanceCubit = OverviewBalanceCubit(
         transactionService,
         overviewRangeCubit,
         transactionEditCubit,
+        transactionDeleteCubit,
         authCubit,
       );
     });
@@ -133,6 +142,7 @@ void main() {
               transactionService,
               overviewRangeCubit,
               transactionEditCubit,
+              transactionDeleteCubit,
               authCubit,
             );
           },
@@ -164,6 +174,7 @@ void main() {
               transactionService,
               overviewRangeCubit,
               transactionEditCubit,
+              transactionDeleteCubit,
               authCubit,
             );
           },
@@ -192,6 +203,73 @@ void main() {
               transactionService,
               overviewRangeCubit,
               transactionEditCubit,
+              transactionDeleteCubit,
+              authCubit,
+            );
+          },
+          expect: [],
+        );
+      });
+
+      group('listen TransactionDeleteState', () {
+        blocTest<OverviewBalanceCubit, OverviewBalanceState>(
+          'call fetch when transactionDeleteState is onDeleteSuccessIds is changed',
+          build: () {
+            when(transactionService.getBalance(any)).thenAnswer(
+              (_) async => Right(transactionTotal),
+            );
+            when(overviewRangeCubit.state)
+                .thenReturn(OverviewRangeState.weekly());
+            whenListen(
+              transactionDeleteCubit,
+              Stream.value(
+                TransactionDeleteState(
+                  onDeleteFailureIds: [],
+                  onDeleteProgressIds: [],
+                  onDeleteSuccessIds: ['1'],
+                ),
+              ),
+            );
+            return OverviewBalanceCubit(
+              transactionService,
+              overviewRangeCubit,
+              transactionEditCubit,
+              transactionDeleteCubit,
+              authCubit,
+            );
+          },
+          expect: [
+            state.copyWith(status: Status.loading()),
+            state.copyWith(status: Status.loaded(), data: transactionTotal),
+          ],
+          verify: (_) {
+            verify(transactionService.getBalance(any)).called(1);
+          },
+        );
+
+        blocTest<OverviewBalanceCubit, OverviewBalanceState>(
+          'do nothing when transactionDeleteState onDeleteSuccessIds is not changed',
+          build: () {
+            when(transactionService.getBalance(any)).thenAnswer(
+              (_) async => Right(transactionTotal),
+            );
+            when(overviewRangeCubit.state)
+                .thenReturn(OverviewRangeState.weekly());
+            whenListen(
+              transactionDeleteCubit,
+              Stream.value(
+                TransactionDeleteState(
+                  onDeleteFailureIds: [],
+                  onDeleteProgressIds: ['1'],
+                  onDeleteSuccessIds: [],
+                ),
+              ),
+            );
+            return OverviewBalanceCubit(
+              transactionService,
+              overviewRangeCubit,
+              transactionEditCubit,
+              transactionDeleteCubit,
               authCubit,
             );
           },
@@ -211,6 +289,7 @@ void main() {
               transactionService,
               overviewRangeCubit,
               transactionEditCubit,
+              transactionDeleteCubit,
               authCubit,
             );
           },
@@ -228,6 +307,7 @@ void main() {
               transactionService,
               overviewRangeCubit,
               transactionEditCubit,
+              transactionDeleteCubit,
               authCubit,
             );
           },

@@ -20,14 +20,23 @@ class OverviewTransactionList extends StatelessWidget {
       (bloc) => bloc.state.data,
     );
 
+    final onDeleteProgressIds =
+        context.select<TransactionDeleteCubit, List<String>>(
+      (cubit) => cubit.state.onDeleteProgressIds,
+    );
+
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (context, index) {
+          final data = transactions[index];
+
           return <Widget>[
             TransactionCard(
-              data: transactions[index],
-              onDelete: () {},
-              onEdit: () => onEdit(context, transactions[index]),
+              data: data,
+              isDeleting: onDeleteProgressIds.contains(data.id),
+              onDelete: () =>
+                  context.read<TransactionDeleteCubit>().delete(data.id),
+              onEdit: () => onEdit(context, data),
             ),
             if (transactions.length - 1 == index)
               OverviewTransactionLoadingFooter()

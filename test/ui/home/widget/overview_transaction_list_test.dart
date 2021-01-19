@@ -13,11 +13,14 @@ import 'package:geldstroom/core/bloc/overview_transaction/overview_transaction_b
 
 import '../../../test_helper.dart';
 
+class MockOverviewTransctionBloc extends MockBloc<OverviewTransactionState>
+    implements OverviewTransactionBloc {}
+
 class MockTransactionEditCubit extends MockBloc<FormStatusData<Transaction>>
     implements TransactionEditCubit {}
 
-class MockOverviewTransctionBloc extends MockBloc<OverviewTransactionState>
-    implements OverviewTransactionBloc {}
+class MockTransactionDeleteCubit extends MockBloc<TransactionDeleteState>
+    implements TransactionDeleteCubit {}
 
 class MockCategoryCubit extends MockBloc<CategoryState>
     implements CategoryCubit {}
@@ -28,6 +31,7 @@ void main() {
     OverviewTransactionBloc overviewTransactionBloc;
     CategoryCubit categoryCubit;
     TransactionEditCubit transactionEditCubit;
+    TransactionDeleteCubit transactionDeleteCubit;
     final transaction = Transaction(
       id: '231321',
       amount: 32222,
@@ -49,8 +53,11 @@ void main() {
       overviewTransactionBloc = MockOverviewTransctionBloc();
       categoryCubit = MockCategoryCubit();
       transactionEditCubit = MockTransactionEditCubit();
+      transactionDeleteCubit = MockTransactionDeleteCubit();
       when(categoryCubit.state).thenReturn(CategoryState());
       when(transactionEditCubit.state).thenReturn(FormStatusData.idle());
+      when(transactionDeleteCubit.state)
+          .thenReturn(TransactionDeleteState.initial());
       when(overviewTransactionBloc.state).thenReturn(
         OverviewTransactionState(
           data: data,
@@ -64,6 +71,7 @@ void main() {
           BlocProvider.value(value: overviewTransactionBloc),
           BlocProvider.value(value: categoryCubit),
           BlocProvider.value(value: transactionEditCubit),
+          BlocProvider.value(value: transactionDeleteCubit),
         ],
         child: buildTestableBlocWidget(
           initialRoutes: '/',
@@ -106,6 +114,7 @@ void main() {
         await tester.tap(deleteButton);
         await tester.pumpAndSettle();
         expect(deleteButton.hitTestable(), findsNothing);
+        verify(transactionDeleteCubit.delete(transaction.id)).called(1);
       });
     });
   });

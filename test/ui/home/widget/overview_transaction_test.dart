@@ -16,17 +16,27 @@ import '../../../test_helper.dart';
 class MockOverviewTransctionBloc extends MockBloc<OverviewTransactionState>
     implements OverviewTransactionBloc {}
 
+class MockTransactionDeleteCubit extends MockBloc<TransactionDeleteState>
+    implements TransactionDeleteCubit {}
+
 void main() {
   group('OverviewTransaction', () {
     Widget subject;
     OverviewTransactionBloc overviewTransactionBloc;
+    TransactionDeleteCubit transactionDeleteCubit;
     final Key overviewTransactionKey = UniqueKey();
 
     setUp(() {
       overviewTransactionBloc = MockOverviewTransctionBloc();
+      transactionDeleteCubit = MockTransactionDeleteCubit();
+      when(transactionDeleteCubit.state)
+          .thenReturn(TransactionDeleteState.initial());
       subject = buildTestableWidget(
-        BlocProvider.value(
-          value: overviewTransactionBloc,
+        MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: overviewTransactionBloc),
+            BlocProvider.value(value: transactionDeleteCubit),
+          ],
           child: CustomScrollView(
             slivers: [
               OverviewTransaction(key: overviewTransactionKey),

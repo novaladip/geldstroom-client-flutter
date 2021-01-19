@@ -21,12 +21,16 @@ class MockOverviewRangeCubit extends MockBloc<OverviewRangeState>
 class MockTransactionEditCubit extends MockBloc<FormStatusData<Transaction>>
     implements TransactionEditCubit {}
 
+class MockTransactionDeleteCubit extends MockBloc<TransactionDeleteState>
+    implements TransactionDeleteCubit {}
+
 void main() {
   group('OverviewTransactionBloc', () {
     TransactionService service;
     OverviewTransactionBloc overviewTransactionBloc;
     OverviewRangeCubit overviewRangeCubit;
     TransactionEditCubit transactionEditCubit;
+    TransactionDeleteCubit transactionDeleteCubit;
     AuthCubit authCubit;
 
     final transactions = TransactionJson.listTransaction
@@ -38,16 +42,19 @@ void main() {
       authCubit = MockAuthCubit();
       overviewRangeCubit = MockOverviewRangeCubit();
       transactionEditCubit = MockTransactionEditCubit();
+      transactionDeleteCubit = MockTransactionDeleteCubit();
       overviewTransactionBloc = OverviewTransactionBloc(
         service,
         authCubit,
         overviewRangeCubit,
         transactionEditCubit,
+        transactionDeleteCubit,
       );
     });
 
     tearDown(() {
       overviewTransactionBloc.close();
+      transactionDeleteCubit.close();
       overviewRangeCubit.close();
       authCubit.close();
     });
@@ -286,6 +293,7 @@ void main() {
               authCubit,
               overviewRangeCubit,
               transactionEditCubit,
+              transactionDeleteCubit,
             );
           },
           expect: [OverviewTransactionState()],
@@ -306,6 +314,7 @@ void main() {
               authCubit,
               overviewRangeCubit,
               transactionEditCubit,
+              transactionDeleteCubit,
             );
           },
           expect: [],
@@ -326,6 +335,7 @@ void main() {
               authCubit,
               overviewRangeCubit,
               transactionEditCubit,
+              transactionDeleteCubit,
             );
           },
           verify: (_) {
@@ -347,6 +357,7 @@ void main() {
               authCubit,
               overviewRangeCubit,
               transactionEditCubit,
+              transactionDeleteCubit,
             );
           },
           verify: (_) {
@@ -388,6 +399,7 @@ void main() {
               authCubit,
               overviewRangeCubit,
               transactionEditCubit,
+              transactionDeleteCubit,
             );
           },
           expect: [
@@ -429,9 +441,51 @@ void main() {
               authCubit,
               overviewRangeCubit,
               transactionEditCubit,
+              transactionDeleteCubit,
             );
           },
           expect: [],
+        );
+      });
+
+      group('listen for TransactionDeleteState', () {
+        blocTest<OverviewTransactionBloc, OverviewTransactionState>(
+          'add OverviewTransactionEvent.delete when onDeleteSuccessIds changed',
+          build: () {
+            whenListen(
+              transactionDeleteCubit,
+              Stream.value(
+                TransactionDeleteState(
+                  onDeleteFailureIds: [],
+                  onDeleteProgressIds: [],
+                  onDeleteSuccessIds: [transactions[0].id],
+                ),
+              ),
+            );
+            when(overviewRangeCubit.state)
+                .thenReturn(OverviewRangeState.monthly());
+            return OverviewTransactionBloc(
+              service,
+              authCubit,
+              overviewRangeCubit,
+              transactionEditCubit,
+              transactionDeleteCubit,
+            );
+          },
+          seed: OverviewTransactionState(
+            data: transactions,
+            isReachEnd: false,
+            status: FetchStatus.loadSuccess(),
+          ),
+          expect: [
+            OverviewTransactionState(
+              data: transactions
+                  .where((transaction) => transaction.id != transactions[0].id)
+                  .toList(),
+              isReachEnd: false,
+              status: FetchStatus.loadSuccess(),
+            ),
+          ],
         );
       });
     });
