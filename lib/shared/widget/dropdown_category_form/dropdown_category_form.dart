@@ -16,9 +16,11 @@ class DropdownCategoryForm extends StatelessWidget {
     Key key,
     @required this.currentValue,
     @required this.onChange,
+    this.errorText,
   }) : super(key: key);
 
   final TransactionCategory currentValue;
+  final String errorText;
   final OnChange onChange;
 
   void showOptions(BuildContext context) {
@@ -33,20 +35,35 @@ class DropdownCategoryForm extends StatelessWidget {
     );
   }
 
+  Widget get child {
+    if (currentValue == null) {
+      return Text('Select Category')
+          .fontFamily(AppStyles.fontFamilyBody)
+          .fontSize(30.sp)
+          .textColor(Colors.grey);
+    }
+
+    return <Widget>[
+      CachedNetworkImage(
+        imageUrl: currentValue.iconUrl,
+        height: 26.h,
+      ),
+      SizedBox(width: 10.w),
+      Text(currentValue.name)
+          .fontFamily(AppStyles.fontFamilyBody)
+          .fontSize(30.sp),
+    ].toRow(crossAxisAlignment: CrossAxisAlignment.center);
+  }
+
   @override
   Widget build(BuildContext context) {
     return InputDecorator(
-      decoration: customInputDecoration(labelText: 'Category', enabled: true),
-      child: <Widget>[
-        CachedNetworkImage(
-          imageUrl: currentValue.iconUrl,
-          height: 26.h,
-        ),
-        SizedBox(width: 10.w),
-        Text(currentValue.name)
-            .fontFamily(AppStyles.fontFamilyBody)
-            .fontSize(30.sp),
-      ].toRow(crossAxisAlignment: CrossAxisAlignment.center),
+      decoration: customInputDecoration(
+        labelText: 'Category',
+        enabled: true,
+        errorText: errorText,
+      ),
+      child: child,
     ).gestures(onTap: () => showOptions(context)).padding(vertical: 10.h);
   }
 }

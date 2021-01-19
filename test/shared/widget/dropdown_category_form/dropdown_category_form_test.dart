@@ -116,6 +116,52 @@ void main() {
         expect(find.byType(CategoryItem), findsNothing);
         expect(selectedValue, data[1]);
       });
+
+      testWidgets('correctly with null current value', (tester) async {
+        final data = <TransactionCategory>[
+          TransactionCategory(
+            id: '1',
+            name: 'Food',
+            credit: '',
+            iconUrl: 'https://img.url',
+          ),
+          TransactionCategory(
+            id: '2',
+            name: 'Food 2',
+            credit: '',
+            iconUrl: 'https://img.url',
+          ),
+        ];
+        TransactionCategory selectedValue;
+
+        when(cubit.state).thenReturn(
+          CategoryState(
+            data: data,
+            status: FetchStatus.loadSuccess(),
+          ),
+        );
+        await tester.pumpWidget(
+          mockNetworkImagesFor(
+            () => Subject(
+              cubit: cubit,
+              currentValue: selectedValue,
+              onChange: (v) {
+                selectedValue = v;
+              },
+            ),
+          ),
+        );
+
+        expect(find.text('Category'), findsOneWidget);
+
+        await tester.tap(find.byType(DropdownCategoryForm));
+        await tester.pumpAndSettle();
+
+        await tester.tap(find.text(data[1].name));
+        await tester.pumpAndSettle();
+
+        expect(selectedValue, data[1]);
+      });
     });
   });
 }

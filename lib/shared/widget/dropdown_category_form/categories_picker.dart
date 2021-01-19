@@ -69,7 +69,7 @@ class _CategoriesPickerState extends State<CategoriesPicker> {
               ),
               itemBuilder: (context, index) => CategoryItem(
                 data: categories[index],
-                isSelected: categories[index].id == widget.currentValue.id,
+                isSelected: isSelected(categories[index]),
                 onTap: () => onSelect(categories[index]),
               ),
             ),
@@ -103,7 +103,14 @@ class _CategoriesPickerState extends State<CategoriesPicker> {
 
   void onChangeQuery(String value) => setState(() => query = value);
 
+  bool isSelected(TransactionCategory category) {
+    if (widget.currentValue == null) return false;
+    return category.id == widget.currentValue.id;
+  }
+
   int findSelectedIndex(List<TransactionCategory> categories) {
+    if (widget.currentValue == null) return 0;
+
     final selectedIndex = categories
         .indexWhere((category) => category.id == widget.currentValue.id);
     if (selectedIndex == -1) return 0;
