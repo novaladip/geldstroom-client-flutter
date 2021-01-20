@@ -5,6 +5,7 @@ export 'overview/overview_page.dart';
 export 'register/register_page.dart';
 export 'register_success/register_success_page.dart';
 export 'reset_password/reset_password_page.dart';
+export 'setting/setting_page.dart';
 export 'splash_screen/splash_screen_page.dart';
 export 'transaction_create/transaction_create_page.dart';
 export 'transaction_edit/transaction_edit_page.dart';

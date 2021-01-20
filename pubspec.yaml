@@ -36,6 +36,7 @@ dependencies:
   modal_bottom_sheet: ^1.0.0+1
   scrollable_positioned_list: ^0.1.8
   shared_preferences: ^0.5.12+4
+  package_info: ^0.4.3+2
   styled_widget: ^0.2.2
 
 dev_dependencies:

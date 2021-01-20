@@ -27,15 +27,17 @@ Map<String, WidgetBuilder> buildRoutes() {
             BlocProvider.value(value: getIt<OverviewRangeCubit>()),
             BlocProvider.value(value: getIt<OverviewBalanceCubit>()),
             BlocProvider.value(value: getIt<OverviewTransactionBloc>()),
+            BlocProvider.value(value: getIt<ProfileCubit>()),
           ],
           child: HomePage(
             children: [
               OverviewPage(),
               Scaffold(),
-              Scaffold(),
+              SettingPage(),
             ],
           ),
         ),
+    SettingPage.routeName: (_) => SettingPage(),
     LoginPage.routeName: (_) => BlocProvider.value(
           value: getIt<LoginCubit>(),
           child: LoginPage(),
