@@ -8,6 +8,7 @@ import '../../../core/network/model/model.dart';
 import '../../../shared/common/config/config.dart';
 import '../../../shared/widget/widget.dart';
 import '../../transaction_edit/transaction_edit_page.dart';
+import 'overview_transaction_empty.dart';
 import 'overview_transaction_loading_footer.dart';
 
 class OverviewTransactionList extends StatelessWidget {
@@ -20,10 +21,21 @@ class OverviewTransactionList extends StatelessWidget {
       (bloc) => bloc.state.data,
     );
 
+    final isEmpty = context
+        .select<OverviewTransactionBloc, bool>((bloc) => bloc.state.isEmpty);
+
     final onDeleteProgressIds =
         context.select<TransactionDeleteCubit, List<String>>(
       (cubit) => cubit.state.onDeleteProgressIds,
     );
+
+    if (isEmpty) {
+      return SliverList(
+        delegate: SliverChildListDelegate([
+          OverviewTransactionEmpty(),
+        ]),
+      );
+    }
 
     return SliverList(
       delegate: SliverChildBuilderDelegate(

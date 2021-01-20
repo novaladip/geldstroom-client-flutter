@@ -6,6 +6,7 @@ import 'package:geldstroom/core/bloc/bloc.dart';
 import 'package:geldstroom/core/bloc/category/category_cubit.dart';
 import 'package:geldstroom/core/network/network.dart';
 import 'package:geldstroom/shared/widget/transaction_card/transaction_card.dart';
+import 'package:geldstroom/ui/overview/widget/overview_transaction_empty.dart';
 import 'package:geldstroom/ui/overview/widget/overview_transaction_list.dart';
 import 'package:geldstroom/ui/transaction_edit/transaction_edit_page.dart';
 import 'package:mockito/mockito.dart';
@@ -89,6 +90,14 @@ void main() {
       testWidgets('correctly', (tester) async {
         await tester.pumpWidget(subject);
         expect(find.byType(TransactionCard), findsOneWidget);
+      });
+      testWidgets('should show OverviewTransactionEmpty when data is empty',
+          (tester) async {
+        when(overviewTransactionBloc.state).thenReturn(
+          OverviewTransactionState(status: FetchStatus.loadSuccess()),
+        );
+        await tester.pumpWidget(subject);
+        expect(find.byType(OverviewTransactionEmpty), findsOneWidget);
       });
     });
 
