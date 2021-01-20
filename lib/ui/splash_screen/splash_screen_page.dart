@@ -20,7 +20,7 @@ class SplashScreenPage extends StatelessWidget {
             state.when(
               initial: () {},
               authenticated: () => Navigator.of(context)
-                  .pushReplacementNamed(OverviewPage.routeName),
+                  .pushReplacementNamed(HomePage.routeName),
               unauthenticated: () => Navigator.of(context)
                   .pushReplacementNamed(IntroPage.routeName),
             );

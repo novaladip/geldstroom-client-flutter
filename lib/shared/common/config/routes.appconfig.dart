@@ -21,6 +21,21 @@ Map<String, WidgetBuilder> buildRoutes() {
           ],
           child: OverviewPage(),
         ),
+    HomePage.routeName: (_) => MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: getIt<BottomNavigationCubit>()),
+            BlocProvider.value(value: getIt<OverviewRangeCubit>()),
+            BlocProvider.value(value: getIt<OverviewBalanceCubit>()),
+            BlocProvider.value(value: getIt<OverviewTransactionBloc>()),
+          ],
+          child: HomePage(
+            children: [
+              OverviewPage(),
+              Scaffold(),
+              Scaffold(),
+            ],
+          ),
+        ),
     LoginPage.routeName: (_) => BlocProvider.value(
           value: getIt<LoginCubit>(),
           child: LoginPage(),
