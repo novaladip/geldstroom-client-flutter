@@ -8,7 +8,7 @@ abstract class IUserService {
   Future<Either<ServerError, Profile>> getProfile();
 }
 
-@lazySingleton
+@LazySingleton(as: IUserService)
 class UserService implements IUserService {
   const UserService(this._dio);
 
