@@ -36,7 +36,7 @@ void main() {
         routes: {
           RegisterPage.routeName: (_) =>
               buildTestableWidget(Scaffold(key: registerPageKey)),
-          HomePage.routeName: (_) => Scaffold(key: homePageKey),
+          OverviewPage.routeName: (_) => Scaffold(key: homePageKey),
           LoginPage.routeName: (_) => MultiBlocProvider(
                 providers: [
                   BlocProvider.value(value: authCubit),

@@ -2,13 +2,13 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geldstroom/core/network/network.dart';
-import 'package:geldstroom/ui/home/widget/overview_transaction_list.dart';
+import 'package:geldstroom/ui/overview/widget/overview_transaction_list.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geldstroom/core/bloc/bloc.dart';
-import 'package:geldstroom/ui/home/widget/overview_transaction.dart';
+import 'package:geldstroom/ui/overview/widget/overview_transaction.dart';
 
 import '../../../helper_tests/tranasction_json.dart';
 import '../../../test_helper.dart';

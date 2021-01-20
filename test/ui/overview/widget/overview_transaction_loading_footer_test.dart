@@ -5,7 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geldstroom/core/bloc/bloc.dart';
 import 'package:geldstroom/core/network/model/model.dart';
-import 'package:geldstroom/ui/home/widget/overview_transaction_loading_footer.dart';
+import 'package:geldstroom/ui/overview/widget/overview_transaction_loading_footer.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../../helper_tests/tranasction_json.dart';

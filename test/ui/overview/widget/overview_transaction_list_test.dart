@@ -6,7 +6,7 @@ import 'package:geldstroom/core/bloc/bloc.dart';
 import 'package:geldstroom/core/bloc/category/category_cubit.dart';
 import 'package:geldstroom/core/network/network.dart';
 import 'package:geldstroom/shared/widget/transaction_card/transaction_card.dart';
-import 'package:geldstroom/ui/home/widget/overview_transaction_list.dart';
+import 'package:geldstroom/ui/overview/widget/overview_transaction_list.dart';
 import 'package:geldstroom/ui/transaction_edit/transaction_edit_page.dart';
 import 'package:mockito/mockito.dart';
 import 'package:geldstroom/core/bloc/overview_transaction/overview_transaction_bloc.dart';

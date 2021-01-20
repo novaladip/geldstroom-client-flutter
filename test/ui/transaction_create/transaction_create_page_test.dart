@@ -14,7 +14,7 @@ import 'package:mockito/mockito.dart';
 
 import '../../core/network/service/transaction/json.dart';
 import '../../test_helper.dart';
-import '../home/widget/overview_transaction_list_test.dart';
+import '../overview/widget/overview_transaction_list_test.dart';
 
 class MockTransactionCreateCubit extends MockBloc<FormStatusData<Transaction>>
     implements TransactionCreateCubit {}

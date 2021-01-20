@@ -13,13 +13,13 @@ Map<String, WidgetBuilder> buildRoutes() {
           child: SplashScreenPage(),
         ),
     IntroPage.routeName: (_) => IntroPage(),
-    HomePage.routeName: (_) => MultiBlocProvider(
+    OverviewPage.routeName: (_) => MultiBlocProvider(
           providers: [
             BlocProvider.value(value: getIt<OverviewRangeCubit>()),
             BlocProvider.value(value: getIt<OverviewBalanceCubit>()),
             BlocProvider.value(value: getIt<OverviewTransactionBloc>()),
           ],
-          child: HomePage(),
+          child: OverviewPage(),
         ),
     LoginPage.routeName: (_) => BlocProvider.value(
           value: getIt<LoginCubit>(),

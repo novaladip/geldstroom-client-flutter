@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:geldstroom/core/bloc/overview_balance/overview_balance_cubit.dart';
 import 'package:geldstroom/core/bloc_ui/ui_bloc.dart';
 import 'package:geldstroom/core/network/network.dart';
-import 'package:geldstroom/ui/home/widget/overview_balance.dart';
+import 'package:geldstroom/ui/overview/widget/overview_balance.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../../test_helper.dart';

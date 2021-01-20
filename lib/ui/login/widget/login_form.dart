@@ -67,7 +67,7 @@ class _LoginFormState extends State<LoginForm> {
           listener: (context, state) {
             state.maybeWhen(
               authenticated: () => Navigator.of(context)
-                  .pushReplacementNamed(HomePage.routeName),
+                  .pushReplacementNamed(OverviewPage.routeName),
               orElse: () {},
             );
           },

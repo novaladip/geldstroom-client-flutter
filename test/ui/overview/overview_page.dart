@@ -7,10 +7,10 @@ import 'package:geldstroom/core/bloc/overview_balance/overview_balance_cubit.dar
 import 'package:geldstroom/core/bloc/overview_transaction/overview_transaction_bloc.dart';
 import 'package:geldstroom/core/bloc_ui/ui_bloc.dart';
 import 'package:geldstroom/core/network/model/model.dart';
-import 'package:geldstroom/ui/home/home_page.dart';
-import 'package:geldstroom/ui/home/widget/overview_balance.dart';
-import 'package:geldstroom/ui/home/widget/overview_range_form.dart';
-import 'package:geldstroom/ui/home/widget/overview_transaction.dart';
+import 'package:geldstroom/ui/overview/overview_page.dart';
+import 'package:geldstroom/ui/overview/widget/overview_balance.dart';
+import 'package:geldstroom/ui/overview/widget/overview_range_form.dart';
+import 'package:geldstroom/ui/overview/widget/overview_transaction.dart';
 import 'package:geldstroom/ui/transaction_create/transaction_create_page.dart';
 import 'package:mockito/mockito.dart';
 import 'package:network_image_mock/network_image_mock.dart';
@@ -74,9 +74,10 @@ void main() {
           BlocProvider.value(value: categoryCubit),
         ],
         child: buildTestableBlocWidget(
-          initialRoutes: HomePage.routeName,
+          initialRoutes: OverviewPage.routeName,
           routes: {
-            HomePage.routeName: (_) => mockNetworkImagesFor(() => HomePage()),
+            OverviewPage.routeName: (_) =>
+                mockNetworkImagesFor(() => OverviewPage()),
           },
         ),
       );
@@ -104,11 +105,11 @@ void main() {
       await tester.pumpWidget(subject);
 
       expect(find.byType(FloatingActionButton), findsOneWidget);
-      expect(find.text(HomePage.appBarTitle), findsOneWidget);
+      expect(find.text(OverviewPage.appBarTitle), findsOneWidget);
       expect(find.byType(OverviewBalance), findsOneWidget);
       expect(find.byType(OverviewTransaction), findsOneWidget);
       expect(
-        find.byKey(HomePage.overviewRangeIconKey).hitTestable(),
+        find.byKey(OverviewPage.overviewRangeIconKey).hitTestable(),
         findsOneWidget,
       );
     });
@@ -121,7 +122,7 @@ void main() {
           .thenReturn(OverviewBalanceState.initial());
       await tester.pumpWidget(subject);
 
-      final icon = find.byKey(HomePage.overviewRangeIconKey).hitTestable();
+      final icon = find.byKey(OverviewPage.overviewRangeIconKey).hitTestable();
       await tester.tap(icon);
       await tester.pumpAndSettle();
       expect(find.byType(OverviewRangeForm), findsOneWidget);
@@ -276,7 +277,7 @@ void main() {
         );
         await tester.pumpWidget(subject);
         await tester.drag(
-          find.byKey(HomePage.customScrollViewKey),
+          find.byKey(OverviewPage.customScrollViewKey),
           Offset(0, -1000),
         );
         verify(

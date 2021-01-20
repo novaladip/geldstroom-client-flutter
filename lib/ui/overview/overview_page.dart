@@ -13,19 +13,19 @@ import 'widget/overview_balance.dart';
 import 'widget/overview_range_form.dart';
 import 'widget/overview_transaction.dart';
 
-class HomePage extends StatefulWidget {
-  HomePage({Key key}) : super(key: key);
+class OverviewPage extends StatefulWidget {
+  OverviewPage({Key key}) : super(key: key);
 
-  static const routeName = '/home';
+  static const routeName = '/overview';
   static const customScrollViewKey = Key('home_page_scrollview');
   static const overviewRangeIconKey = Key('home_overview_range_icon');
   static const appBarTitle = 'Geldstroom';
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _OverviewPageState createState() => _OverviewPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _OverviewPageState extends State<OverviewPage> {
   ScrollController scrollController;
   bool showFAB = true;
 
@@ -34,10 +34,10 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(HomePage.appBarTitle),
+        title: Text(OverviewPage.appBarTitle),
         actions: [
           IconButton(
-            key: HomePage.overviewRangeIconKey,
+            key: OverviewPage.overviewRangeIconKey,
             icon: Icon(Icons.filter_list_sharp),
             onPressed: () => showOverviewRangeFilter(context),
           )
@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
           color: AppStyles.darkBackground,
           onRefresh: onRefresh,
           child: CustomScrollView(
-            key: HomePage.customScrollViewKey,
+            key: OverviewPage.customScrollViewKey,
             controller: scrollController,
             physics:
                 AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),

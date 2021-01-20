@@ -4,8 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/bloc/bloc.dart';
 import '../../gen/assets.gen.dart';
-import '../home/home_page.dart';
-import '../intro/intro_page.dart';
+import '../ui.dart';
 
 class SplashScreenPage extends StatelessWidget {
   static const routeName = '/splash_screen';
@@ -21,7 +20,7 @@ class SplashScreenPage extends StatelessWidget {
             state.when(
               initial: () {},
               authenticated: () => Navigator.of(context)
-                  .pushReplacementNamed(HomePage.routeName),
+                  .pushReplacementNamed(OverviewPage.routeName),
               unauthenticated: () => Navigator.of(context)
                   .pushReplacementNamed(IntroPage.routeName),
             );
