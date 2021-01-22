@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -48,6 +49,53 @@ void main() {
             .thenAnswer((_) async => httpResponse);
 
         final result = await subject.getProfile();
+        result.fold(
+          (l) {
+            expect(l, ServerError.unknownError());
+          },
+          (r) {
+            expect(r, null);
+          },
+        );
+      });
+    });
+
+    group('changePassword', () {
+      test('when successful', () async {
+        final dto = ChangePasswordDto(
+          oldPassword: '123123',
+          password: '321321',
+          passwordConfirmation: '321321',
+        );
+        final httpResponse = buildResponseBody(
+          payload: {'message': 'Password successfully changed'},
+        );
+        when(dioAdapterMock.fetch(any, any, any))
+            .thenAnswer((_) async => httpResponse);
+        final result = await subject.changePassword(dto);
+        result.fold(
+          (l) {
+            expect(l, null);
+          },
+          (r) {
+            expect(r, None());
+          },
+        );
+      });
+
+      test('when failure', () async {
+        final dto = ChangePasswordDto(
+          oldPassword: '123123',
+          password: '321321',
+          passwordConfirmation: '321321',
+        );
+        final httpResponse = buildResponseBody(
+          payload: {'message': 'internal server error'},
+          statusCode: 500,
+        );
+        when(dioAdapterMock.fetch(any, any, any))
+            .thenAnswer((_) async => httpResponse);
+        final result = await subject.changePassword(dto);
         result.fold(
           (l) {
             expect(l, ServerError.unknownError());
