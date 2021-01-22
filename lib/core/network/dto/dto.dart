@@ -1,3 +1,4 @@
+export 'change_password_dto.dart';
 export 'get_balance_dto.dart';
 export 'get_transaction_dto.dart';
 export 'login_dto.dart';
