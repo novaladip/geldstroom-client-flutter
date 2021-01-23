@@ -56,7 +56,7 @@ class _SettingPageState extends State<SettingPage> {
                 SettingItem(
                   icon: Icons.lock_outline,
                   title: 'Change Password',
-                  onTap: () {},
+                  onTap: () => navigateTo(PasswordChangePage.routeName),
                 ),
                 SettingItem(
                   icon: Icons.code_outlined,
@@ -88,6 +88,9 @@ class _SettingPageState extends State<SettingPage> {
     fetchProfile();
     getAppVersion();
   }
+
+  void navigateTo(String routeName) =>
+      Navigator.of(context).pushNamed(routeName);
 
   Future<void> getAppVersion() async {
     packageInfo = await PackageInfo.fromPlatform();

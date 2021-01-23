@@ -48,6 +48,8 @@ void main() {
             routes: {
               LoginPage.routeName: (_) => Scaffold(key: Key('login_page')),
               SettingPage.routeName: (_) => SettingPage(),
+              PasswordChangePage.routeName: (_) =>
+                  Scaffold(key: Key('password_change_page')),
             },
             initialRoutes: SettingPage.routeName,
           ),
@@ -122,7 +124,8 @@ void main() {
         await tester.pumpWidget(subject);
         await tester.pump();
         await tester.tap(find.text('Change Password').hitTestable());
-        // @TODO
+        await tester.pumpAndSettle();
+        expect(find.byKey(Key('password_change_page')), findsOneWidget);
       });
 
       testWidgets('pull to refresh', (tester) async {

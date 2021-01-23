@@ -46,6 +46,10 @@ Map<String, WidgetBuilder> buildRoutes() {
           value: getIt<RegisterCubit>(),
           child: RegisterPage(),
         ),
+    PasswordChangePage.routeName: (_) => BlocProvider.value(
+          value: getIt<PasswordChangeCubit>(),
+          child: PasswordChangePage(),
+        ),
     RegisterSuccessPage.routeName: (_) => RegisterSuccessPage(),
     ResetPasswordPage.routeName: (_) => MultiBlocProvider(
           providers: [
