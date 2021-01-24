@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geldstroom/core/bloc/bloc.dart';
 import 'package:geldstroom/core/network/network.dart';
+import 'package:geldstroom/ui/password_reset/widget/password_reset_email_form.dart';
 import 'package:mockito/mockito.dart';
 import 'package:geldstroom/core/bloc/request_otp/request_otp_cubit.dart';
-import 'package:geldstroom/ui/reset_password/widget/reset_password_email_form.dart';
 
 import '../../../test_helper.dart';
 
@@ -41,7 +41,7 @@ void main() {
               BlocProvider.value(value: requestOtpCubit),
               BlocProvider.value(value: passwordResetCubit),
             ],
-            child: ResetPasswordEmailForm(controller: controller),
+            child: PasswordResetEmailForm(controller: controller),
           ),
         ),
       );
@@ -74,7 +74,7 @@ void main() {
               BlocProvider.value(value: requestOtpCubit),
               BlocProvider.value(value: passwordResetCubit),
             ],
-            child: ResetPasswordEmailForm(controller: controller),
+            child: PasswordResetEmailForm(controller: controller),
           ),
         ),
       );
@@ -103,7 +103,7 @@ void main() {
               BlocProvider.value(value: requestOtpCubit),
               BlocProvider.value(value: passwordResetCubit),
             ],
-            child: ResetPasswordEmailForm(controller: controller),
+            child: PasswordResetEmailForm(controller: controller),
           ),
         ),
       );
@@ -132,7 +132,7 @@ void main() {
               BlocProvider.value(value: requestOtpCubit),
               BlocProvider.value(value: passwordResetCubit),
             ],
-            child: ResetPasswordEmailForm(controller: controller),
+            child: PasswordResetEmailForm(controller: controller),
           ),
         ),
       );
@@ -154,7 +154,7 @@ void main() {
               BlocProvider.value(value: requestOtpCubit),
               BlocProvider.value(value: passwordResetCubit),
             ],
-            child: ResetPasswordEmailForm(controller: controller),
+            child: PasswordResetEmailForm(controller: controller),
           ),
         ),
       );
@@ -162,7 +162,7 @@ void main() {
       expect(find.text('Resend'), findsNothing);
       expect(find.text('Send'), findsNothing);
       expect(
-        find.byKey(ResetPasswordEmailForm.loadingKey),
+        find.byKey(PasswordResetEmailForm.loadingKey),
         findsOneWidget,
       );
     });
@@ -178,14 +178,14 @@ void main() {
               BlocProvider.value(value: requestOtpCubit),
               BlocProvider.value(value: passwordResetCubit),
             ],
-            child: ResetPasswordEmailForm(controller: controller),
+            child: PasswordResetEmailForm(controller: controller),
           ),
         ),
       );
 
       final email = 'john@email.com';
       final emailForm = find.byKey(
-        ResetPasswordEmailForm.emailInputKey,
+        PasswordResetEmailForm.emailInputKey,
       );
 
       // Simulate enter text
@@ -210,14 +210,14 @@ void main() {
               BlocProvider.value(value: requestOtpCubit),
               BlocProvider.value(value: passwordResetCubit),
             ],
-            child: ResetPasswordEmailForm(controller: controller),
+            child: PasswordResetEmailForm(controller: controller),
           ),
         ),
       );
 
       final email = 'john@emailom';
       final emailForm = find.byKey(
-        ResetPasswordEmailForm.emailInputKey,
+        PasswordResetEmailForm.emailInputKey,
       );
 
       // Simulate enter text
@@ -255,7 +255,7 @@ void main() {
               BlocProvider.value(value: requestOtpCubit),
               BlocProvider.value(value: passwordResetCubit),
             ],
-            child: ResetPasswordEmailForm(controller: controller),
+            child: PasswordResetEmailForm(controller: controller),
           ),
         ),
       );
@@ -302,7 +302,7 @@ void main() {
               BlocProvider.value(value: requestOtpCubit),
               BlocProvider.value(value: passwordResetCubit),
             ],
-            child: ResetPasswordEmailForm(controller: controller),
+            child: PasswordResetEmailForm(controller: controller),
           ),
         ),
       );

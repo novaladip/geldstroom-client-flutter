@@ -117,7 +117,7 @@ class _LoginFormState extends State<LoginForm> {
                   .alignment(Alignment.centerRight)
                   .gestures(
                       onTap: () => Navigator.of(context)
-                          .pushNamed(ResetPasswordPage.routeName)),
+                          .pushNamed(PasswordResetPage.routeName)),
               SizedBox(height: 20.h),
               MainButton(
                 key: LoginForm.submitButtonKey,

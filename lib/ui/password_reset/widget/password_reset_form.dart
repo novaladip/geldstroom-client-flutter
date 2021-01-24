@@ -9,11 +9,11 @@ import '../../../core/network/dto/dto.dart';
 import '../../../shared/common/config/config.dart';
 import '../../../shared/common/utils/utils.dart';
 import '../../../shared/widget/widget.dart';
-import 'reset_password_email_form.dart';
-import 'reset_password_success.dart';
+import 'password_reset_email_form.dart';
+import 'password_reset_success.dart';
 
-class ResetPasswordForm extends StatefulWidget {
-  ResetPasswordForm({Key key}) : super(key: key);
+class PasswordResetForm extends StatefulWidget {
+  PasswordResetForm({Key key}) : super(key: key);
 
   static const submitButtonText = 'Submit';
   static const otpInputKey = Key('reset_password_form_otp_input');
@@ -21,10 +21,10 @@ class ResetPasswordForm extends StatefulWidget {
   static const password2InputKey = Key('reset_password_form_password2_input');
 
   @override
-  _ResetPasswordFormState createState() => _ResetPasswordFormState();
+  _PasswordResetFormState createState() => _PasswordResetFormState();
 }
 
-class _ResetPasswordFormState extends State<ResetPasswordForm> {
+class _PasswordResetFormState extends State<PasswordResetForm> {
   final form = GlobalKey<FormState>();
   final email = TextEditingController();
   final password = TextEditingController();
@@ -45,11 +45,11 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
       child: Form(
         key: form,
         child: <Widget>[
-          ResetPasswordEmailForm(controller: email),
+          PasswordResetEmailForm(controller: email),
           if (state.showAllForm)
             ...<Widget>[
               CustomTextFormField(
-                key: ResetPasswordForm.otpInputKey,
+                key: PasswordResetForm.otpInputKey,
                 labelText: 'OTP',
                 controller: otp,
                 keyboardType: TextInputType.number,
@@ -60,7 +60,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
                     error: (e) => e.error['otp'] ?? e.error['OTP']),
               ),
               CustomTextFormField(
-                key: ResetPasswordForm.passwordInputKey,
+                key: PasswordResetForm.passwordInputKey,
                 labelText: 'Password',
                 obscureText: true,
                 errorText: state.status.maybeWhen(
@@ -72,7 +72,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
                 validator: (v) => InputValidator.required(v, 'Password'),
               ),
               CustomTextFormField(
-                key: ResetPasswordForm.password2InputKey,
+                key: PasswordResetForm.password2InputKey,
                 labelText: 'Password Confirmation',
                 controller: password2,
                 obscureText: true,
@@ -88,7 +88,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
               SizedBox(height: 13.h),
               MainButton(
                 loading: isLoading,
-                title: ResetPasswordForm.submitButtonText,
+                title: PasswordResetForm.submitButtonText,
                 onTap: onSubmit,
               ),
             ].toList()
@@ -103,7 +103,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
         enableDrag: false,
         isDismissible: false,
         context: context,
-        builder: (context) => ResetPasswordSuccess(),
+        builder: (context) => PasswordResetSuccess(),
       ),
       error: (e) => CustomSnackbar.createError(
         title: 'Reset password failed',

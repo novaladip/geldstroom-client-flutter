@@ -5,9 +5,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:geldstroom/core/bloc/bloc.dart';
 import 'package:geldstroom/core/bloc/request_otp/request_otp_cubit.dart';
 import 'package:geldstroom/core/network/network.dart';
-import 'package:geldstroom/ui/reset_password/widget/reset_password_email_form.dart';
-import 'package:geldstroom/ui/reset_password/widget/reset_password_form.dart';
-import 'package:geldstroom/ui/reset_password/widget/reset_password_success.dart';
+import 'package:geldstroom/ui/password_reset/widget/password_reset_email_form.dart';
+import 'package:geldstroom/ui/password_reset/widget/password_reset_form.dart';
+import 'package:geldstroom/ui/password_reset/widget/password_reset_success.dart';
 import 'package:geldstroom/ui/ui.dart';
 import 'package:mockito/mockito.dart';
 import 'package:geldstroom/shared/widget/main_button/main_button.dart'
@@ -32,17 +32,17 @@ void main() {
       passwordResetCubit = MockResetPasswordCubit();
       requestOtpCubit = MockRequestOtpCubit();
       subject = buildTestableBlocWidget(
-        initialRoutes: ResetPasswordPage.routeName,
+        initialRoutes: PasswordResetPage.routeName,
         routes: {
           LoginPage.routeName: (_) => buildTestableWidget(
                 Scaffold(key: loginPageKey),
               ),
-          ResetPasswordPage.routeName: (_) => MultiBlocProvider(
+          PasswordResetPage.routeName: (_) => MultiBlocProvider(
                 providers: [
                   BlocProvider.value(value: passwordResetCubit),
                   BlocProvider.value(value: requestOtpCubit),
                 ],
-                child: ResetPasswordPage(),
+                child: PasswordResetPage(),
               ),
         },
       );
@@ -53,13 +53,13 @@ void main() {
       when(passwordResetCubit.state).thenReturn(PasswordResetState.initial());
       await tester.pumpWidget(subject);
 
-      expect(find.text(ResetPasswordPage.appBarTitle), findsOneWidget);
+      expect(find.text(PasswordResetPage.appBarTitle), findsOneWidget);
       expect(find.text('Email'), findsOneWidget);
       expect(find.text('Send'), findsOneWidget);
       expect(find.text('OTP'), findsNothing);
       expect(find.text('Password'), findsNothing);
       expect(find.text('Password Confirmation'), findsNothing);
-      expect(find.text(ResetPasswordForm.submitButtonText), findsNothing);
+      expect(find.text(PasswordResetForm.submitButtonText), findsNothing);
     });
 
     testWidgets(
@@ -84,14 +84,14 @@ void main() {
       await tester.pumpWidget(subject);
       await tester.pumpAndSettle(Duration(seconds: 1));
 
-      expect(find.text(ResetPasswordPage.appBarTitle), findsOneWidget);
+      expect(find.text(PasswordResetPage.appBarTitle), findsOneWidget);
       expect(find.text('Email'), findsOneWidget);
       expect(find.text('Resend'), findsNothing);
       expect(find.text('Send'), findsNothing);
       expect(find.text('OTP'), findsOneWidget);
       expect(find.text('Password'), findsOneWidget);
       expect(find.text('Password Confirmation'), findsOneWidget);
-      expect(find.text(ResetPasswordForm.submitButtonText), findsOneWidget);
+      expect(find.text(PasswordResetForm.submitButtonText), findsOneWidget);
     });
 
     testWidgets(
@@ -122,11 +122,11 @@ void main() {
         otp: '123456',
       );
 
-      final emailInput = find.byKey(ResetPasswordEmailForm.emailInputKey);
-      final otpInput = find.byKey(ResetPasswordForm.otpInputKey);
-      final passwordInput = find.byKey(ResetPasswordForm.passwordInputKey);
-      final password2Input = find.byKey(ResetPasswordForm.password2InputKey);
-      final submitButton = find.text(ResetPasswordForm.submitButtonText);
+      final emailInput = find.byKey(PasswordResetEmailForm.emailInputKey);
+      final otpInput = find.byKey(PasswordResetForm.otpInputKey);
+      final passwordInput = find.byKey(PasswordResetForm.passwordInputKey);
+      final password2Input = find.byKey(PasswordResetForm.password2InputKey);
+      final submitButton = find.text(PasswordResetForm.submitButtonText);
 
       await tester.enterText(emailInput, dto.email);
       await tester.enterText(otpInput, dto.otp);
@@ -163,11 +163,11 @@ void main() {
         otp: '',
       );
 
-      final emailInput = find.byKey(ResetPasswordEmailForm.emailInputKey);
-      final otpInput = find.byKey(ResetPasswordForm.otpInputKey);
-      final passwordInput = find.byKey(ResetPasswordForm.passwordInputKey);
-      final password2Input = find.byKey(ResetPasswordForm.password2InputKey);
-      final submitButton = find.text(ResetPasswordForm.submitButtonText);
+      final emailInput = find.byKey(PasswordResetEmailForm.emailInputKey);
+      final otpInput = find.byKey(PasswordResetForm.otpInputKey);
+      final passwordInput = find.byKey(PasswordResetForm.passwordInputKey);
+      final password2Input = find.byKey(PasswordResetForm.password2InputKey);
+      final submitButton = find.text(PasswordResetForm.submitButtonText);
 
       await tester.enterText(emailInput, dto.email);
       await tester.enterText(otpInput, dto.otp);
@@ -303,15 +303,15 @@ void main() {
 
       await tester.pumpWidget(subject);
       await tester.pumpAndSettle();
-      expect(find.text(ResetPasswordSuccess.title), findsOneWidget);
-      expect(find.text(ResetPasswordSuccess.subtitle), findsOneWidget);
+      expect(find.text(PasswordResetSuccess.title), findsOneWidget);
+      expect(find.text(PasswordResetSuccess.subtitle), findsOneWidget);
       expect(
-        find.text(ResetPasswordSuccess.continueButtonText),
+        find.text(PasswordResetSuccess.continueButtonText),
         findsOneWidget,
       );
 
       // tap continue button
-      await tester.tap(find.text(ResetPasswordSuccess.continueButtonText));
+      await tester.tap(find.text(PasswordResetSuccess.continueButtonText));
       await tester.pumpAndSettle();
       expect(find.byKey(loginPageKey), findsOneWidget);
     });

@@ -44,7 +44,7 @@ void main() {
                 ],
                 child: LoginPage(),
               ),
-          ResetPasswordPage.routeName: (_) =>
+          PasswordResetPage.routeName: (_) =>
               buildTestableWidget(Scaffold(key: resetPasswordPageKey)),
         },
       );

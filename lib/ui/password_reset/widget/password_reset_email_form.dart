@@ -12,8 +12,8 @@ import '../../../shared/common/config/config.dart';
 import '../../../shared/common/utils/utils.dart';
 import '../../../shared/widget/widget.dart';
 
-class ResetPasswordEmailForm extends StatefulWidget {
-  ResetPasswordEmailForm({
+class PasswordResetEmailForm extends StatefulWidget {
+  PasswordResetEmailForm({
     Key key,
     @required this.controller,
   }) : super(key: key);
@@ -23,10 +23,10 @@ class ResetPasswordEmailForm extends StatefulWidget {
   static const loadingKey = Key('reset_password_email_loading');
 
   @override
-  _ResetPasswordEmailFormState createState() => _ResetPasswordEmailFormState();
+  _PasswordResetEmailFormState createState() => _PasswordResetEmailFormState();
 }
 
-class _ResetPasswordEmailFormState extends State<ResetPasswordEmailForm> {
+class _PasswordResetEmailFormState extends State<PasswordResetEmailForm> {
   int countdown = 0;
   String emailError;
   Timer timer;
@@ -60,7 +60,7 @@ class _ResetPasswordEmailFormState extends State<ResetPasswordEmailForm> {
       listener: (context, state) => listener(state),
       child: <Widget>[
         CustomTextFormField(
-          key: ResetPasswordEmailForm.emailInputKey,
+          key: PasswordResetEmailForm.emailInputKey,
           labelText: 'Email',
           errorText: emailError ?? emailApiError ?? emailApiError2,
           controller: widget.controller,
@@ -75,7 +75,7 @@ class _ResetPasswordEmailFormState extends State<ResetPasswordEmailForm> {
               ),
               idle: () => styledText('Send'),
               loading: () => SpinKitThreeBounce(
-                key: ResetPasswordEmailForm.loadingKey,
+                key: PasswordResetEmailForm.loadingKey,
                 color: Colors.white,
                 size: 32.sp,
               ),

@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/bloc/bloc.dart';
 import '../../core/network/network.dart';
-import 'widget/reset_password_form.dart';
+import 'widget/password_reset_form.dart';
 
-class ResetPasswordPage extends StatefulWidget {
-  ResetPasswordPage({
+class PasswordResetPage extends StatefulWidget {
+  const PasswordResetPage({
     Key key,
   }) : super(key: key);
 
@@ -14,18 +14,18 @@ class ResetPasswordPage extends StatefulWidget {
   static const appBarTitle = 'Reset Password';
 
   @override
-  _ResetPasswordPageState createState() => _ResetPasswordPageState();
+  _PasswordResetPageState createState() => _PasswordResetPageState();
 }
 
-class _ResetPasswordPageState extends State<ResetPasswordPage> {
+class _PasswordResetPageState extends State<PasswordResetPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(ResetPasswordPage.appBarTitle),
+        title: Text(PasswordResetPage.appBarTitle),
       ),
       body: SingleChildScrollView(
-        child: ResetPasswordForm(),
+        child: PasswordResetForm(),
       ),
     );
   }

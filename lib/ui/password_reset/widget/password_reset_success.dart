@@ -8,8 +8,8 @@ import '../../../shared/common/config/config.dart';
 import '../../../shared/widget/widget.dart';
 import '../../ui.dart';
 
-class ResetPasswordSuccess extends StatelessWidget {
-  ResetPasswordSuccess({Key key}) : super(key: key);
+class PasswordResetSuccess extends StatelessWidget {
+  PasswordResetSuccess({Key key}) : super(key: key);
 
   static const title = 'Your password has been updated';
   static const subtitle = 'Now you can login within your new password.';
