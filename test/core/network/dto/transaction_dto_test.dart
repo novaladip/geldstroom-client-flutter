@@ -86,7 +86,6 @@ void main() {
         final start = now;
         final end = now;
         final limit = 20;
-        final offset = 60;
         final type = 'EXPENSE';
 
         dto = dto.copyWith(
@@ -94,14 +93,14 @@ void main() {
           start: start,
           end: end,
           limit: limit,
-          offset: offset,
+          offset: null,
           type: type,
         );
         expect(dto.categoryId, categoryId);
         expect(dto.start, start);
         expect(dto.end, dto.end);
         expect(dto.limit, limit);
-        expect(dto.offset, offset);
+        expect(dto.offset, 0);
         expect(dto.type, type);
       });
     });

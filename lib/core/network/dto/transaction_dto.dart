@@ -137,7 +137,7 @@ class TransactionFilterDto implements BaseDto {
       categoryId: categoryId ?? this.categoryId,
       type: type ?? this.type,
       limit: limit ?? this.limit,
-      offset: offset ?? this.limit,
+      offset: offset ?? this.offset,
       start: start ?? this.start,
       end: end ?? this.end,
     );
