@@ -4,12 +4,12 @@ import 'package:injectable/injectable.dart';
 
 import '../../network/network.dart';
 
-part 'reset_password_cubit.freezed.dart';
-part 'reset_password_state.dart';
+part 'password_reset_cubit.freezed.dart';
+part 'password_reset_state.dart';
 
 @lazySingleton
-class ResetPasswordCubit extends Cubit<ResetPasswordState> {
-  ResetPasswordCubit(this._authService) : super(ResetPasswordState.initial());
+class PasswordResetCubit extends Cubit<PasswordResetState> {
+  PasswordResetCubit(this._authService) : super(PasswordResetState.initial());
 
   final IAuthService _authService;
 
@@ -32,6 +32,6 @@ class ResetPasswordCubit extends Cubit<ResetPasswordState> {
   }
 
   void clear() {
-    emit(ResetPasswordState.initial());
+    emit(PasswordResetState.initial());
   }
 }

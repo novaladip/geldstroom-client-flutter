@@ -54,7 +54,7 @@ Map<String, WidgetBuilder> buildRoutes() {
     ResetPasswordPage.routeName: (_) => MultiBlocProvider(
           providers: [
             BlocProvider.value(
-              value: getIt<ResetPasswordCubit>(),
+              value: getIt<PasswordResetCubit>(),
             ),
             BlocProvider.value(
               value: getIt<RequestOtpCubit>(),

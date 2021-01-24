@@ -34,13 +34,13 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<ResetPasswordCubit>().state;
+    final state = context.watch<PasswordResetCubit>().state;
     final isLoading = state.status.maybeWhen<bool>(
       loading: () => true,
       orElse: () => false,
     );
 
-    return BlocListener<ResetPasswordCubit, ResetPasswordState>(
+    return BlocListener<PasswordResetCubit, PasswordResetState>(
       listener: (context, state) => resetPasswordListener(state),
       child: Form(
         key: form,
@@ -97,7 +97,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
     );
   }
 
-  void resetPasswordListener(ResetPasswordState state) {
+  void resetPasswordListener(PasswordResetState state) {
     state.status.maybeWhen(
       success: () => showMaterialModalBottomSheet(
         enableDrag: false,
@@ -120,7 +120,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
       otp: otp.text,
       password: password.text,
     );
-    context.read<ResetPasswordCubit>().submit(dto);
+    context.read<PasswordResetCubit>().submit(dto);
   }
 
   @override

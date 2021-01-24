@@ -35,8 +35,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     if (context.read<RequestOtpCubit>().state.status != FormStatusIdle()) {
       context.read<RequestOtpCubit>().clear();
     }
-    if (context.read<ResetPasswordCubit>().state.status != FormStatusIdle()) {
-      context.read<ResetPasswordCubit>().clear();
+    if (context.read<PasswordResetCubit>().state.status != FormStatusIdle()) {
+      context.read<PasswordResetCubit>().clear();
     }
 
     super.initState();

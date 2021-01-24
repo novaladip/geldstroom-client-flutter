@@ -2,10 +2,10 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:geldstroom/core/bloc/bloc.dart';
 import 'package:geldstroom/core/network/network.dart';
 import 'package:mockito/mockito.dart';
 import 'package:geldstroom/core/bloc/request_otp/request_otp_cubit.dart';
-import 'package:geldstroom/core/bloc/reset_password/reset_password_cubit.dart';
 import 'package:geldstroom/ui/reset_password/widget/reset_password_email_form.dart';
 
 import '../../../test_helper.dart';
@@ -13,21 +13,25 @@ import '../../../test_helper.dart';
 class MockRequestOtpCubit extends MockBloc<RequestOtpState>
     implements RequestOtpCubit {}
 
-class MockResetPasswordCubit extends MockBloc<ResetPasswordState>
-    implements ResetPasswordCubit {}
+class MockResetPasswordCubit extends MockBloc<PasswordResetState>
+    implements PasswordResetCubit {}
 
 void main() {
   group('ResetPasswordEmailForm', () {
-    ResetPasswordCubit resetPasswordCubit;
+    PasswordResetCubit passwordResetCubit;
     RequestOtpCubit requestOtpCubit;
 
     setUp(() {
-      resetPasswordCubit = MockResetPasswordCubit();
+      passwordResetCubit = MockResetPasswordCubit();
       requestOtpCubit = MockRequestOtpCubit();
     });
 
+    tearDown(() {
+      passwordResetCubit.close();
+    });
+
     testWidgets('renders correctly', (tester) async {
-      when(resetPasswordCubit.state).thenReturn(ResetPasswordState.initial());
+      when(passwordResetCubit.state).thenReturn(PasswordResetState.initial());
       when(requestOtpCubit.state).thenReturn(RequestOtpState.initial());
       final controller = TextEditingController();
       await tester.pumpWidget(
@@ -35,7 +39,7 @@ void main() {
           MultiBlocProvider(
             providers: [
               BlocProvider.value(value: requestOtpCubit),
-              BlocProvider.value(value: resetPasswordCubit),
+              BlocProvider.value(value: passwordResetCubit),
             ],
             child: ResetPasswordEmailForm(controller: controller),
           ),
@@ -51,7 +55,7 @@ void main() {
 
     testWidgets('should show error text when RequestOtpState is error',
         (tester) async {
-      when(resetPasswordCubit.state).thenReturn(ResetPasswordState.initial());
+      when(passwordResetCubit.state).thenReturn(PasswordResetState.initial());
       when(requestOtpCubit.state).thenReturn(
         RequestOtpState(
           status: FormStatus.error(
@@ -68,7 +72,7 @@ void main() {
           MultiBlocProvider(
             providers: [
               BlocProvider.value(value: requestOtpCubit),
-              BlocProvider.value(value: resetPasswordCubit),
+              BlocProvider.value(value: passwordResetCubit),
             ],
             child: ResetPasswordEmailForm(controller: controller),
           ),
@@ -80,7 +84,7 @@ void main() {
 
     testWidgets('should show error text when RequestOtpState is error',
         (tester) async {
-      when(resetPasswordCubit.state).thenReturn(ResetPasswordState.initial());
+      when(passwordResetCubit.state).thenReturn(PasswordResetState.initial());
       when(requestOtpCubit.state).thenReturn(
         RequestOtpState(
           status: FormStatus.error(
@@ -97,7 +101,7 @@ void main() {
           MultiBlocProvider(
             providers: [
               BlocProvider.value(value: requestOtpCubit),
-              BlocProvider.value(value: resetPasswordCubit),
+              BlocProvider.value(value: passwordResetCubit),
             ],
             child: ResetPasswordEmailForm(controller: controller),
           ),
@@ -107,9 +111,9 @@ void main() {
       expect(find.text('User not found'), findsOneWidget);
     });
 
-    testWidgets('should show error text when ResetPasswordState is error',
+    testWidgets('should show error text when PasswordResetState is error',
         (tester) async {
-      when(resetPasswordCubit.state).thenReturn(ResetPasswordState.initial());
+      when(passwordResetCubit.state).thenReturn(PasswordResetState.initial());
       when(requestOtpCubit.state).thenReturn(
         RequestOtpState(
           status: FormStatus.error(
@@ -126,7 +130,7 @@ void main() {
           MultiBlocProvider(
             providers: [
               BlocProvider.value(value: requestOtpCubit),
-              BlocProvider.value(value: resetPasswordCubit),
+              BlocProvider.value(value: passwordResetCubit),
             ],
             child: ResetPasswordEmailForm(controller: controller),
           ),
@@ -138,7 +142,7 @@ void main() {
 
     testWidgets('should show loading indicator when RequestOtpState is loading',
         (tester) async {
-      when(resetPasswordCubit.state).thenReturn(ResetPasswordState.initial());
+      when(passwordResetCubit.state).thenReturn(PasswordResetState.initial());
       when(requestOtpCubit.state).thenReturn(
         RequestOtpState(status: FormStatus.loading()),
       );
@@ -148,7 +152,7 @@ void main() {
           MultiBlocProvider(
             providers: [
               BlocProvider.value(value: requestOtpCubit),
-              BlocProvider.value(value: resetPasswordCubit),
+              BlocProvider.value(value: passwordResetCubit),
             ],
             child: ResetPasswordEmailForm(controller: controller),
           ),
@@ -164,7 +168,7 @@ void main() {
     });
 
     testWidgets('should able to enter text to email form', (tester) async {
-      when(resetPasswordCubit.state).thenReturn(ResetPasswordState.initial());
+      when(passwordResetCubit.state).thenReturn(PasswordResetState.initial());
       when(requestOtpCubit.state).thenReturn(RequestOtpState.initial());
       final controller = TextEditingController();
       await tester.pumpWidget(
@@ -172,7 +176,7 @@ void main() {
           MultiBlocProvider(
             providers: [
               BlocProvider.value(value: requestOtpCubit),
-              BlocProvider.value(value: resetPasswordCubit),
+              BlocProvider.value(value: passwordResetCubit),
             ],
             child: ResetPasswordEmailForm(controller: controller),
           ),
@@ -196,7 +200,7 @@ void main() {
 
     testWidgets('should show error text when user submitting an invalid email',
         (tester) async {
-      when(resetPasswordCubit.state).thenReturn(ResetPasswordState.initial());
+      when(passwordResetCubit.state).thenReturn(PasswordResetState.initial());
       when(requestOtpCubit.state).thenReturn(RequestOtpState.initial());
       final controller = TextEditingController();
       await tester.pumpWidget(
@@ -204,7 +208,7 @@ void main() {
           MultiBlocProvider(
             providers: [
               BlocProvider.value(value: requestOtpCubit),
-              BlocProvider.value(value: resetPasswordCubit),
+              BlocProvider.value(value: passwordResetCubit),
             ],
             child: ResetPasswordEmailForm(controller: controller),
           ),
@@ -239,7 +243,7 @@ void main() {
         ]),
       );
 
-      when(resetPasswordCubit.state).thenReturn(ResetPasswordState.initial());
+      when(passwordResetCubit.state).thenReturn(PasswordResetState.initial());
       when(requestOtpCubit.state).thenReturn(
         RequestOtpState(status: FormStatus.success()),
       );
@@ -249,7 +253,7 @@ void main() {
           MultiBlocProvider(
             providers: [
               BlocProvider.value(value: requestOtpCubit),
-              BlocProvider.value(value: resetPasswordCubit),
+              BlocProvider.value(value: passwordResetCubit),
             ],
             child: ResetPasswordEmailForm(controller: controller),
           ),
@@ -286,7 +290,7 @@ void main() {
         ]),
       );
 
-      when(resetPasswordCubit.state).thenReturn(ResetPasswordState.initial());
+      when(passwordResetCubit.state).thenReturn(PasswordResetState.initial());
       when(requestOtpCubit.state).thenReturn(
         RequestOtpState(status: FormStatus.error(error: serverError)),
       );
@@ -296,7 +300,7 @@ void main() {
           MultiBlocProvider(
             providers: [
               BlocProvider.value(value: requestOtpCubit),
-              BlocProvider.value(value: resetPasswordCubit),
+              BlocProvider.value(value: passwordResetCubit),
             ],
             child: ResetPasswordEmailForm(controller: controller),
           ),

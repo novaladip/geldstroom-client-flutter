@@ -43,7 +43,7 @@ class _ResetPasswordEmailFormState extends State<ResetPasswordEmailForm> {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<RequestOtpCubit>().state;
-    final emailApiError = context.select<ResetPasswordCubit, String>(
+    final emailApiError = context.select<PasswordResetCubit, String>(
       (cubit) => cubit.state.status.maybeWhen(
         error: (e) => e.errorCode == UserErrorCode.userNotFound
             ? e.message
@@ -97,7 +97,7 @@ class _ResetPasswordEmailFormState extends State<ResetPasswordEmailForm> {
         CustomSnackbar.createSuccess(
           message: 'Code OTP has been send to your email',
         )..show(context);
-        context.read<ResetPasswordCubit>().changeShowAllForm(true);
+        context.read<PasswordResetCubit>().changeShowAllForm(true);
         startTimer();
       },
       orElse: () {},

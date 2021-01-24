@@ -2,8 +2,8 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:geldstroom/core/bloc/bloc.dart';
 import 'package:geldstroom/core/bloc/request_otp/request_otp_cubit.dart';
-import 'package:geldstroom/core/bloc/reset_password/reset_password_cubit.dart';
 import 'package:geldstroom/core/network/network.dart';
 import 'package:geldstroom/ui/reset_password/widget/reset_password_email_form.dart';
 import 'package:geldstroom/ui/reset_password/widget/reset_password_form.dart';
@@ -18,18 +18,18 @@ import '../../test_helper.dart';
 class MockRequestOtpCubit extends MockBloc<RequestOtpState>
     implements RequestOtpCubit {}
 
-class MockResetPasswordCubit extends MockBloc<ResetPasswordState>
-    implements ResetPasswordCubit {}
+class MockResetPasswordCubit extends MockBloc<PasswordResetState>
+    implements PasswordResetCubit {}
 
 void main() {
   group('ResetPasswordPage', () {
     const loginPageKey = Key('login_page');
     Widget subject;
-    ResetPasswordCubit resetPasswordCubit;
+    PasswordResetCubit passwordResetCubit;
     RequestOtpCubit requestOtpCubit;
 
     setUp(() {
-      resetPasswordCubit = MockResetPasswordCubit();
+      passwordResetCubit = MockResetPasswordCubit();
       requestOtpCubit = MockRequestOtpCubit();
       subject = buildTestableBlocWidget(
         initialRoutes: ResetPasswordPage.routeName,
@@ -39,7 +39,7 @@ void main() {
               ),
           ResetPasswordPage.routeName: (_) => MultiBlocProvider(
                 providers: [
-                  BlocProvider.value(value: resetPasswordCubit),
+                  BlocProvider.value(value: passwordResetCubit),
                   BlocProvider.value(value: requestOtpCubit),
                 ],
                 child: ResetPasswordPage(),
@@ -50,7 +50,7 @@ void main() {
 
     testWidgets('ResetPasswordPage render correctly', (tester) async {
       when(requestOtpCubit.state).thenReturn(RequestOtpState.initial());
-      when(resetPasswordCubit.state).thenReturn(ResetPasswordState.initial());
+      when(passwordResetCubit.state).thenReturn(PasswordResetState.initial());
       await tester.pumpWidget(subject);
 
       expect(find.text(ResetPasswordPage.appBarTitle), findsOneWidget);
@@ -75,8 +75,8 @@ void main() {
       );
       when(requestOtpCubit.state)
           .thenReturn(RequestOtpState(status: FormStatus.success()));
-      when(resetPasswordCubit.state).thenReturn(
-        ResetPasswordState(
+      when(passwordResetCubit.state).thenReturn(
+        PasswordResetState(
           status: FormStatus.idle(),
           showAllForm: true,
         ),
@@ -107,8 +107,8 @@ void main() {
       );
       when(requestOtpCubit.state)
           .thenReturn(RequestOtpState(status: FormStatus.success()));
-      when(resetPasswordCubit.state).thenReturn(
-        ResetPasswordState(
+      when(passwordResetCubit.state).thenReturn(
+        PasswordResetState(
           status: FormStatus.idle(),
           showAllForm: true,
         ),
@@ -133,7 +133,7 @@ void main() {
       await tester.enterText(passwordInput, dto.password);
       await tester.enterText(password2Input, dto.password);
       await tester.tap(submitButton);
-      verify(resetPasswordCubit.submit(any));
+      verify(passwordResetCubit.submit(any));
     });
 
     testWidgets('should show error text when given invalid input',
@@ -148,8 +148,8 @@ void main() {
       );
       when(requestOtpCubit.state)
           .thenReturn(RequestOtpState(status: FormStatus.success()));
-      when(resetPasswordCubit.state).thenReturn(
-        ResetPasswordState(
+      when(passwordResetCubit.state).thenReturn(
+        PasswordResetState(
           status: FormStatus.idle(),
           showAllForm: true,
         ),
@@ -174,7 +174,7 @@ void main() {
       await tester.enterText(passwordInput, dto.password);
       await tester.enterText(password2Input, dto.password);
       await tester.tap(submitButton);
-      verifyNever(resetPasswordCubit.submit(any));
+      verifyNever(passwordResetCubit.submit(any));
 
       await tester.pumpAndSettle();
 
@@ -184,7 +184,7 @@ void main() {
     });
 
     testWidgets(
-        'should show error text when ResetPasswordState status is error',
+        'should show error text when PasswordResetState status is error',
         (tester) async {
       final error = ServerError(
         errorCode: '2313',
@@ -204,10 +204,10 @@ void main() {
         ]),
       );
       whenListen(
-        resetPasswordCubit,
+        passwordResetCubit,
         Stream.fromIterable([
-          ResetPasswordState(status: FormStatus.loading()),
-          ResetPasswordState(
+          PasswordResetState(status: FormStatus.loading()),
+          PasswordResetState(
             status: FormStatus.error(error: error),
             showAllForm: true,
           ),
@@ -215,8 +215,8 @@ void main() {
       );
       when(requestOtpCubit.state)
           .thenReturn(RequestOtpState(status: FormStatus.success()));
-      when(resetPasswordCubit.state).thenReturn(
-        ResetPasswordState(
+      when(passwordResetCubit.state).thenReturn(
+        PasswordResetState(
           status: FormStatus.error(error: error),
           showAllForm: true,
         ),
@@ -230,9 +230,9 @@ void main() {
 
     testWidgets(
         'should show loading indicator on submit button '
-        'when ResetPasswordState status is loading', (tester) async {
-      when(resetPasswordCubit.state).thenReturn(
-        ResetPasswordState(
+        'when PasswordResetState status is loading', (tester) async {
+      when(passwordResetCubit.state).thenReturn(
+        PasswordResetState(
           status: FormStatus.loading(),
           showAllForm: true,
         ),
@@ -267,8 +267,8 @@ void main() {
         ]),
       );
 
-      when(resetPasswordCubit.state).thenReturn(
-        ResetPasswordState(
+      when(passwordResetCubit.state).thenReturn(
+        PasswordResetState(
           status: FormStatus.loading(),
           showAllForm: true,
         ),
@@ -286,18 +286,18 @@ void main() {
     });
 
     testWidgets(
-        'listen for ResetPasswordState, when state is success '
+        'listen for PasswordResetState, when state is success '
         'should show ResetPasswordSuccess', (tester) async {
       whenListen(
-        resetPasswordCubit,
+        passwordResetCubit,
         Stream.fromIterable([
-          ResetPasswordState.initial(),
-          ResetPasswordState(status: FormStatus.loading()),
-          ResetPasswordState(status: FormStatus.success()),
+          PasswordResetState.initial(),
+          PasswordResetState(status: FormStatus.loading()),
+          PasswordResetState(status: FormStatus.success()),
         ]),
       );
-      when(resetPasswordCubit.state)
-          .thenReturn(ResetPasswordState(status: FormStatus.success()));
+      when(passwordResetCubit.state)
+          .thenReturn(PasswordResetState(status: FormStatus.success()));
       when(requestOtpCubit.state)
           .thenReturn(RequestOtpState(status: FormStatus.success()));
 

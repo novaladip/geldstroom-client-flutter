@@ -1,14 +1,14 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:geldstroom/core/bloc/reset_password/reset_password_cubit.dart';
+import 'package:geldstroom/core/bloc/password_reset/password_reset_cubit.dart';
 import 'package:geldstroom/core/network/network.dart';
 import 'package:mockito/mockito.dart';
 
 class MockAuthService extends Mock implements IAuthService {}
 
 void main() {
-  group('ResetPasswordCubit', () {
+  group('PasswordResetCubit', () {
     final dto = PasswordResetDto(
       email: 'john@email.com',
       otp: '123456',
@@ -21,38 +21,38 @@ void main() {
       authService = MockAuthService();
     });
 
-    test('initial ResetPasswordCubit state', () {
-      final cubit = ResetPasswordCubit(authService);
-      expect(cubit.state, ResetPasswordState.initial());
+    test('initial PasswordResetCubit state', () {
+      final cubit = PasswordResetCubit(authService);
+      expect(cubit.state, PasswordResetState.initial());
     });
 
-    blocTest<ResetPasswordCubit, ResetPasswordState>(
-      'emits ResetPasswordState with status [loading, success] when successful',
+    blocTest<PasswordResetCubit, PasswordResetState>(
+      'emits PasswordResetState with status [loading, success] when successful',
       build: () {
         when(authService.resetPassword(dto)).thenAnswer(
           (_) async => Right(None()),
         );
-        return ResetPasswordCubit(authService);
+        return PasswordResetCubit(authService);
       },
       act: (cubit) => cubit.submit(dto),
       expect: [
-        ResetPasswordState(status: FormStatus.loading()),
-        ResetPasswordState(status: FormStatus.success()),
+        PasswordResetState(status: FormStatus.loading()),
+        PasswordResetState(status: FormStatus.success()),
       ],
     );
 
-    blocTest<ResetPasswordCubit, ResetPasswordState>(
-      'emits ResetPasswordState with status [loading, error] when failure',
+    blocTest<PasswordResetCubit, PasswordResetState>(
+      'emits PasswordResetState with status [loading, error] when failure',
       build: () {
         when(authService.resetPassword(dto)).thenAnswer(
           (_) async => Left(ServerError.networkError()),
         );
-        return ResetPasswordCubit(authService);
+        return PasswordResetCubit(authService);
       },
       act: (cubit) => cubit.submit(dto),
       expect: [
-        ResetPasswordState(status: FormStatus.loading()),
-        ResetPasswordState(
+        PasswordResetState(status: FormStatus.loading()),
+        PasswordResetState(
           status: FormStatus.error(
             error: ServerError.networkError(),
           ),
@@ -60,20 +60,20 @@ void main() {
       ],
     );
 
-    blocTest<ResetPasswordCubit, ResetPasswordState>(
-      'emits ResetPasswordState with status [idle] when clear()',
-      build: () => ResetPasswordCubit(authService),
+    blocTest<PasswordResetCubit, PasswordResetState>(
+      'emits PasswordResetState with status [idle] when clear()',
+      build: () => PasswordResetCubit(authService),
       act: (cubit) => cubit.clear(),
-      expect: [ResetPasswordState.initial()],
+      expect: [PasswordResetState.initial()],
     );
 
-    blocTest<ResetPasswordCubit, ResetPasswordState>(
-      'emits ResetPasswordState with showAllTrue: true '
+    blocTest<PasswordResetCubit, PasswordResetState>(
+      'emits PasswordResetState with showAllTrue: true '
       'when changeShowAllForm(true)',
-      build: () => ResetPasswordCubit(authService),
+      build: () => PasswordResetCubit(authService),
       act: (cubit) => cubit.changeShowAllForm(true),
       expect: [
-        ResetPasswordState(
+        PasswordResetState(
           status: FormStatus.idle(),
           showAllForm: true,
         )
