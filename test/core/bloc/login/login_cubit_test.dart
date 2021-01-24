@@ -3,7 +3,6 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geldstroom/core/bloc/auth/auth_cubit.dart';
 import 'package:geldstroom/core/bloc/login/login_cubit.dart';
-import 'package:geldstroom/core/network/dto/login_dto.dart';
 import 'package:geldstroom/core/network/model/status_model.dart';
 import 'package:geldstroom/core/network/network.dart';
 import 'package:geldstroom/core/network/service/auth/auth_service.dart';

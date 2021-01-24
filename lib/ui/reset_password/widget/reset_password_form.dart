@@ -115,7 +115,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
 
   void onSubmit() {
     if (!form.currentState.validate()) return;
-    final dto = ResetPasswordDto(
+    final dto = PasswordResetDto(
       email: email.text,
       otp: otp.text,
       password: password.text,

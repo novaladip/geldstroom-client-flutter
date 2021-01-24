@@ -62,7 +62,7 @@ void main() {
 
     group('changePassword', () {
       test('when successful', () async {
-        final dto = ChangePasswordDto(
+        final dto = PasswordChangeDto(
           oldPassword: '123123',
           password: '321321',
           passwordConfirmation: '321321',
@@ -84,7 +84,7 @@ void main() {
       });
 
       test('when failure', () async {
-        final dto = ChangePasswordDto(
+        final dto = PasswordChangeDto(
           oldPassword: '123123',
           password: '321321',
           passwordConfirmation: '321321',

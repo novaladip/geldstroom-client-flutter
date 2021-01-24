@@ -66,7 +66,7 @@ class OverviewBalanceCubit extends Cubit<OverviewBalanceState> {
 
   Future<void> fetch() async {
     emit(state.copyWith(status: Status.loading()));
-    final dto = GetBalanceDto(
+    final dto = BalanceFilterDto(
       categoryId: 'ALL',
       start: _overviewRangeCubit.state.dateRange.start,
       end: _overviewRangeCubit.state.dateRange.end,

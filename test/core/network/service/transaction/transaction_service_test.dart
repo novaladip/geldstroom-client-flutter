@@ -3,7 +3,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geldstroom/core/network/dto/dto.dart';
-import 'package:geldstroom/core/network/dto/transaction_edit_dto.dart';
 import 'package:geldstroom/core/network/network.dart';
 import 'package:geldstroom/core/network/service/transaction/transaction_service.dart';
 import 'package:geldstroom/shared/common/config/config.dart';
@@ -38,7 +37,7 @@ void main() {
         when(dioAdapterMock.fetch(any, any, any))
             .thenAnswer((_) async => httpResponse);
 
-        final dto = GetBalanceDto.weekly();
+        final dto = BalanceFilterDto.weekly();
         final result = await service.getBalance(dto);
         result.fold(
           (l) {
@@ -58,7 +57,7 @@ void main() {
         when(dioAdapterMock.fetch(any, any, any))
             .thenAnswer((_) async => httpResponse);
 
-        final dto = GetBalanceDto.weekly();
+        final dto = BalanceFilterDto.weekly();
         final result = await service.getBalance(dto);
         result.fold(
           (l) {
@@ -77,7 +76,7 @@ void main() {
         when(dioAdapterMock.fetch(any, any, any))
             .thenAnswer((_) async => httpResponse);
 
-        final dto = GetTransactionDto.monthly();
+        final dto = TransactionFilterDto.monthly();
         final result = await service.getTransactions(dto);
         result.fold(
           (l) {
@@ -100,7 +99,7 @@ void main() {
         when(dioAdapterMock.fetch(any, any, any))
             .thenAnswer((_) async => httpResponse);
 
-        final dto = GetTransactionDto.weekly();
+        final dto = TransactionFilterDto.weekly();
         final result = await service.getTransactions(dto);
         result.fold(
           (l) {

@@ -116,7 +116,7 @@ void main() {
       await tester.pumpWidget(subject);
       await tester.pumpAndSettle(Duration(seconds: 1));
 
-      final dto = ResetPasswordDto(
+      final dto = PasswordResetDto(
         email: 'john@email.com',
         password: 'johnpassword',
         otp: '123456',
@@ -157,7 +157,7 @@ void main() {
       await tester.pumpWidget(subject);
       await tester.pumpAndSettle(Duration(seconds: 1));
 
-      final dto = ResetPasswordDto(
+      final dto = PasswordResetDto(
         email: 'john',
         password: '',
         otp: '',

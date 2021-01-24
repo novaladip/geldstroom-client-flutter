@@ -9,7 +9,7 @@ abstract class IAuthService {
   Future<Either<ServerError, String>> loginWithEmail(LoginDto dto);
   Future<Either<ServerError, None>> register(RegisterDto dto);
   Future<Either<ServerError, None>> requestOtp(String email);
-  Future<Either<ServerError, None>> resetPassword(ResetPasswordDto dto);
+  Future<Either<ServerError, None>> resetPassword(PasswordResetDto dto);
 }
 
 @Injectable(as: IAuthService)
@@ -50,7 +50,7 @@ class AuthService implements IAuthService {
   }
 
   @override
-  Future<Either<ServerError, None>> resetPassword(ResetPasswordDto dto) async {
+  Future<Either<ServerError, None>> resetPassword(PasswordResetDto dto) async {
     try {
       await _dio.put('/user/reset/password', data: dto.toMap);
       return Right(None());

@@ -1,15 +1,68 @@
+import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
 import '../../../shared/common/utils/utils.dart';
 import 'dto.dart';
 
-class GetTransactionDto implements BaseDto {
+class TransactionCreateDto extends Equatable implements BaseDto {
+  final String description;
+  final int amount;
+  final String categoryId;
+  final String type;
+
+  const TransactionCreateDto({
+    @required this.description,
+    @required this.amount,
+    @required this.categoryId,
+    @required this.type,
+  });
+
+  @override
+  List<Object> get props => [description, amount, categoryId, type];
+
+  @override
+  Map<String, dynamic> get toMap => {
+        'description': description,
+        'amount': amount,
+        'category_id': categoryId,
+        'type': type,
+      };
+}
+
+class TransactionEditDto extends Equatable implements BaseDto {
+  const TransactionEditDto({
+    @required this.id,
+    @required this.amount,
+    @required this.description,
+    @required this.type,
+    @required this.categoryId,
+  });
+
+  final String id;
+  final int amount;
+  final String description;
+  final String type;
+  final String categoryId;
+
+  @override
+  Map<String, dynamic> get toMap => {
+        'amount': amount,
+        'description': description,
+        'type': type,
+        'categoryId': categoryId,
+      };
+
+  @override
+  List<Object> get props => [id, amount, description, type, categoryId];
+}
+
+class TransactionFilterDto implements BaseDto {
   static const _defaultType = 'ALL';
   static const _defaultCategoryId = 'ALL';
   static const _defaultLimit = 15;
   static const _defaultOffset = 0;
 
-  const GetTransactionDto({
+  const TransactionFilterDto({
     @required this.start,
     @required this.end,
     this.categoryId = _defaultCategoryId,
@@ -40,7 +93,7 @@ class GetTransactionDto implements BaseDto {
     return map;
   }
 
-  factory GetTransactionDto.weekly({
+  factory TransactionFilterDto.weekly({
     String categoryId,
     String type,
     int limit = _defaultLimit,
@@ -48,7 +101,7 @@ class GetTransactionDto implements BaseDto {
   }) {
     final dateRange = DateRange.weekly();
 
-    return GetTransactionDto(
+    return TransactionFilterDto(
       categoryId: categoryId,
       type: type,
       start: dateRange.start,
@@ -56,7 +109,7 @@ class GetTransactionDto implements BaseDto {
     );
   }
 
-  factory GetTransactionDto.monthly({
+  factory TransactionFilterDto.monthly({
     String categoryId,
     String type,
     int limit = _defaultLimit,
@@ -64,7 +117,7 @@ class GetTransactionDto implements BaseDto {
   }) {
     final dateRange = DateRange.monthly();
 
-    return GetTransactionDto(
+    return TransactionFilterDto(
       categoryId: categoryId,
       type: type,
       start: dateRange.start,
@@ -72,7 +125,7 @@ class GetTransactionDto implements BaseDto {
     );
   }
 
-  GetTransactionDto copyWith({
+  TransactionFilterDto copyWith({
     String categoryId,
     String type,
     int limit,
@@ -80,7 +133,7 @@ class GetTransactionDto implements BaseDto {
     DateTime start,
     DateTime end,
   }) {
-    return GetTransactionDto(
+    return TransactionFilterDto(
       categoryId: categoryId ?? this.categoryId,
       type: type ?? this.type,
       limit: limit ?? this.limit,

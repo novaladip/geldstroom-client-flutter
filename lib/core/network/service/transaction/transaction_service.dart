@@ -6,9 +6,10 @@ import '../../dto/dto.dart';
 import '../../model/model.dart';
 
 abstract class ITransactionService {
-  Future<Either<ServerError, TransactionTotal>> getBalance(GetBalanceDto dto);
+  Future<Either<ServerError, TransactionTotal>> getBalance(
+      BalanceFilterDto dto);
   Future<Either<ServerError, List<Transaction>>> getTransactions(
-    GetTransactionDto dto,
+    TransactionFilterDto dto,
   );
   Future<Either<ServerError, Transaction>> create(TransactionCreateDto dto);
   Future<Either<ServerError, Transaction>> edit(TransactionEditDto dto);
@@ -23,7 +24,7 @@ class TransactionService implements ITransactionService {
 
   @override
   Future<Either<ServerError, TransactionTotal>> getBalance(
-      GetBalanceDto dto) async {
+      BalanceFilterDto dto) async {
     try {
       final res = await _dio.get(
         '/transaction/balance',
@@ -38,7 +39,7 @@ class TransactionService implements ITransactionService {
 
   @override
   Future<Either<ServerError, List<Transaction>>> getTransactions(
-      GetTransactionDto dto) async {
+      TransactionFilterDto dto) async {
     try {
       final res = await _dio.get(
         '/transaction',

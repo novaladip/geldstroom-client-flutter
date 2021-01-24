@@ -7,7 +7,7 @@ import '../../model/model.dart';
 
 abstract class IUserService {
   Future<Either<ServerError, Profile>> getProfile();
-  Future<Either<ServerError, None>> changePassword(ChangePasswordDto dto);
+  Future<Either<ServerError, None>> changePassword(PasswordChangeDto dto);
 }
 
 @LazySingleton(as: IUserService)
@@ -29,7 +29,7 @@ class UserService implements IUserService {
 
   @override
   Future<Either<ServerError, None>> changePassword(
-      ChangePasswordDto dto) async {
+      PasswordChangeDto dto) async {
     try {
       await _dio.post(
         '/user/change/password',

@@ -12,7 +12,7 @@ void main() {
     IUserService service;
     PasswordChangeCubit subject;
 
-    final dto = ChangePasswordDto(
+    final dto = PasswordChangeDto(
       oldPassword: '123123',
       password: '321321',
       passwordConfirmation: '321321',

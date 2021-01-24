@@ -78,10 +78,10 @@ class OverviewTransactionBloc
   final TransactionEditCubit _transactionEditCubit;
   final TransactionDeleteCubit _transactionDeleteCubit;
 
-  GetTransactionDto get _dto =>
-      _overviewRangeCubit.state.when<GetTransactionDto>(
-        monthly: () => GetTransactionDto.monthly(offset: state.data.length),
-        weekly: () => GetTransactionDto.weekly(offset: state.data.length),
+  TransactionFilterDto get _dto =>
+      _overviewRangeCubit.state.when<TransactionFilterDto>(
+        monthly: () => TransactionFilterDto.monthly(offset: state.data.length),
+        weekly: () => TransactionFilterDto.weekly(offset: state.data.length),
       );
 
   @override

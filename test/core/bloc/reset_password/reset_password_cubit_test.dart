@@ -9,7 +9,7 @@ class MockAuthService extends Mock implements IAuthService {}
 
 void main() {
   group('ResetPasswordCubit', () {
-    final dto = ResetPasswordDto(
+    final dto = PasswordResetDto(
       email: 'john@email.com',
       otp: '123456',
       password: 'johnpassword',

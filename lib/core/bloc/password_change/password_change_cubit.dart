@@ -16,7 +16,7 @@ class PasswordChangeCubit extends Cubit<PasswordChangeState> {
 
   final IUserService _service;
 
-  Future<void> submit(ChangePasswordDto dto) async {
+  Future<void> submit(PasswordChangeDto dto) async {
     emit(PasswordChangeState(FormStatus.loading()));
     final result = await _service.changePassword(dto);
     result.fold(

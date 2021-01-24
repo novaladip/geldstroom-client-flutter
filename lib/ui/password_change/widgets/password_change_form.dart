@@ -49,7 +49,7 @@ class _PasswordChangeFormState extends State<PasswordChangeForm> {
   void onSubmit() {
     if (!form.currentState.validate()) return;
 
-    final dto = ChangePasswordDto(
+    final dto = PasswordChangeDto(
       oldPassword: oldPassword.text,
       password: password.text,
       passwordConfirmation: password2.text,

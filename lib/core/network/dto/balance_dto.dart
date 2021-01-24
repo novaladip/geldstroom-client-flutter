@@ -4,8 +4,8 @@ import 'package:meta/meta.dart';
 import '../../../shared/common/utils/utils.dart';
 import 'dto.dart';
 
-class GetBalanceDto extends Equatable implements BaseDto {
-  const GetBalanceDto({
+class BalanceFilterDto extends Equatable implements BaseDto {
+  const BalanceFilterDto({
     @required this.categoryId,
     @required this.start,
     @required this.end,
@@ -15,20 +15,20 @@ class GetBalanceDto extends Equatable implements BaseDto {
   final DateTime start; // timestamp
   final DateTime end; // timestamp
 
-  factory GetBalanceDto.weekly() {
+  factory BalanceFilterDto.weekly() {
     final dateRange = DateRange.weekly();
 
-    return GetBalanceDto(
+    return BalanceFilterDto(
       categoryId: 'ALL',
       start: dateRange.start,
       end: dateRange.end,
     );
   }
 
-  factory GetBalanceDto.monthly() {
+  factory BalanceFilterDto.monthly() {
     final dateRange = DateRange.monthly();
 
-    return GetBalanceDto(
+    return BalanceFilterDto(
       categoryId: 'ALL',
       start: dateRange.start,
       end: dateRange.end,

@@ -3,8 +3,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geldstroom/core/network/dto/dto.dart';
-import 'package:geldstroom/core/network/dto/login_dto.dart';
-import 'package:geldstroom/core/network/dto/register_dto.dart';
 import 'package:geldstroom/core/network/model/error_model.dart';
 import 'package:geldstroom/core/network/service/auth/auth_service.dart';
 import 'package:geldstroom/shared/common/config/config.dart';
@@ -163,7 +161,7 @@ void main() {
       final httpResponse = buildResponseBody(payload: payload);
       when(dioAdapterMock.fetch(any, any, any))
           .thenAnswer((_) async => httpResponse);
-      final result = await authService.resetPassword(ResetPasswordDto(
+      final result = await authService.resetPassword(PasswordResetDto(
         email: 'john@email.com',
         otp: '123456',
         password: 'johnpassword',
@@ -185,7 +183,7 @@ void main() {
       final httpResponse = buildResponseBody(payload: payload, statusCode: 400);
       when(dioAdapterMock.fetch(any, any, any))
           .thenAnswer((_) async => httpResponse);
-      final result = await authService.resetPassword(ResetPasswordDto(
+      final result = await authService.resetPassword(PasswordResetDto(
         email: 'john@email.com',
         otp: '123456',
         password: 'johnpassword',
