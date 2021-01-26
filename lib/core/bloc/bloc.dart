@@ -7,6 +7,7 @@ export 'password_change/password_change_cubit.dart';
 export 'password_reset/password_reset_cubit.dart';
 export 'profile/profile_cubit.dart';
 export 'register/register_cubit.dart';
+export 'request_category/request_category_cubit.dart';
 export 'request_otp/request_otp_cubit.dart';
 export 'transaction_create/transaction_create_cubit.dart';
 export 'transaction_delete/transaction_delete_cubit.dart';
