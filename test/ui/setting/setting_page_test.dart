@@ -50,6 +50,8 @@ void main() {
               SettingPage.routeName: (_) => SettingPage(),
               PasswordChangePage.routeName: (_) =>
                   Scaffold(key: Key('password_change_page')),
+              RequestCategoryPage.routeName: (_) =>
+                  Scaffold(key: Key('request_category_page')),
             },
             initialRoutes: SettingPage.routeName,
           ),
@@ -110,7 +112,8 @@ void main() {
         await tester.pumpWidget(subject);
         await tester.pump();
         await tester.tap(find.text('Request Category').hitTestable());
-        // @TODO
+        await tester.pumpAndSettle();
+        expect(find.byKey(Key('request_category_page')), findsOneWidget);
       });
 
       testWidgets('tap Credit', (tester) async {

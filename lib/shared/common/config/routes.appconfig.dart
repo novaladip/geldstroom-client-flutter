@@ -62,6 +62,10 @@ Map<String, WidgetBuilder> buildRoutes() {
           ],
           child: PasswordResetPage(),
         ),
+    RequestCategoryPage.routeName: (_) => BlocProvider.value(
+          value: getIt<RequestCategoryCubit>(),
+          child: RequestCategoryPage(),
+        ),
   };
 
   return routes;

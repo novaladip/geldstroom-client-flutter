@@ -46,7 +46,7 @@ class _SettingPageState extends State<SettingPage> {
                 SettingItem(
                   icon: Icons.category_outlined,
                   title: 'Request Category',
-                  onTap: () {},
+                  onTap: () => navigateTo(RequestCategoryPage.routeName),
                 ),
                 SettingItem(
                   icon: Icons.chrome_reader_mode_outlined,
