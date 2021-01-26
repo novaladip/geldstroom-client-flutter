@@ -8,7 +8,7 @@ abstract class RequestCategoryState with _$RequestCategoryState {
   }) = _RequestCategoryState;
 
   factory RequestCategoryState.initial() => RequestCategoryState(
-    status: FetchStatus.initial(),
-    data: [],
-  );
+        status: FetchStatus.initial(),
+        data: [],
+      );
 }
