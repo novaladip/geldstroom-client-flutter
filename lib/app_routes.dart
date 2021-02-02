@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/bloc/bloc.dart';
-import '../../../core/bloc_ui/ui_bloc.dart';
-import '../../../ui/ui.dart';
-import '../utils/utils.dart';
+import 'core/bloc/bloc.dart';
+import 'core/bloc_ui/ui_bloc.dart';
+import 'shared/common/utils/utils.dart';
+import 'ui/ui.dart';
 
 Map<String, WidgetBuilder> buildRoutes() {
   final routes = <String, Widget Function(BuildContext)>{

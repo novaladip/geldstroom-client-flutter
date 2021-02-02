@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'app_routes.dart';
 import 'core/bloc/bloc.dart';
 import 'core/bloc_ui/ui_bloc.dart';
 import 'shared/common/config/config.dart';
