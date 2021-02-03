@@ -44,6 +44,8 @@ void main() {
                 value: cubit,
                 child: RequestCategoryPage(),
               ),
+          RequestCategoryCreatePage.routeName: (_) =>
+              Scaffold(key: Key('request_category_create_page')),
         },
         initialRoutes: RequestCategoryPage.routeName,
       );
@@ -57,6 +59,7 @@ void main() {
       testWidgets('when state is load success', (tester) async {
         await tester.pumpWidget(subject);
         expect(find.byType(RequestCategoryItem), findsNWidgets(data.length));
+        expect(find.byIcon(Icons.add), findsOneWidget);
       });
 
       testWidgets('when state is initial', (tester) async {
@@ -84,6 +87,15 @@ void main() {
         when(cubit.state).thenReturn(stateInitial);
         await tester.pumpWidget(subject);
         verify(cubit.fetch()).called(1);
+      });
+
+      testWidgets('able to navigate to RequestCategoryCreatePage',
+          (tester) async {
+        when(cubit.state).thenReturn(stateInitial);
+        await tester.pumpWidget(subject);
+        await tester.tap(find.byIcon(Icons.add).hitTestable());
+        await tester.pumpAndSettle();
+        expect(find.byKey(Key('request_category_create_page')), findsOneWidget);
       });
 
       testWidgets('should able to refetch data when load failure',

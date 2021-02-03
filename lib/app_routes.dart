@@ -66,6 +66,10 @@ Map<String, WidgetBuilder> buildRoutes() {
           value: getIt<RequestCategoryCubit>(),
           child: RequestCategoryPage(),
         ),
+    RequestCategoryCreatePage.routeName: (_) => BlocProvider.value(
+          value: getIt<RequestCategoryCreateCubit>(),
+          child: RequestCategoryCreatePage(),
+        ),
   };
 
   return routes;

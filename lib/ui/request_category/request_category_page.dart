@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/bloc/bloc.dart';
 import '../../shared/widget/widget.dart';
+import '../ui.dart';
 import 'widgets/request_category_item.dart';
 
 class RequestCategoryPage extends StatefulWidget {
@@ -22,6 +23,13 @@ class _RequestCategoryPageState extends State<RequestCategoryPage> {
       appBar: AppBar(
         title: Text(RequestCategoryPage.appBarTitle),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () => Navigator.of(context)
+                .pushNamed(RequestCategoryCreatePage.routeName),
+          ),
+        ],
       ),
       body: Builder(
         builder: (context) {
