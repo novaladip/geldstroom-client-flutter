@@ -19,6 +19,7 @@ dependencies:
   flushbar: ^1.10.4
   flutter_bloc: ^6.1.1
   flutter_dotenv: ^2.1.0
+  flutter_linkify: ^4.0.2
   flutter_screenutil: ^4.0.0-beta
   flutter_slidable: ^0.5.7
   flutter_spinkit: ^4.1.2+1
@@ -34,10 +35,11 @@ dependencies:
   jwt_decoder: ^1.0.3
   meta: ^1.2.4
   modal_bottom_sheet: ^1.0.0+1
+  package_info: ^0.4.3+2
   scrollable_positioned_list: ^0.1.8
   shared_preferences: ^0.5.12+4
-  package_info: ^0.4.3+2
   styled_widget: ^0.2.2
+  url_launcher: ^5.7.10
 
 dev_dependencies:
   flutter_test:

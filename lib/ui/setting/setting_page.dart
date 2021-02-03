@@ -51,7 +51,7 @@ class _SettingPageState extends State<SettingPage> {
                 SettingItem(
                   icon: Icons.chrome_reader_mode_outlined,
                   title: 'Credit',
-                  onTap: () {},
+                  onTap: () => navigateTo(CreditPage.routeName),
                 ),
                 SettingItem(
                   icon: Icons.lock_outline,

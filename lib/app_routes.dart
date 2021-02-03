@@ -70,6 +70,7 @@ Map<String, WidgetBuilder> buildRoutes() {
           value: getIt<RequestCategoryCreateCubit>(),
           child: RequestCategoryCreatePage(),
         ),
+    CreditPage.routeName: (_) => CreditPage(),
   };
 
   return routes;
