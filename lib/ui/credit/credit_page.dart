@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../core/bloc/bloc.dart';
-import '../../core/network/model/model.dart';
 import '../../shared/common/config/config.dart';
 import '../../shared/widget/widget.dart';
 import 'widgets/credit_item.dart';
@@ -57,7 +56,7 @@ class _CreditPageState extends State<CreditPage> {
   void fetch() {
     final cubit = context.read<CategoryCubit>();
     cubit.state.status.maybeWhen(
-      orElse: () => cubit.fetch(),
+      orElse: cubit.fetch,
       loadSuccess: () {},
     );
   }
