@@ -86,7 +86,7 @@ void main() {
           (r) {
             expect(
               r,
-              TransactionReport.fromJson(TransactionJson.balanceReport),
+              BalanceReport.fromJson(TransactionJson.balanceReport),
             );
           },
         );

@@ -28,21 +28,21 @@ void main() {
     };
 
     test('support value comparations', () {
-      final subject = TransactionReport(
-        income: [TransactionReportData(date: now, total: 123123)],
-        expense: [TransactionReportData(date: now, total: 1231231)],
+      final subject = BalanceReport(
+        income: [BalanceReportData(date: now, total: 123123)],
+        expense: [BalanceReportData(date: now, total: 1231231)],
       );
 
-      final subject2 = TransactionReport(
-        income: [TransactionReportData(date: now, total: 123123)],
-        expense: [TransactionReportData(date: now, total: 1231231)],
+      final subject2 = BalanceReport(
+        income: [BalanceReportData(date: now, total: 123123)],
+        expense: [BalanceReportData(date: now, total: 1231231)],
       );
 
       expect(subject, subject2);
     });
 
     test('fromJson', () {
-      final subject = TransactionReport.fromJson(json);
+      final subject = BalanceReport.fromJson(json);
       expect(subject.income.length, 1);
       expect(subject.expense.length, 1);
     });
@@ -50,11 +50,11 @@ void main() {
   group('TransactionReportData', () {
     final now = DateTime.now();
     test('support value comparations', () {
-      final subject = TransactionReportData(
+      final subject = BalanceReportData(
         date: now,
         total: 123000,
       );
-      final subject2 = TransactionReportData(
+      final subject2 = BalanceReportData(
         date: now,
         total: 123000,
       );
@@ -63,13 +63,13 @@ void main() {
 
     test('fromJson', () {
       final now = DateTime.now();
-      final subject = TransactionReportData(
+      final subject = BalanceReportData(
         date: now,
         total: 123000,
       );
       expect(
         subject,
-        TransactionReportData.fromJson({
+        BalanceReportData.fromJson({
           'total': 123000,
           'date': now.toIso8601String(),
         }),

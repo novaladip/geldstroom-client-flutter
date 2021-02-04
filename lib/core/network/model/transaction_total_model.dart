@@ -28,22 +28,22 @@ class TransactionTotal extends Equatable {
   List<Object> get props => [income, expense];
 }
 
-class TransactionReport extends Equatable {
-  const TransactionReport({
+class BalanceReport extends Equatable {
+  const BalanceReport({
     @required this.income,
     @required this.expense,
   });
 
-  final List<TransactionReportData> income;
-  final List<TransactionReportData> expense;
+  final List<BalanceReportData> income;
+  final List<BalanceReportData> expense;
 
-  factory TransactionReport.fromJson(Map<String, dynamic> json) {
-    return TransactionReport(
+  factory BalanceReport.fromJson(Map<String, dynamic> json) {
+    return BalanceReport(
       income: (json['income'] as List)
-          .map((data) => TransactionReportData.fromJson(data))
+          .map((data) => BalanceReportData.fromJson(data))
           .toList(),
       expense: (json['expense'] as List)
-          .map((data) => TransactionReportData.fromJson(data))
+          .map((data) => BalanceReportData.fromJson(data))
           .toList(),
     );
   }
@@ -52,8 +52,8 @@ class TransactionReport extends Equatable {
   List<Object> get props => [income, expense];
 }
 
-class TransactionReportData extends Equatable {
-  const TransactionReportData({
+class BalanceReportData extends Equatable {
+  const BalanceReportData({
     @required this.total,
     @required this.date,
   });
@@ -61,8 +61,8 @@ class TransactionReportData extends Equatable {
   final int total;
   final DateTime date;
 
-  factory TransactionReportData.fromJson(Map<String, dynamic> json) {
-    return TransactionReportData(
+  factory BalanceReportData.fromJson(Map<String, dynamic> json) {
+    return BalanceReportData(
       total: json['total'],
       date: DateTime.parse(json['date']),
     );

@@ -8,7 +8,7 @@ import '../../model/model.dart';
 abstract class ITransactionService {
   Future<Either<ServerError, TransactionTotal>> getBalance(
       BalanceFilterDto dto);
-  Future<Either<ServerError, TransactionReport>> getBalanceReport(
+  Future<Either<ServerError, BalanceReport>> getBalanceReport(
       BalanceFilterDto dto);
   Future<Either<ServerError, List<Transaction>>> getTransactions(
     TransactionFilterDto dto,
@@ -40,14 +40,14 @@ class TransactionService implements ITransactionService {
   }
 
   @override
-  Future<Either<ServerError, TransactionReport>> getBalanceReport(
+  Future<Either<ServerError, BalanceReport>> getBalanceReport(
       BalanceFilterDto dto) async {
     try {
       final res = await _dio.get(
         '/transaction/balance/report',
         queryParameters: dto.toMap,
       );
-      final transactionReport = TransactionReport.fromJson(res.data);
+      final transactionReport = BalanceReport.fromJson(res.data);
       return Right(transactionReport);
     } on DioError catch (e) {
       return Left(ServerError.fromDioError(e));
