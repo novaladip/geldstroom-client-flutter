@@ -1,4 +1,5 @@
 export 'auth/auth_cubit.dart';
+export 'balance_report/balance_report_cubit.dart';
 export 'category/category_cubit.dart';
 export 'login/login_cubit.dart';
 export 'overview_balance/overview_balance_cubit.dart';
