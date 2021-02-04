@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_single_quotes
+
 class TransactionJson {
   static const listTransaction = <Map<String, dynamic>>[
     {
@@ -33,4 +35,25 @@ class TransactionJson {
       'userId': '284c5ca4-9d46-4259-a98d-8331f06b38d2'
     }
   ];
+
+  static const balanceReport = {
+    "income": [
+      {"date": "2021-01-31T00:00:00Z", "total": 0},
+      {"date": "2021-02-01T00:00:00Z", "total": 200000},
+      {"date": "2021-02-02T00:00:00Z", "total": 0},
+      {"date": "2021-02-03T00:00:00Z", "total": 0},
+      {"date": "2021-02-04T00:00:00Z", "total": 0},
+      {"date": "2021-02-05T00:00:00Z", "total": 0},
+      {"date": "2021-02-06T00:00:00Z", "total": 0}
+    ],
+    "expense": [
+      {"date": "2021-01-31T00:00:00Z", "total": 0},
+      {"date": "2021-02-01T00:00:00Z", "total": 120000},
+      {"date": "2021-02-02T00:00:00Z", "total": 30000},
+      {"date": "2021-02-03T00:00:00Z", "total": 0},
+      {"date": "2021-02-04T00:00:00Z", "total": 0},
+      {"date": "2021-02-05T00:00:00Z", "total": 0},
+      {"date": "2021-02-06T00:00:00Z", "total": 0}
+    ]
+  };
 }

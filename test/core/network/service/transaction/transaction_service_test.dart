@@ -8,6 +8,7 @@ import 'package:geldstroom/core/network/service/transaction/transaction_service.
 import 'package:geldstroom/shared/common/config/config.dart';
 import 'package:mockito/mockito.dart';
 
+import '../../../../helper_tests/tranasction_json.dart';
 import '../../../../test_helper.dart';
 import 'json.dart';
 
@@ -59,6 +60,48 @@ void main() {
 
         final dto = BalanceFilterDto.weekly();
         final result = await service.getBalance(dto);
+        result.fold(
+          (l) {
+            expect(l, ServerError.networkError());
+          },
+          (r) {
+            expect(r, null);
+          },
+        );
+      });
+    });
+
+    group('getBalanceReport', () {
+      test('when successful', () async {
+        final httpResponse =
+            buildResponseBody(payload: TransactionJson.balanceReport);
+        when(dioAdapterMock.fetch(any, any, any))
+            .thenAnswer((_) async => httpResponse);
+        final dto = BalanceFilterDto.weekly();
+        final result = await service.getBalanceReport(dto);
+        result.fold(
+          (l) {
+            expect(l, null);
+          },
+          (r) {
+            expect(
+              r,
+              TransactionReport.fromJson(TransactionJson.balanceReport),
+            );
+          },
+        );
+      });
+
+      test('when failure', () async {
+        final httpResponse = buildResponseBody(
+          payload: null,
+          statusCode: null,
+        );
+        when(dioAdapterMock.fetch(any, any, any))
+            .thenAnswer((_) async => httpResponse);
+
+        final dto = BalanceFilterDto.weekly();
+        final result = await service.getBalanceReport(dto);
         result.fold(
           (l) {
             expect(l, ServerError.networkError());
