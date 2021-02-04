@@ -32,7 +32,7 @@ Map<String, WidgetBuilder> buildRoutes() {
           child: HomePage(
             children: [
               OverviewPage(),
-              Scaffold(),
+              ReportPage(),
               SettingPage(),
             ],
           ),

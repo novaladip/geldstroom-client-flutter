@@ -24,10 +24,12 @@ class App extends StatelessWidget {
           providers: [
             BlocProvider.value(value: getIt<AuthCubit>()..appStarted()),
             BlocProvider.value(value: getIt<OverviewRangeCubit>()),
-            BlocProvider.value(value: getIt<CategoryCubit>()),
+            BlocProvider.value(value: getIt<ReportFilterCubit>()),
+            BlocProvider.value(value: getIt<CategoryCubit>()..fetch()),
             BlocProvider.value(value: getIt<TransactionCreateCubit>()),
             BlocProvider.value(value: getIt<TransactionEditCubit>()),
             BlocProvider.value(value: getIt<TransactionDeleteCubit>()),
+            BlocProvider.value(value: getIt<BalanceReportCubit>()),
           ],
           child: MaterialApp(
             title: 'Geldstroom',

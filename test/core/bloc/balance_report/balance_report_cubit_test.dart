@@ -3,7 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geldstroom/core/bloc/auth/auth_cubit.dart';
 import 'package:geldstroom/core/bloc/balance_report/balance_report_cubit.dart';
-import 'package:geldstroom/core/bloc_ui/transaction_report_filter/transaction_report_filter_cubit.dart';
+import 'package:geldstroom/core/bloc_ui/report_filter/report_filter_cubit.dart';
 import 'package:geldstroom/core/network/network.dart';
 import 'package:mockito/mockito.dart';
 
@@ -13,25 +13,24 @@ class MockITransactionSevice extends Mock implements ITransactionService {}
 
 class MockAuthCubit extends MockBloc<AuthState> implements AuthCubit {}
 
-class MockTransactionReportFilterCubit
-    extends MockBloc<TransactionReportFilterState>
-    implements TransactionReportFilterCubit {}
+class MockReportFilterCubit extends MockBloc<ReportFilterState>
+    implements ReportFilterCubit {}
 
 void main() {
   group('BalanceReportCubit', () {
     ITransactionService service;
     AuthCubit authCubit;
-    TransactionReportFilterCubit transactionReportFilterCubit;
+    ReportFilterCubit transactionReportFilterCubit;
     BalanceReportCubit subject;
 
     setUp(() {
       service = MockITransactionSevice();
       authCubit = MockAuthCubit();
-      transactionReportFilterCubit = MockTransactionReportFilterCubit();
+      transactionReportFilterCubit = MockReportFilterCubit();
 
       when(authCubit.state).thenReturn(AuthState.authenticated());
       when(transactionReportFilterCubit.state)
-          .thenReturn(TransactionReportFilterState.initial());
+          .thenReturn(ReportFilterState.initial());
       subject = BalanceReportCubit(
         service,
         authCubit,
@@ -103,36 +102,6 @@ void main() {
           );
         },
         expect: [BalanceReportState.initial()],
-      );
-    });
-
-    group('listen for TransactionReportFilterState', () {
-      final data = BalanceReport.fromJson(TransactionJson.balanceReport);
-      blocTest<BalanceReportCubit, BalanceReportState>(
-        'call fetch everytime TransactionReportFilterState changed',
-        build: () {
-          whenListen(
-            transactionReportFilterCubit,
-            Stream.value(TransactionReportFilterState.initial().copyWith(
-              start: DateTime.now(),
-            )),
-          );
-          when(service.getBalanceReport(any))
-              .thenAnswer((_) async => Right(data));
-          return subject = BalanceReportCubit(
-            service,
-            authCubit,
-            transactionReportFilterCubit,
-          );
-        },
-        expect: [
-          BalanceReportState.initial()
-              .copyWith(status: FetchStatus.loadInProgress()),
-          BalanceReportState(
-            data: data,
-            status: FetchStatus.loadSuccess(),
-          ),
-        ],
       );
     });
   });

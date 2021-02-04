@@ -40,6 +40,7 @@ dependencies:
   shared_preferences: ^0.5.12+4
   styled_widget: ^0.2.2
   url_launcher: ^5.7.10
+  syncfusion_flutter_charts: ^18.4.41
 
 dev_dependencies:
   flutter_test:

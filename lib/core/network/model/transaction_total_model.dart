@@ -48,6 +48,17 @@ class BalanceReport extends Equatable {
     );
   }
 
+  bool get isEmpty {
+    var total = 0;
+    for (var data in income) {
+      total += data.total;
+    }
+    for (var data in expense) {
+      total += data.total;
+    }
+    return total == 0;
+  }
+
   @override
   List<Object> get props => [income, expense];
 }

@@ -16,27 +16,22 @@ class BalanceReportCubit extends Cubit<BalanceReportState> {
   BalanceReportCubit(
     this._service,
     this._authCubit,
-    this._transactionReportFilterCubit,
+    this._reportFilterCubit,
   ) : super(BalanceReportState.initial()) {
     _authCubit.listen((state) {
       // call clear when user loggedout
       if (state is AuthStateUnauthenticated) clear();
     });
-
-    _transactionReportFilterCubit.listen((state) {
-      // call fetch everytime TransactionReportFilterState is changed
-      fetch();
-    });
   }
 
   final ITransactionService _service;
   final AuthCubit _authCubit;
-  final TransactionReportFilterCubit _transactionReportFilterCubit;
+  final ReportFilterCubit _reportFilterCubit;
 
   BalanceFilterDto get _dto => BalanceFilterDto(
         categoryId: 'ALL',
-        start: _transactionReportFilterCubit.state.start,
-        end: _transactionReportFilterCubit.state.end,
+        start: _reportFilterCubit.state.start,
+        end: _reportFilterCubit.state.end,
       );
 
   Future<void> fetch() async {

@@ -46,6 +46,11 @@ void main() {
       expect(subject.income.length, 1);
       expect(subject.expense.length, 1);
     });
+
+    test('isEmpty', () {
+      final subject = BalanceReport.fromJson(json);
+      expect(subject.isEmpty, false);
+    });
   });
   group('TransactionReportData', () {
     final now = DateTime.now();
