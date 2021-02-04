@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:meta/meta.dart';
 
 import '../../../shared/common/utils/utils.dart';
@@ -41,7 +42,7 @@ class BalanceFilterDto extends Equatable implements BaseDto {
   @override
   Map<String, dynamic> get toMap => {
         'category': categoryId,
-        'start': start.millisecondsSinceEpoch ~/ 1000,
-        'end': end.millisecondsSinceEpoch ~/ 1000,
+        'start': Jiffy(start).startOf(Units.DAY).millisecondsSinceEpoch ~/ 1000,
+        'end': Jiffy(end).endOf(Units.DAY).millisecondsSinceEpoch ~/ 1000,
       };
 }
