@@ -27,7 +27,8 @@ class LoginFooter extends StatelessWidget {
         )
         .gestures(
           onTap: () => Navigator.of(context).pushNamed(RegisterPage.routeName),
-        );
+        )
+        .padding(bottom: 25.h);
   }
 }
 

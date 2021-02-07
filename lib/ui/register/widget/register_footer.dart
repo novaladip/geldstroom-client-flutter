@@ -13,10 +13,11 @@ class RegisterFooter extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(RegisterFooter.text)
         .fontSize(28.sp)
-        .padding(bottom: 40.h)
+        .textAlignment(TextAlign.center)
         .gestures(
           onTap: () => Navigator.of(context)
               .pushNamedAndRemoveUntil(LoginPage.routeName, (_) => false),
-        );
+        )
+        .padding(bottom: 25.h);
   }
 }

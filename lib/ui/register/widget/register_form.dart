@@ -98,9 +98,10 @@ class _RegisterFormState extends State<RegisterForm> {
                   title: RegisterForm.submitButtonText,
                   onTap: onSubmit,
                 ),
-              ]
-                  .toColumn()
-                  .padding(horizontal: AppStyles.defaultPaddingHorizontal),
+              ].toColumn().padding(
+                    horizontal: AppStyles.defaultPaddingHorizontal,
+                    bottom: 25.h,
+                  ),
             ),
           );
         },

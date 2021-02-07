@@ -19,16 +19,14 @@ class RegisterPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(appBarTitleText),
       ),
+      bottomNavigationBar: RegisterFooter(),
       body: LayoutBuilder(
         builder: (context, constraints) {
           return SingleChildScrollView(
-            child: IntrinsicHeight(
-              child: <Widget>[
-                RegisterHeader(),
-                RegisterForm().expanded(),
-                RegisterFooter(),
-              ].toColumn(),
-            ).constrained(minHeight: constraints.maxHeight),
+            child: <Widget>[
+              RegisterHeader(),
+              RegisterForm(),
+            ].toColumn(),
           );
         },
       ),

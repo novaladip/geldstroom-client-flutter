@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import 'widget/login_footer.dart';
@@ -15,14 +14,12 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       key: loginPageKey,
-      body: SafeArea(
+      bottomNavigationBar: LoginFooter(),
+      body: SingleChildScrollView(
         child: <Widget>[
-          <Widget>[
-            LoginHeader(),
-            LoginForm(),
-          ].toColumn().scrollable().expanded(),
-          LoginFooter(),
-        ].toColumn().height(1.sh),
+          LoginHeader(),
+          LoginForm(),
+        ].toColumn(),
       ),
     );
   }
