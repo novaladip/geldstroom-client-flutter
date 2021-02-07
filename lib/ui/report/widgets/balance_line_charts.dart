@@ -11,12 +11,12 @@ import '../../../core/network/model/model.dart';
 import '../../../shared/common/config/config.dart';
 import '../../../shared/widget/widget.dart';
 
-class BalanceReportPage extends StatefulWidget {
+class BalanceLineCharts extends StatefulWidget {
   @override
-  _BalanceReportPageState createState() => _BalanceReportPageState();
+  _BalanceLineChartsState createState() => _BalanceLineChartsState();
 }
 
-class _BalanceReportPageState extends State<BalanceReportPage>
+class _BalanceLineChartsState extends State<BalanceLineCharts>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {

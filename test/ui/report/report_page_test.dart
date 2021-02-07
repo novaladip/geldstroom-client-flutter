@@ -7,9 +7,8 @@ import 'package:geldstroom/core/bloc_ui/ui_bloc.dart';
 import 'package:geldstroom/core/network/network.dart';
 import 'package:geldstroom/shared/widget/loading_indicator/loading_indicator.dart';
 import 'package:geldstroom/shared/widget/widget.dart';
-import 'package:geldstroom/ui/report/widgets/balance_report_page.dart';
+import 'package:geldstroom/ui/report/widgets/balance_line_charts.dart';
 import 'package:geldstroom/ui/report/widgets/report_filter_form.dart';
-import 'package:geldstroom/ui/report/widgets/transaction_report_page.dart';
 import 'package:geldstroom/ui/ui.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:mockito/mockito.dart';
@@ -62,15 +61,8 @@ void main() {
         when(balanceReportCubit.state).thenReturn(stateLoaded);
         await tester.pumpWidget(subject);
         expect(find.text(ReportPage.title), findsOneWidget);
-        expect(find.text('Balance Chart'), findsOneWidget);
-        expect(find.text('Transaction Report'), findsOneWidget);
-        expect(find.byType(BalanceReportPage), findsOneWidget);
-        expect(find.byType(TransactionReportPage), findsNothing);
         expect(find.byIcon(Icons.filter_list_outlined), findsOneWidget);
-
-        await tester.tap(find.text('Transaction Report'));
-        await tester.pumpAndSettle();
-        expect(find.byType(TransactionReportPage), findsOneWidget);
+        expect(find.byType(BalanceLineCharts), findsOneWidget);
       });
     });
 
@@ -146,7 +138,7 @@ void main() {
       });
     });
 
-    group('BalanceReportPage', () {
+    group('BalanceLineCharts', () {
       group('renders', () {
         testWidgets(
             'should render LoadingIndicator when state is LoadInProgress',
