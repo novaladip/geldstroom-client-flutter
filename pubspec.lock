@@ -350,19 +350,17 @@ packages:
   flutter_native_splash:
     dependency: "direct dev"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: a0e6fbfa125905a1a255d1d7718f520495526dc2
-      url: "https://github.com/henriquearthur/flutter_native_splash.git"
-    source: git
-    version: "0.1.9"
+      name: flutter_native_splash
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.9"
   flutter_screenutil:
     dependency: "direct main"
     description:
       name: flutter_screenutil
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.2+2"
+    version: "4.0.3+1"
   flutter_slidable:
     dependency: "direct main"
     description:
