@@ -75,7 +75,7 @@ class BalanceReportData extends Equatable {
   factory BalanceReportData.fromJson(Map<String, dynamic> json) {
     return BalanceReportData(
       total: json['total'],
-      date: DateTime.parse(json['date']),
+      date: DateTime.parse(json['date']).toLocal(),
     );
   }
 
