@@ -9,6 +9,7 @@ import 'widgets/request_category_item.dart';
 class RequestCategoryPage extends StatefulWidget {
   static const routeName = '/request-category';
   static const appBarTitle = 'Request Category';
+  static const emptyText = 'There is no requested category yet';
 
   const RequestCategoryPage({Key key}) : super(key: key);
 
@@ -43,18 +44,26 @@ class _RequestCategoryPageState extends State<RequestCategoryPage> {
               ),
               loadInProgress: () => LoadingIndicator(),
               initial: () => LoadingIndicator(),
-              orElse: () => ListView.builder(
-                physics: AlwaysScrollableScrollPhysics(
-                  parent: BouncingScrollPhysics(),
-                ),
-                itemCount: state.data.length,
-                itemBuilder: (context, index) => RequestCategoryItem(
-                  data: state.data[index],
-                  isLast: index == state.data.length - 1,
-                  onDelete: () {},
-                  onEdit: () {},
-                ),
-              ),
+              orElse: () {
+                if (state.isEmpty) {
+                  return Center(
+                    child: Text(RequestCategoryPage.emptyText),
+                  );
+                }
+
+                return ListView.builder(
+                  physics: AlwaysScrollableScrollPhysics(
+                    parent: BouncingScrollPhysics(),
+                  ),
+                  itemCount: state.data.length,
+                  itemBuilder: (context, index) => RequestCategoryItem(
+                    data: state.data[index],
+                    isLast: index == state.data.length - 1,
+                    onDelete: () {},
+                    onEdit: () {},
+                  ),
+                );
+              },
             ),
           );
         },

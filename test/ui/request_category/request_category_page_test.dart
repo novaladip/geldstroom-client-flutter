@@ -31,6 +31,7 @@ void main() {
       data: data,
       status: FetchStatus.loadSuccess(),
     );
+    final stateLoadSuccessEmpty = stateLoadSuccess.copyWith(data: []);
     final stateLoadFailure = stateInitial.copyWith(
       status: FetchStatus.loadFailure(error: serverError),
     );
@@ -60,6 +61,14 @@ void main() {
         await tester.pumpWidget(subject);
         expect(find.byType(RequestCategoryItem), findsNWidgets(data.length));
         expect(find.byIcon(Icons.add), findsOneWidget);
+      });
+
+      testWidgets('when state is load success with empty data', (tester) async {
+        when(cubit.state).thenReturn(stateLoadSuccessEmpty);
+        await tester.pumpWidget(subject);
+        expect(find.byType(RequestCategoryItem), findsNothing);
+        expect(find.byIcon(Icons.add), findsOneWidget);
+        expect(find.text(RequestCategoryPage.emptyText), findsOneWidget);
       });
 
       testWidgets('when state is initial', (tester) async {
