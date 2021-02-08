@@ -37,7 +37,7 @@ class MockTransactionDeleteCubit extends MockBloc<TransactionDeleteState>
     implements TransactionDeleteCubit {}
 
 void main() {
-  group('HomePage', () {
+  group('OverviewPage', () {
     Widget subject;
     OverviewRangeCubit overviewRangeCubit;
     OverviewBalanceCubit overviewBalanceCubit;

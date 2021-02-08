@@ -39,7 +39,6 @@ class TransactionCreatePage extends StatelessWidget {
   ) {
     state.maybeWhen(
       error: (e) => CustomSnackbar.createError(
-        title: 'Faield',
         message: e.message,
       )..show(context),
       success: (e) => Navigator.of(context).pop(),

@@ -106,7 +106,6 @@ class _PasswordResetFormState extends State<PasswordResetForm> {
         builder: (context) => PasswordResetSuccess(),
       ),
       error: (e) => CustomSnackbar.createError(
-        title: 'Reset password failed',
         message: e.message,
       )..show(context),
       orElse: () {},
