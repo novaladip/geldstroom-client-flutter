@@ -5,14 +5,18 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:geldstroom/core/bloc_ui/bottom_navigation/bottom_navigation_cubit.dart';
 import 'package:geldstroom/ui/home/home_page.dart';
 import 'package:mockito/mockito.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import '../../test_helper.dart';
 
 class MockBottomNavigationCubit extends MockBloc<BottomNavigationState>
     implements BottomNavigationCubit {}
 
+class MockOneSignal extends Mock implements OneSignal {}
+
 void main() {
   BottomNavigationCubit bottomNavigationCubit;
+  OneSignal oneSignal;
   Widget subject;
   const children = <Widget>[
     Scaffold(key: Key('page1')),
@@ -21,12 +25,16 @@ void main() {
 
   setUp(() {
     bottomNavigationCubit = MockBottomNavigationCubit();
+    oneSignal = MockOneSignal();
     when(bottomNavigationCubit.state)
         .thenReturn(BottomNavigationState.initial());
     subject = buildTestableWidget(
       MultiBlocProvider(
         providers: [BlocProvider.value(value: bottomNavigationCubit)],
-        child: HomePage(children: children),
+        child: HomePage(
+          children: children,
+          oneSignal: oneSignal,
+        ),
       ),
     );
   });
@@ -48,6 +56,11 @@ void main() {
         verify(bottomNavigationCubit.changeSelectedIndex(2)).called(1);
         await tester.tap(find.byKey(HomePage.homeIconKey));
         verify(bottomNavigationCubit.changeSelectedIndex(0)).called(1);
+      });
+
+      testWidgets('set onesignal subscription on init state', (tester) async {
+        await tester.pumpWidget(subject);
+        verify(oneSignal.setSubscription(true)).called(1);
       });
     });
   });

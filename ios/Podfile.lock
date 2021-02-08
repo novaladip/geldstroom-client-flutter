@@ -5,6 +5,10 @@ PODS:
   - FMDB/standard (2.7.5)
   - integration_test (0.0.1):
     - Flutter
+  - OneSignal (2.16.1)
+  - onesignal_flutter (2.6.2):
+    - Flutter
+    - OneSignal (= 2.16.1)
   - package_info (0.0.1):
     - Flutter
   - path_provider (0.0.1):
@@ -20,6 +24,8 @@ PODS:
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
+  - OneSignal (< 3.0, >= 2.9.3)
+  - onesignal_flutter (from `.symlinks/plugins/onesignal_flutter/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
@@ -29,12 +35,15 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - FMDB
+    - OneSignal
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
   integration_test:
     :path: ".symlinks/plugins/integration_test/ios"
+  onesignal_flutter:
+    :path: ".symlinks/plugins/onesignal_flutter/ios"
   package_info:
     :path: ".symlinks/plugins/package_info/ios"
   path_provider:
@@ -50,12 +59,14 @@ SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   integration_test: 5ed24a436eb7ec17b6a13046e9bf7ca4a404e59e
+  OneSignal: 5f6514ec2b931306eb067acb124afbb2e49970af
+  onesignal_flutter: 260bb95c0a2d791c990c7bd8749525c9834d43fc
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
 
-PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+PODFILE CHECKSUM: 6ce6557101d113b34e828f8a6eeb1552e5ec02d9
 
 COCOAPODS: 1.10.0

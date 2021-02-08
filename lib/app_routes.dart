@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import 'core/bloc/bloc.dart';
 import 'core/bloc_ui/ui_bloc.dart';
@@ -30,6 +31,7 @@ Map<String, WidgetBuilder> buildRoutes() {
             BlocProvider.value(value: getIt<ProfileCubit>()),
           ],
           child: HomePage(
+            oneSignal: getIt<OneSignal>(),
             children: [
               OverviewPage(),
               ReportPage(),

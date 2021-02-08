@@ -1,19 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import '../../core/bloc_ui/ui_bloc.dart';
 import '../../shared/common/config/config.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({
-    Key key,
-    @required this.children,
-  }) : super(key: key);
-
+class HomePage extends StatefulWidget {
   static const routeName = '/home';
   static const homeIconKey = Key('home_page_home');
   static const settingIconKey = Key('home_page_setting');
+
+  const HomePage({
+    Key key,
+    @required this.children,
+    @required this.oneSignal,
+  }) : super(key: key);
+
   final List<Widget> children;
+  final OneSignal oneSignal;
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    setupOneSignal();
+  }
+
+  void setupOneSignal() {
+    widget.oneSignal.setSubscription(true);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +43,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       body: IndexedStack(
         index: currentIndex,
-        children: children,
+        children: widget.children,
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: AppStyles.darkBackground,
@@ -39,7 +58,7 @@ class HomePage extends StatelessWidget {
         },
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined, key: homeIconKey),
+            icon: Icon(Icons.home_outlined, key: HomePage.homeIconKey),
             label: 'Overview',
           ),
           BottomNavigationBarItem(
@@ -47,7 +66,7 @@ class HomePage extends StatelessWidget {
             label: 'Report',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings_outlined, key: settingIconKey),
+            icon: Icon(Icons.settings_outlined, key: HomePage.settingIconKey),
             label: 'Setting',
           ),
         ],

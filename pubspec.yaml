@@ -41,6 +41,7 @@ dependencies:
   styled_widget: ^0.2.2
   url_launcher: ^5.7.10
   syncfusion_flutter_charts: ^18.4.41
+  onesignal_flutter: ^2.6.2
 
 dev_dependencies:
   flutter_test:
