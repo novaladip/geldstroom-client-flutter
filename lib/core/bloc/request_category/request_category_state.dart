@@ -12,3 +12,9 @@ abstract class RequestCategoryState with _$RequestCategoryState {
         data: [],
       );
 }
+
+extension RequestCategoryStateX on RequestCategoryState {
+  bool get isEmpty {
+    return status is FetchStatusLoadSuccess && data.isEmpty;
+  }
+}
