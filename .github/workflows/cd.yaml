@@ -1,9 +1,7 @@
-name: CI
+name: CD
 on:
-  push:
-    branches:
-      - main
-  pull_request:
+  release:
+    types: [published]
 
 jobs:
   build:
@@ -17,13 +15,13 @@ jobs:
           envkey_BASE_URL: ${{ secrets.BASE_URL }}
           envkey_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
           envkey_ONE_SIGNAL_ID: ${{ secrets.ONE_SIGNAL_ID }}
-      - name: Create dev env file
+      - name: Create production env file
         uses: SpicyPizza/create-envfile@v1
         with:
-          file_name: .dev.env
+          file_name: .env
           envkey_BASE_URL: ${{ secrets.BASE_URL }}
           envkey_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
-          envkey_ONE_SIGNAL_ID: ${{ secrets.ONE_SIGNAL_ID_DEV }}
+          envkey_ONE_SIGNAL_ID: ${{ secrets.ONE_SIGNAL_ID }}
 
       - uses: subosito/flutter-action@v1
         with:
@@ -32,21 +30,11 @@ jobs:
         run: flutter pub get
       - name: Run Build Runner
         run: flutter packages pub run build_runner build --delete-conflicting-outputs
-      - name: Format
-        run: flutter format --set-exit-if-changed .
       - name: Analyze
         run: flutter analyze .
-      - name: Run tests
-        run: flutter test --coverage lib
-      - name: Check Code Coverage
-        uses: VGVentures/very-good-coverage@v1.1.0
-        with:
-          path: ./coverage/lcov.info
-          min_coverage: 50
-          exclude: "**/*.freezed.dart **/*.config.dart  **/*.gen.dart **/*.appconfig.dart"
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
       - name: Build APK
-        run: flutter build apk --dart-define mode=dev
+        run: flutter build apk --dart-define mode=production
+
+        # @TODO
+        # 1. Build app bundle
+        # 2. Publish to play store
