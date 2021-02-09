@@ -18,10 +18,10 @@ jobs:
       - name: Create production env file
         uses: SpicyPizza/create-envfile@v1
         with:
-          file_name: .env
+          file_name: .dev.env
           envkey_BASE_URL: ${{ secrets.BASE_URL }}
           envkey_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
-          envkey_ONE_SIGNAL_ID: ${{ secrets.ONE_SIGNAL_ID }}
+          envkey_ONE_SIGNAL_ID: ${{ secrets.ONE_SIGNAL_ID_DEV }}
       - name: Create key.properties
         uses: narcodico/base64-to-path@v1
         with:
