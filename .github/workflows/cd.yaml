@@ -22,7 +22,16 @@ jobs:
           envkey_BASE_URL: ${{ secrets.BASE_URL }}
           envkey_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
           envkey_ONE_SIGNAL_ID: ${{ secrets.ONE_SIGNAL_ID }}
-
+      - name: Create key.properties
+        uses: narcodico/base64-to-path@v1
+        with:
+          filePath: ${{ github.workspace }}/android/key.properties
+          encodedString: ${{ secrets.KEY_PROPERTIES }}
+      - name: Create Signing Key
+        uses: narcodico/base64-to-path@v1
+        with:
+          filePath: ${{ github.workspace }}/android/app/key.jks
+          encodedString: ${{ secrets.SIGNING_KEY }}
       - uses: subosito/flutter-action@v1
         with:
           channel: stable
@@ -32,9 +41,14 @@ jobs:
         run: flutter packages pub run build_runner build --delete-conflicting-outputs
       - name: Analyze
         run: flutter analyze .
-      - name: Build APK
-        run: flutter build apk --dart-define mode=production
-
-        # @TODO
-        # 1. Build app bundle
-        # 2. Publish to play store
+      - name: Build App Bundle
+        run: flutter build appbundle --dart-define mode=production
+      - name: Publish to Play Store
+        uses: r0adkll/upload-google-play@v1
+        with:
+          track: production
+          whatsNewDirectory: distribution/whatsnew
+          packageName: com.cotc.geldstroom
+          serviceAccountJson: ${{ PLAYSTORE_ACCOUNT_KEY }}
+          releaseFile: build/app/outputs/bundle/release/app-release.aab
+          mappingFile: build/app/outputs/mapping/release/mapping.txt
