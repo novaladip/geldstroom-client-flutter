@@ -20,11 +20,8 @@ class OverviewRangeForm extends StatelessWidget {
     final state = context.watch<OverviewRangeCubit>().state;
 
     return <Widget>[
-      Text(title)
-          .fontFamily(AppStyles.fontFamilyTitle)
-          .fontSize(32.sp)
-          .fontWeight(FontWeight.bold),
-      SizedBox(height: 13.h),
+      Text(title),
+      SizedBox(height: 20.h),
       DropdownForm<OverviewRangeState>(
         key: OverviewRangeForm.dropdownFormKey,
         labelText: 'Range',

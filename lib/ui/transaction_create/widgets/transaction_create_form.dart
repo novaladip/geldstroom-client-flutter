@@ -47,25 +47,6 @@ class _TransactionCreateFormState extends State<TransactionCreateForm> {
     return Form(
       key: form,
       child: <Widget>[
-        CustomTextFormField(
-          key: TransactionCreateForm.descriptionFormKey,
-          labelText: 'Description',
-          controller: description,
-          keyboardType: TextInputType.text,
-          textInputAction: TextInputAction.next,
-        ),
-        CustomTextFormField(
-          key: TransactionCreateForm.amountFormKey,
-          labelText: 'Amount',
-          controller: amount,
-          keyboardType: TextInputType.number,
-          textInputAction: TextInputAction.done,
-          inputFormatters: [
-            FilteringTextInputFormatter.digitsOnly,
-            amountFormatter,
-          ],
-          validator: InputValidator.amount,
-        ),
         DropdownForm<String>(
           key: TransactionCreateForm.typeFormKey,
           labelText: 'Type',
@@ -84,6 +65,25 @@ class _TransactionCreateFormState extends State<TransactionCreateForm> {
               category = c;
             });
           },
+        ),
+        CustomTextFormField(
+          key: TransactionCreateForm.descriptionFormKey,
+          labelText: 'Description',
+          controller: description,
+          keyboardType: TextInputType.text,
+          textInputAction: TextInputAction.next,
+        ),
+        CustomTextFormField(
+          key: TransactionCreateForm.amountFormKey,
+          labelText: 'Amount',
+          controller: amount,
+          keyboardType: TextInputType.number,
+          textInputAction: TextInputAction.done,
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+            amountFormatter,
+          ],
+          validator: InputValidator.amount,
         ),
         SizedBox(height: 20.h),
         MainButton(

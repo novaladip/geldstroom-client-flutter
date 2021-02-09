@@ -17,7 +17,7 @@ class App extends StatelessWidget {
         ScreenUtil.init(
           constraints,
           designSize: Size(750, 1334),
-          allowFontScaling: true,
+          allowFontScaling: false,
         );
 
         return MultiBlocProvider(
