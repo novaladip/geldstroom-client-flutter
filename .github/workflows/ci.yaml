@@ -4,6 +4,10 @@ on:
     branches:
       - main
       - master
+    paths:
+      - "lib/**"
+      - "test/**"
+      - ".github/workflows/ci.yaml"  
   pull_request:
 
 jobs:

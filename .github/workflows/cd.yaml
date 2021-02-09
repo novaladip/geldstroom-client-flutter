@@ -49,6 +49,6 @@ jobs:
           track: production
           whatsNewDirectory: distribution/whatsnew
           packageName: com.cotc.geldstroom
-          serviceAccountJson: ${{ PLAYSTORE_ACCOUNT_KEY }}
+          serviceAccountJson: ${{ secrets.PLAYSTORE_ACCOUNT_KEY }}
           releaseFile: build/app/outputs/bundle/release/app-release.aab
           mappingFile: build/app/outputs/mapping/release/mapping.txt
