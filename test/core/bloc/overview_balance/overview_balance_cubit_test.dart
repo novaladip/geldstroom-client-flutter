@@ -6,6 +6,7 @@ import 'package:geldstroom/core/bloc/auth/auth_cubit.dart';
 import 'package:geldstroom/core/bloc/bloc.dart';
 import 'package:geldstroom/core/bloc/overview_balance/overview_balance_cubit.dart';
 import 'package:geldstroom/core/bloc/transaction_edit/transaction_edit_cubit.dart';
+import 'package:geldstroom/core/bloc_base/bloc_base.dart';
 import 'package:geldstroom/core/bloc_ui/ui_bloc.dart';
 import 'package:geldstroom/core/network/network.dart';
 import 'package:mockito/mockito.dart';
@@ -24,7 +25,7 @@ class MockTransactionCreateCubit extends MockBloc<FormStatusData<Transaction>>
 class MockTransactionEditCubit extends MockBloc<FormStatusData<Transaction>>
     implements TransactionEditCubit {}
 
-class MockTransactionDeleteCubit extends MockBloc<TransactionDeleteState>
+class MockTransactionDeleteCubit extends MockBloc<DeleteState>
     implements TransactionDeleteCubit {}
 
 class MockAuthCubit extends MockBloc<AuthState> implements AuthCubit {}
@@ -271,7 +272,7 @@ void main() {
             whenListen(
               transactionDeleteCubit,
               Stream.value(
-                TransactionDeleteState(
+                DeleteState(
                   onDeleteFailureIds: [],
                   onDeleteProgressIds: [],
                   onDeleteSuccessIds: ['1'],
@@ -307,7 +308,7 @@ void main() {
             whenListen(
               transactionDeleteCubit,
               Stream.value(
-                TransactionDeleteState(
+                DeleteState(
                   onDeleteFailureIds: [],
                   onDeleteProgressIds: ['1'],
                   onDeleteSuccessIds: [],

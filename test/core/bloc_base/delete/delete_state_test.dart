@@ -1,18 +1,18 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:geldstroom/core/bloc/bloc.dart';
+import 'package:geldstroom/core/bloc_base/bloc_base.dart';
 
 void main() {
-  group('TransactionDeleteState', () {
+  group('DeleteState', () {
     test('should support comparations value', () {
       expect(
-        TransactionDeleteState.initial(),
-        TransactionDeleteState.initial(),
+        DeleteState.initial(),
+        DeleteState.initial(),
       );
     });
 
     group('extension', () {
       test('addToProgress', () {
-        var subject = TransactionDeleteState.initial();
+        var subject = DeleteState.initial();
         subject = subject.addToProgress('1');
         expect(subject.onDeleteProgressIds, ['1']);
         expect(subject.onDeleteSuccessIds, []);
@@ -20,7 +20,7 @@ void main() {
       });
 
       test('addToSuccess and removeFromSuccessIds', () {
-        var subject = TransactionDeleteState(
+        var subject = DeleteState(
           onDeleteProgressIds: ['1'],
           onDeleteSuccessIds: [],
           onDeleteFailureIds: [],
@@ -37,7 +37,7 @@ void main() {
       });
 
       test('addToFailure and removeFromFailureIds', () {
-        var subject = TransactionDeleteState(
+        var subject = DeleteState(
           onDeleteProgressIds: ['1'],
           onDeleteSuccessIds: [],
           onDeleteFailureIds: [],

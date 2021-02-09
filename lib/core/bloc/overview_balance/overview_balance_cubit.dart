@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../bloc_base/bloc_base.dart';
 import '../../bloc_ui/overview_range/overview_range_cubit.dart';
 import '../../network/network.dart';
 import '../../network/service/service.dart';
@@ -56,7 +57,7 @@ class OverviewBalanceCubit extends Cubit<OverviewBalanceState> {
     );
   }
 
-  var _prevTransactionDeleteState = TransactionDeleteState.initial();
+  var _prevTransactionDeleteState = DeleteState.initial();
   final ITransactionService _service;
   final AuthCubit _authCubit;
   final OverviewRangeCubit _overviewRangeCubit;

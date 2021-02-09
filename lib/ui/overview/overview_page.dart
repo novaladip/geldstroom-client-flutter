@@ -6,6 +6,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../core/bloc/bloc.dart';
+import '../../core/bloc_base/bloc_base.dart';
 import '../../shared/common/config/config.dart';
 import '../../shared/common/utils/utils.dart';
 import '../ui.dart';
@@ -55,12 +56,12 @@ class _OverviewPageState extends State<OverviewPage> {
             ),
       body: MultiBlocListener(
         listeners: [
-          BlocListener<TransactionDeleteCubit, TransactionDeleteState>(
+          BlocListener<TransactionDeleteCubit, DeleteState>(
             listener: deleteSuccessListener,
             listenWhen: (prevState, state) =>
                 state.shouldListenDeleteSuccess(prevState),
           ),
-          BlocListener<TransactionDeleteCubit, TransactionDeleteState>(
+          BlocListener<TransactionDeleteCubit, DeleteState>(
             listener: deleteFailureListener,
             listenWhen: (prevState, state) =>
                 state.shoudListenDeleteFailure(prevState),
@@ -142,7 +143,7 @@ class _OverviewPageState extends State<OverviewPage> {
 
   void deleteSuccessListener(
     BuildContext context,
-    TransactionDeleteState state,
+    DeleteState state,
   ) {
     CustomSnackbar.createSuccess(
       message: 'Transaction has been deleted',
@@ -151,7 +152,7 @@ class _OverviewPageState extends State<OverviewPage> {
 
   void deleteFailureListener(
     BuildContext context,
-    TransactionDeleteState state,
+    DeleteState state,
   ) {
     CustomSnackbar.createError(
       message: 'Failed to delete transaction',

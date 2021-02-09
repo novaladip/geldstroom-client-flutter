@@ -4,13 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geldstroom/core/bloc/bloc.dart';
 import 'package:geldstroom/core/bloc/category/category_cubit.dart';
+import 'package:geldstroom/core/bloc/overview_transaction/overview_transaction_bloc.dart';
+import 'package:geldstroom/core/bloc_base/bloc_base.dart';
 import 'package:geldstroom/core/network/network.dart';
 import 'package:geldstroom/shared/widget/transaction_card/transaction_card.dart';
 import 'package:geldstroom/ui/overview/widget/overview_transaction_empty.dart';
 import 'package:geldstroom/ui/overview/widget/overview_transaction_list.dart';
 import 'package:geldstroom/ui/transaction_edit/transaction_edit_page.dart';
 import 'package:mockito/mockito.dart';
-import 'package:geldstroom/core/bloc/overview_transaction/overview_transaction_bloc.dart';
 
 import '../../../test_helper.dart';
 
@@ -20,7 +21,7 @@ class MockOverviewTransctionBloc extends MockBloc<OverviewTransactionState>
 class MockTransactionEditCubit extends MockBloc<FormStatusData<Transaction>>
     implements TransactionEditCubit {}
 
-class MockTransactionDeleteCubit extends MockBloc<TransactionDeleteState>
+class MockTransactionDeleteCubit extends MockBloc<DeleteState>
     implements TransactionDeleteCubit {}
 
 class MockCategoryCubit extends MockBloc<CategoryState>
@@ -57,8 +58,7 @@ void main() {
       transactionDeleteCubit = MockTransactionDeleteCubit();
       when(categoryCubit.state).thenReturn(CategoryState());
       when(transactionEditCubit.state).thenReturn(FormStatusData.idle());
-      when(transactionDeleteCubit.state)
-          .thenReturn(TransactionDeleteState.initial());
+      when(transactionDeleteCubit.state).thenReturn(DeleteState.initial());
       when(overviewTransactionBloc.state).thenReturn(
         OverviewTransactionState(
           data: data,

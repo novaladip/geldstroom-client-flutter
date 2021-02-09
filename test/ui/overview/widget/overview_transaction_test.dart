@@ -1,14 +1,15 @@
 // ignore_for_file: lines_longer_than_80_chars
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:geldstroom/core/network/network.dart';
-import 'package:geldstroom/ui/overview/widget/overview_transaction_list.dart';
-import 'package:mockito/mockito.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geldstroom/core/bloc/bloc.dart';
+import 'package:geldstroom/core/bloc_base/bloc_base.dart';
+import 'package:geldstroom/core/network/network.dart';
 import 'package:geldstroom/ui/overview/widget/overview_transaction.dart';
+import 'package:geldstroom/ui/overview/widget/overview_transaction_list.dart';
+import 'package:mockito/mockito.dart';
 
 import '../../../helper_tests/tranasction_json.dart';
 import '../../../test_helper.dart';
@@ -16,7 +17,7 @@ import '../../../test_helper.dart';
 class MockOverviewTransctionBloc extends MockBloc<OverviewTransactionState>
     implements OverviewTransactionBloc {}
 
-class MockTransactionDeleteCubit extends MockBloc<TransactionDeleteState>
+class MockTransactionDeleteCubit extends MockBloc<DeleteState>
     implements TransactionDeleteCubit {}
 
 void main() {
@@ -29,8 +30,7 @@ void main() {
     setUp(() {
       overviewTransactionBloc = MockOverviewTransctionBloc();
       transactionDeleteCubit = MockTransactionDeleteCubit();
-      when(transactionDeleteCubit.state)
-          .thenReturn(TransactionDeleteState.initial());
+      when(transactionDeleteCubit.state).thenReturn(DeleteState.initial());
       subject = buildTestableWidget(
         MultiBlocProvider(
           providers: [

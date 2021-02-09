@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:geldstroom/core/bloc/bloc.dart';
 import 'package:geldstroom/core/bloc/overview_balance/overview_balance_cubit.dart';
 import 'package:geldstroom/core/bloc/overview_transaction/overview_transaction_bloc.dart';
+import 'package:geldstroom/core/bloc_base/bloc_base.dart';
 import 'package:geldstroom/core/bloc_ui/ui_bloc.dart';
 import 'package:geldstroom/core/network/model/model.dart';
 import 'package:geldstroom/ui/overview/overview_page.dart';
@@ -33,7 +34,7 @@ class MockOverviewTransactionBloc extends MockBloc<OverviewTransactionState>
 class MockTransactionCreateCubit extends MockBloc<FormStatusData<Transaction>>
     implements TransactionCreateCubit {}
 
-class MockTransactionDeleteCubit extends MockBloc<TransactionDeleteState>
+class MockTransactionDeleteCubit extends MockBloc<DeleteState>
     implements TransactionDeleteCubit {}
 
 void main() {
@@ -56,8 +57,7 @@ void main() {
       when(categoryCubit.state).thenReturn(CategoryState());
       when(transactionCreateCubit.state)
           .thenReturn(FormStatusData<Transaction>.idle());
-      when(transactionDeleteCubit.state)
-          .thenReturn(TransactionDeleteState.initial());
+      when(transactionDeleteCubit.state).thenReturn(DeleteState.initial());
       when(overviewTransactionBloc.state).thenReturn(
         OverviewTransactionState(
           status: FetchStatus.loadSuccess(),
@@ -134,7 +134,7 @@ void main() {
         whenListen(
           transactionDeleteCubit,
           Stream.fromIterable([
-            TransactionDeleteState(
+            DeleteState(
               onDeleteFailureIds: [],
               onDeleteProgressIds: [],
               onDeleteSuccessIds: ['1'],
@@ -164,7 +164,7 @@ void main() {
         whenListen(
           transactionDeleteCubit,
           Stream.fromIterable([
-            TransactionDeleteState(
+            DeleteState(
               onDeleteFailureIds: ['1'],
               onDeleteProgressIds: [],
               onDeleteSuccessIds: [],

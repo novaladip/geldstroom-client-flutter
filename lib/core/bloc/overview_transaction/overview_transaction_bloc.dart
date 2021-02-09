@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../bloc_base/bloc_base.dart';
 import '../../bloc_ui/ui_bloc.dart';
 import '../../network/model/model.dart';
 import '../../network/network.dart';
@@ -70,7 +71,7 @@ class OverviewTransactionBloc
     });
   }
 
-  var _prevTransactionDeleteState = TransactionDeleteState.initial();
+  var _prevTransactionDeleteState = DeleteState.initial();
   final ITransactionService _service;
   final AuthCubit _authCubit;
   final OverviewRangeCubit _overviewRangeCubit;

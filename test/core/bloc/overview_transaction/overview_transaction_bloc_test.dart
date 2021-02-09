@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:geldstroom/core/bloc/auth/auth_cubit.dart';
 import 'package:geldstroom/core/bloc/bloc.dart';
 import 'package:geldstroom/core/bloc/overview_transaction/overview_transaction_bloc.dart';
+import 'package:geldstroom/core/bloc_base/bloc_base.dart';
 import 'package:geldstroom/core/bloc_ui/ui_bloc.dart';
 import 'package:geldstroom/core/network/network.dart';
 import 'package:mockito/mockito.dart';
@@ -24,7 +25,7 @@ class MockTransactionCreateCubit extends MockBloc<FormStatusData<Transaction>>
 class MockTransactionEditCubit extends MockBloc<FormStatusData<Transaction>>
     implements TransactionEditCubit {}
 
-class MockTransactionDeleteCubit extends MockBloc<TransactionDeleteState>
+class MockTransactionDeleteCubit extends MockBloc<DeleteState>
     implements TransactionDeleteCubit {}
 
 void main() {
@@ -505,7 +506,7 @@ void main() {
             whenListen(
               transactionDeleteCubit,
               Stream.value(
-                TransactionDeleteState(
+                DeleteState(
                   onDeleteFailureIds: [],
                   onDeleteProgressIds: [],
                   onDeleteSuccessIds: [transactions[0].id],
