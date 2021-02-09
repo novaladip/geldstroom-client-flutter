@@ -8,6 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        name: Create service_account.json
+        run: echo '${{ secrets.SERVICE_ACCOUNT_JSON }}' > service_account.json
       - name: Create env file
         uses: SpicyPizza/create-envfile@v1
         with:
@@ -49,6 +51,6 @@ jobs:
           track: production
           whatsNewDirectory: distribution/whatsnew
           packageName: com.cotc.geldstroom
-          serviceAccountJson: ${{ secrets.PLAYSTORE_ACCOUNT_KEY }}
+          serviceAccountJson: service_account.json
           releaseFiles: build/app/outputs/bundle/release/app-release.aab
           mappingFile: build/app/outputs/mapping/release/mapping.txt
