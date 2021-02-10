@@ -18,10 +18,10 @@ jobs:
           echo ONE_SIGNAL_ID=${{ secrets.ONE_SIGNAL_ID }} >> .env
       - name: Create .dev.env
         run: |
-          touch .env
-          echo BASE_URL=${{ secrets.BASE_URL }} >> .env
-          echo SENTRY_DSN=${{ secrets.SENTRY_DSN }} >> .env
-          echo ONE_SIGNAL_ID=${{ secrets.ONE_SIGNAL_ID_DEV }} >> .env
+          touch dev.env
+          echo BASE_URL=${{ secrets.BASE_URL }} >> dev.env
+          echo SENTRY_DSN=${{ secrets.SENTRY_DSN }} >> dev.env
+          echo ONE_SIGNAL_ID=${{ secrets.ONE_SIGNAL_ID_DEV }} >> dev.env
       - name: Create key.properties
         uses: narcodico/base64-to-path@v1
         with:
