@@ -1,4 +1,5 @@
 // ignore_for_file: lines_longer_than_80_chars
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -88,6 +89,41 @@ void main() {
         when(dioAdapterMock.fetch(any, any, any))
             .thenAnswer((_) async => httpResponse);
         final result = await service.create(dto);
+        result.fold(
+          (l) {
+            expect(l, ServerError.unknownError());
+          },
+          (r) {
+            expect(r, null);
+          },
+        );
+      });
+    });
+
+    group('deleteOneById', () {
+      test('when successful', () async {
+        final httpResponse = buildResponseBody(payload: {'message': 'ok'});
+        when(dioAdapterMock.fetch(any, any, any))
+            .thenAnswer((_) async => httpResponse);
+        final result =
+            await service.deleteOneById('378958ca-2cea-4cd1-83c6-df3a30865113');
+        result.fold(
+          (l) {
+            expect(l, null);
+          },
+          (r) {
+            expect(r, None());
+          },
+        );
+      });
+
+      test('when failure', () async {
+        final httpResponse = buildResponseBody(
+            payload: {'message': 'Internal server error'}, statusCode: 500);
+        when(dioAdapterMock.fetch(any, any, any))
+            .thenAnswer((_) async => httpResponse);
+        final result =
+            await service.deleteOneById('378958ca-2cea-4cd1-83c6-df3a30865113');
         result.fold(
           (l) {
             expect(l, ServerError.unknownError());
