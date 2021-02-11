@@ -77,5 +77,5 @@ flutter_gen:
 
 flutter_native_splash:
   image: assets/images/splash.png
-  color: "272121"
+  color: "0E1216"
   android_disable_fullscreen: true
