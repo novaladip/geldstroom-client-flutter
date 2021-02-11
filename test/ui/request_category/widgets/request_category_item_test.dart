@@ -28,7 +28,7 @@ void main() {
 
         expect(find.text(data.categoryName), findsOneWidget);
         expect(find.text(data.status.replaceAll('_', '')), findsOneWidget);
-        expect(find.text(Jiffy(data.updatedAt).format('mm/dd/yyyy hh:mm')),
+        expect(find.text(Jiffy(data.updatedAt).format('mm/dd/yyyy hh:mm a')),
             findsOneWidget);
       });
 
