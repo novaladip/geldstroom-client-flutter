@@ -11,17 +11,15 @@ jobs:
       - name: Create service_account.json
         run: echo '${{ secrets.SERVICE_ACCOUNT_JSON }}' > service_account.json
       - name: Create .env
-        run: |
-          touch .env
-          echo BASE_URL=${{ secrets.BASE_URL }} >> .env
-          echo SENTRY_DSN=${{ secrets.SENTRY_DSN }} >> .env
-          echo ONE_SIGNAL_ID=${{ secrets.ONE_SIGNAL_ID }} >> .env
+        uses: narcodico/base64-to-path@v1
+        with:
+          filePath: ${{ github.workspace }}/.env
+          encodedString: ${{ secrets.ENV_BASE64 }}
       - name: Create .dev.env
-        run: |
-          touch .dev.env
-          echo BASE_URL=${{ secrets.BASE_URL }} >> .dev.env
-          echo SENTRY_DSN=${{ secrets.SENTRY_DSN }} >> .dev.env
-          echo ONE_SIGNAL_ID=${{ secrets.ONE_SIGNAL_ID_DEV }} >> .dev.env
+        uses: narcodico/base64-to-path@v1
+        with:
+          filePath: ${{ github.workspace }}/.dev.env
+          encodedString: ${{ secrets.ENV_DEV_BASE64 }}
       - name: Create key.properties
         uses: narcodico/base64-to-path@v1
         with:
