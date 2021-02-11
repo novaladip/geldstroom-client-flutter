@@ -83,6 +83,45 @@ void main() {
       );
     });
 
+    group('refresh', () {
+      final data = BalanceReport.fromJson(TransactionJson.balanceReport);
+      final serverError = ServerError.networkError();
+
+      blocTest<BalanceReportCubit, BalanceReportState>(
+        'when successful',
+        build: () {
+          when(service.getBalanceReport(any))
+              .thenAnswer((_) async => Right(data));
+          return subject;
+        },
+        act: (cubit) => cubit.refresh(),
+        expect: [
+          BalanceReportState.initial()
+              .copyWith(status: FetchStatus.refreshInProgress()),
+          BalanceReportState(
+            data: data,
+            status: FetchStatus.loadSuccess(),
+          ),
+        ],
+      );
+
+      blocTest<BalanceReportCubit, BalanceReportState>(
+        'when failure',
+        build: () {
+          when(service.getBalanceReport(any))
+              .thenAnswer((_) async => Left(serverError));
+          return subject;
+        },
+        act: (cubit) => cubit.refresh(),
+        expect: [
+          BalanceReportState.initial()
+              .copyWith(status: FetchStatus.refreshInProgress()),
+          BalanceReportState.initial()
+              .copyWith(status: FetchStatus.refreshFailure(error: serverError)),
+        ],
+      );
+    });
+
     blocTest<BalanceReportCubit, BalanceReportState>(
       'clear',
       build: () => subject,
