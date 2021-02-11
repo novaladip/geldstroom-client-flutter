@@ -15,9 +15,11 @@ class RequestCategoryCubit extends Cubit<RequestCategoryState> {
   RequestCategoryCubit(
     this._service, {
     @required AuthCubit authCubit,
+    @required RequestCategoryCreateCubit requestCategoryCreateCubit,
     @required RequestCategoryDeleteCubit requestCategoryDeleteCubit,
   }) : super(RequestCategoryState.initial()) {
     authCubit.listen(_authCubitListener);
+    requestCategoryCreateCubit.listen(_createListener);
     requestCategoryDeleteCubit.listen(_deleteListener);
   }
 
@@ -36,6 +38,15 @@ class RequestCategoryCubit extends Cubit<RequestCategoryState> {
     }
     // update _prevDeleteState value
     _prevDeleteState = state;
+  }
+
+  // listen for RequestCategoryCreateCubit
+  void _createListener(FormStatusData<RequestCategory> state) {
+    // call _add every time create success occurred
+    state.maybeWhen(
+      orElse: () {},
+      success: _add,
+    );
   }
 
   var _prevDeleteState = DeleteState.initial();
@@ -65,6 +76,10 @@ class RequestCategoryCubit extends Cubit<RequestCategoryState> {
     );
 
     emit(newState);
+  }
+
+  void _add(RequestCategory item) {
+    emit(state.copyWith(data: [item, ...state.data]));
   }
 
   void clear() {

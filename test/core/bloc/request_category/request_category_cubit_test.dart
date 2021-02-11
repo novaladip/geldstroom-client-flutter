@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geldstroom/core/bloc/auth/auth_cubit.dart';
 import 'package:geldstroom/core/bloc/request_category/request_category_cubit.dart';
+import 'package:geldstroom/core/bloc/request_category_create/request_category_create_cubit.dart';
 import 'package:geldstroom/core/bloc/request_category_delete/request_category_delete_cubit.dart';
 import 'package:geldstroom/core/bloc_base/delete/delete_cubit.dart';
 import 'package:geldstroom/core/network/network.dart';
@@ -18,11 +19,16 @@ class MockAuthCubit extends MockBloc<AuthState> implements AuthCubit {}
 class MockRequestCategoryDeleteCubit extends MockBloc<DeleteState>
     implements RequestCategoryDeleteCubit {}
 
+class MockRequestCategoryCreate
+    extends MockBloc<FormStatusData<RequestCategory>>
+    implements RequestCategoryCreateCubit {}
+
 void main() {
   group('RequestCategoryCubit', () {
     IRequestCategoryService service;
     RequestCategoryCubit subject;
     AuthCubit authCubit;
+    RequestCategoryCreateCubit requestCategoryCreateCubit;
     RequestCategoryDeleteCubit requestCategoryDeleteCubit;
 
     final data = RequestCategoryJson.list
@@ -33,10 +39,12 @@ void main() {
     setUp(() {
       service = MockIRequestCategoryService();
       authCubit = MockAuthCubit();
+      requestCategoryCreateCubit = MockRequestCategoryCreate();
       requestCategoryDeleteCubit = MockRequestCategoryDeleteCubit();
       subject = RequestCategoryCubit(
         service,
         authCubit: authCubit,
+        requestCategoryCreateCubit: requestCategoryCreateCubit,
         requestCategoryDeleteCubit: requestCategoryDeleteCubit,
       );
     });
@@ -44,6 +52,8 @@ void main() {
     tearDown(() {
       authCubit.close();
       subject.close();
+      requestCategoryCreateCubit.close();
+      requestCategoryDeleteCubit.close();
     });
 
     group('fetch', () {
@@ -94,6 +104,7 @@ void main() {
           return RequestCategoryCubit(
             service,
             authCubit: authCubit,
+            requestCategoryCreateCubit: requestCategoryCreateCubit,
             requestCategoryDeleteCubit: requestCategoryDeleteCubit,
           );
         },
@@ -110,7 +121,7 @@ void main() {
         data: data.where((item) => item.id != data[0].id).toList(),
       );
       blocTest<RequestCategoryCubit, RequestCategoryState>(
-        'call _onDelete when state is AuthStateUnauthenticated',
+        'call _onDelete every time shouldListenDeleteSuccess return true',
         seed: initialState,
         build: () {
           final deleteState = DeleteState(
@@ -125,10 +136,36 @@ void main() {
           return RequestCategoryCubit(
             service,
             authCubit: authCubit,
+            requestCategoryCreateCubit: requestCategoryCreateCubit,
             requestCategoryDeleteCubit: requestCategoryDeleteCubit,
           );
         },
         expect: [stateAfterDelete],
+      );
+    });
+
+    group('listen RequestCategoryCreateCubit', () {
+      blocTest<RequestCategoryCubit, RequestCategoryState>(
+        'call _add every time create success occurred',
+        build: () {
+          whenListen(
+            requestCategoryCreateCubit,
+            Stream.value(
+                FormStatusData<RequestCategory>.success(data: data[0])),
+          );
+          return RequestCategoryCubit(
+            service,
+            authCubit: authCubit,
+            requestCategoryCreateCubit: requestCategoryCreateCubit,
+            requestCategoryDeleteCubit: requestCategoryDeleteCubit,
+          );
+        },
+        expect: [
+          RequestCategoryState(
+            status: FetchStatus.initial(),
+            data: [data[0]],
+          ),
+        ],
       );
     });
   });
