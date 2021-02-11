@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -9,19 +11,30 @@ part 'bottom_navigation_state.dart';
 
 @lazySingleton
 class BottomNavigationCubit extends Cubit<BottomNavigationState> {
-  BottomNavigationCubit(this._authCubit)
-      : super(BottomNavigationState.initial()) {
+  BottomNavigationCubit(
+    this._balanceReportCubit, {
+    @required AuthCubit authCubit,
+  }) : super(BottomNavigationState.initial()) {
     // call clear when user logged out
-    _authCubit.listen((state) {
+    authCubit.listen((state) {
       if (state is AuthStateUnauthenticated) {
         clear();
       }
     });
   }
 
-  final AuthCubit _authCubit;
+  final BalanceReportCubit _balanceReportCubit;
+  Timer _timer;
+
+  void _onReportPageSelected() {
+    if (_timer != null) {
+      _timer.cancel();
+    }
+    _timer = Timer(Duration(seconds: 1), _balanceReportCubit.refresh);
+  }
 
   void changeSelectedIndex(int value) {
+    if (value == 1) _onReportPageSelected();
     emit(BottomNavigationState(selectedIndex: value));
   }
 

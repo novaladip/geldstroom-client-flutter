@@ -47,6 +47,19 @@ class BalanceReportCubit extends Cubit<BalanceReportState> {
     );
   }
 
+  Future<void> refresh() async {
+    emit(state.copyWith(status: FetchStatus.refreshInProgress()));
+    final result = await _service.getBalanceReport(_dto);
+    result.fold(
+      (l) {
+        emit(state.copyWith(status: FetchStatus.refreshFailure(error: l)));
+      },
+      (r) {
+        emit(state.copyWith(status: FetchStatus.loadSuccess(), data: r));
+      },
+    );
+  }
+
   void clear() {
     emit(BalanceReportState.initial());
   }

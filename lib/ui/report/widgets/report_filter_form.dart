@@ -24,7 +24,7 @@ class ReportFilterForm extends StatelessWidget {
 
     return Styled.widget(
       child: <Widget>[
-        Text('Select Date Range'),
+        const Text('Select Date Range'),
         SizedBox(height: 20.h),
         DateFormField(
           key: startDateInputKey,
@@ -42,6 +42,7 @@ class ReportFilterForm extends StatelessWidget {
           onChange: (value) =>
               context.read<ReportFilterCubit>().changeEnd(value),
           firstDate: state.start.add(Duration(days: 1)),
+          lastDate: lastDate,
         ),
         SizedBox(height: 20.h),
         MainButton(
