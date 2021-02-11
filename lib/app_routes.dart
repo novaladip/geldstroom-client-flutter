@@ -55,17 +55,16 @@ Map<String, WidgetBuilder> buildRoutes() {
     RegisterSuccessPage.routeName: (_) => RegisterSuccessPage(),
     PasswordResetPage.routeName: (_) => MultiBlocProvider(
           providers: [
-            BlocProvider.value(
-              value: getIt<PasswordResetCubit>(),
-            ),
-            BlocProvider.value(
-              value: getIt<RequestOtpCubit>(),
-            ),
+            BlocProvider.value(value: getIt<PasswordResetCubit>()),
+            BlocProvider.value(value: getIt<RequestOtpCubit>()),
           ],
           child: PasswordResetPage(),
         ),
-    RequestCategoryPage.routeName: (_) => BlocProvider.value(
-          value: getIt<RequestCategoryCubit>(),
+    RequestCategoryPage.routeName: (_) => MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: getIt<RequestCategoryCubit>()),
+            BlocProvider.value(value: getIt<RequestCategoryDeleteCubit>()),
+          ],
           child: RequestCategoryPage(),
         ),
     RequestCategoryCreatePage.routeName: (_) => BlocProvider.value(
