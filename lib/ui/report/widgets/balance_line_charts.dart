@@ -8,10 +8,16 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../core/bloc/bloc.dart';
 import '../../../core/network/model/model.dart';
-import '../../../shared/common/config/config.dart';
 import '../../../shared/widget/widget.dart';
 
 class BalanceLineCharts extends StatefulWidget {
+  const BalanceLineCharts({
+    Key key,
+    @required this.constraints,
+  }) : super(key: key);
+
+  final BoxConstraints constraints;
+
   @override
   _BalanceLineChartsState createState() => _BalanceLineChartsState();
 }
@@ -35,10 +41,11 @@ class _BalanceLineChartsState extends State<BalanceLineCharts>
             ),
             initial: () => LoadingIndicator(),
             loadInProgress: () => LoadingIndicator(),
-            orElse: () => BalanceLineChart(),
+            orElse: () =>
+                BalanceLineChart().height(widget.constraints.maxHeight),
           );
         },
-      ).padding(horizontal: AppStyles.defaultPaddingHorizontal, vertical: 25.h),
+      ).padding(horizontal: 5.w, vertical: 25.h),
     );
   }
 

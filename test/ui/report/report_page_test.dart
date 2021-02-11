@@ -91,6 +91,21 @@ void main() {
       });
 
       group('calls', () {
+        testWidgets('should able to pull down to refresh', (tester) async {
+          when(balanceReportCubit.state).thenReturn(stateLoaded);
+          when(reportFilterCubit.state).thenReturn(ReportFilterState.initial());
+          await tester.pumpWidget(subject);
+
+          await tester.drag(
+            find.byType(BalanceLineChart),
+            const Offset(0.0, 300.0),
+            touchSlopY: 100,
+          );
+
+          await tester.pumpAndSettle();
+          verify(balanceReportCubit.refresh()).called(1);
+        });
+
         testWidgets('should able to change start date and end date',
             (tester) async {
           final reportFilterState = ReportFilterState.initial();
