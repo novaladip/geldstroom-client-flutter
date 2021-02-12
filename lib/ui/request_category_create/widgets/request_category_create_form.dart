@@ -9,6 +9,7 @@ import '../../../core/network/model/model.dart';
 import '../../../shared/common/config/config.dart';
 import '../../../shared/common/utils/utils.dart';
 import '../../../shared/widget/widget.dart';
+import 'confirmation_dialog.dart';
 
 class RequestCategoryCreateForm extends StatefulWidget {
   static const nameInputKey = Key('request_category_create_form_name_input');
@@ -87,6 +88,15 @@ class _RequestCategoryCreateFormState extends State<RequestCategoryCreateForm> {
   void onSubmit() {
     if (!form.currentState.validate()) return;
 
+    ConfirmationDialog(
+      title: 'R U Sure?',
+      content: 'Category name: ${name.text} \nDescription: ${description.text}'
+          '\nThe requested category is cannot be changed.',
+      onConfirm: submit,
+    )..show(context);
+  }
+
+  void submit() {
     final dto = RequestCategoryCreateDto(
       name: name.text,
       description: description.text,

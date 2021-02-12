@@ -15,16 +15,16 @@ class RequestCategoryItem extends StatelessWidget {
     this.isDeleting = false,
     this.isLast = false,
     @required this.onDelete,
-    @required this.onEdit,
   }) : super(key: key);
 
   final RequestCategory data;
   final bool isDeleting;
   final bool isLast;
   final VoidCallback onDelete;
-  final VoidCallback onEdit;
 
   BorderStyle get borderStyle => isLast ? BorderStyle.none : BorderStyle.solid;
+
+  bool get showSlideActions => isDeleting || data.status == 'ON_REVIEW';
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +32,8 @@ class RequestCategoryItem extends StatelessWidget {
       actionPane: SlidableBehindActionPane(),
       actionExtentRatio: 0.25,
       actions: [
-        if (!isDeleting)
+        if (showSlideActions)
           ...<Widget>[
-            IconSlideAction(
-              caption: 'Edit',
-              color: Colors.blue,
-              icon: Icons.edit,
-              onTap: onEdit,
-            ),
             IconSlideAction(
               caption: 'Delete',
               color: Colors.red,
@@ -94,7 +88,7 @@ class RequestCategoryItemLeft extends StatelessWidget {
     );
   }
 
-  String _formatDate(DateTime date) => Jiffy(date).format('mm/dd/yyyy hh:mm');
+  String _formatDate(DateTime date) => Jiffy(date).format('mm/dd/yyyy hh:mm a');
 
   Widget buildDate(DateTime date, String title) {
     return <Widget>[
