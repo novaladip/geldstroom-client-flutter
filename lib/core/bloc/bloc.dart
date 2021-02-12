@@ -12,6 +12,7 @@ export 'request_category/request_category_cubit.dart';
 export 'request_category_create/request_category_create_cubit.dart';
 export 'request_category_delete/request_category_delete_cubit.dart';
 export 'request_otp/request_otp_cubit.dart';
+export 'resend_email_verification/resend_email_verification_cubit.dart';
 export 'transaction_create/transaction_create_cubit.dart';
 export 'transaction_delete/transaction_delete_cubit.dart';
 export 'transaction_edit/transaction_edit_cubit.dart';
