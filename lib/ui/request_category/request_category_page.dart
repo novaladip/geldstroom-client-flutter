@@ -9,7 +9,6 @@ import 'widgets/request_category_list.dart';
 class RequestCategoryPage extends StatefulWidget {
   static const routeName = '/request-category';
   static const appBarTitle = 'Request Category';
-  static const emptyText = 'There is no requested category yet';
 
   const RequestCategoryPage({Key key}) : super(key: key);
 

@@ -59,7 +59,6 @@ class RequestCategoryList extends StatelessWidget {
               data: data,
               isLast: isLast,
               isDeleting: isDeleting,
-              onEdit: () => onEdit(context),
               onDelete: () =>
                   context.read<RequestCategoryDeleteCubit>().delete(data.id),
             );
@@ -79,9 +78,5 @@ class RequestCategoryList extends StatelessWidget {
     CustomSnackbar.createError(
       message: 'Failed to delete request category',
     )..show(context);
-  }
-
-  void onEdit(BuildContext context) {
-    // @TODO
   }
 }

@@ -7,7 +7,7 @@ class RequestCategoryJson {
       "id": "0869f000-c32b-4448-9b71-3da3818148bf",
       "categoryName": "Audio Gear",
       "description": "",
-      "status": "REJECTED",
+      "status": "ON_REVIEW",
       "createdAt": "2020-10-26T04:21:35Z",
       "updatedAt": "2020-11-30T13:13:33Z",
       "requestedBy": "284c5ca4-9d46-4259-a98d-8331f06b38d2"

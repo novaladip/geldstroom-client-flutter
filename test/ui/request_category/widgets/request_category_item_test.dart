@@ -20,16 +20,38 @@ void main() {
               isDeleting: false,
               isLast: false,
               onDelete: () {},
-              onEdit: () {},
             ),
           ),
         );
         await tester.pumpWidget(subject);
 
         expect(find.text(data.categoryName), findsOneWidget);
-        expect(find.text(data.status.replaceAll('_', '')), findsOneWidget);
+        expect(find.text(data.status.replaceAll('_', ' ')), findsOneWidget);
         expect(find.text(Jiffy(data.updatedAt).format('mm/dd/yyyy hh:mm a')),
             findsOneWidget);
+      });
+
+      testWidgets('should cannot swipe to right when status is not ON_REVIEW',
+          (tester) async {
+        final data = RequestCategory.fromJson(RequestCategoryJson.list[1]);
+        final subject = buildTestableWidget(
+          Center(
+            child: RequestCategoryItem(
+              data: data,
+              isDeleting: false,
+              isLast: false,
+              onDelete: () {},
+            ),
+          ),
+        );
+        await tester.pumpWidget(subject);
+
+        final target = find.byType(RequestCategoryItem);
+        expect(target, findsOneWidget);
+        // swipe to right
+        await tester.drag(target, Offset(500, 0));
+        await tester.pumpAndSettle();
+        expect(find.text('Delete'), findsNothing);
       });
 
       testWidgets('show loading indicator when isDeleting is true',
@@ -41,7 +63,6 @@ void main() {
               isDeleting: true,
               isLast: false,
               onDelete: () {},
-              onEdit: () {},
             ),
           ),
         );
@@ -52,7 +73,6 @@ void main() {
 
     group('calls', () {
       var deleted = false;
-      var edited = false;
 
       final subject = buildTestableWidget(
         Center(
@@ -62,9 +82,6 @@ void main() {
             isLast: false,
             onDelete: () {
               deleted = true;
-            },
-            onEdit: () {
-              edited = true;
             },
           ),
         ),
@@ -81,19 +98,6 @@ void main() {
         await tester.tap(find.text('Delete').hitTestable());
         await tester.pumpAndSettle();
         expect(deleted, true);
-      });
-
-      testWidgets('should able to tap edit action', (tester) async {
-        await tester.pumpWidget(subject);
-
-        final target = find.byType(RequestCategoryItem);
-        expect(target, findsOneWidget);
-        // swipe to right
-        await tester.drag(target, Offset(500, 0));
-        await tester.pumpAndSettle();
-        await tester.tap(find.text('Edit').hitTestable());
-        await tester.pumpAndSettle();
-        expect(edited, true);
       });
     });
   });

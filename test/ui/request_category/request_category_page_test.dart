@@ -9,6 +9,7 @@ import 'package:geldstroom/core/bloc_base/bloc_base.dart';
 import 'package:geldstroom/core/network/network.dart';
 import 'package:geldstroom/shared/widget/widget.dart';
 import 'package:geldstroom/ui/request_category/widgets/request_category_item.dart';
+import 'package:geldstroom/ui/request_category/widgets/request_category_list.dart';
 import 'package:geldstroom/ui/ui.dart';
 import 'package:mockito/mockito.dart';
 
@@ -94,7 +95,7 @@ void main() {
         await tester.pumpWidget(subject);
         expect(find.byType(RequestCategoryItem), findsNothing);
         expect(find.byIcon(Icons.add), findsOneWidget);
-        expect(find.text(RequestCategoryPage.emptyText), findsOneWidget);
+        expect(find.text(RequestCategoryList.emptyText), findsOneWidget);
       });
 
       testWidgets('when state is initial', (tester) async {
@@ -201,20 +202,6 @@ void main() {
         await tester.pumpAndSettle();
         await tester.tap(find.text('Delete').hitTestable());
         verify(deleteCubit.delete(data[0].id)).called(1);
-      });
-
-      testWidgets('should able to tap edit action', (tester) async {
-        when(deleteCubit.state).thenReturn(deleteStateInitial);
-        await tester.pumpWidget(subject);
-
-        final target = find.text(data[0].categoryName);
-        expect(target, findsOneWidget);
-        // swipe to right
-        await tester.drag(target, Offset(500, 0));
-        await tester.pumpAndSettle();
-        await tester.tap(find.text('Edit').hitTestable());
-        await tester.pumpAndSettle();
-        // @TODO
       });
     });
   });
