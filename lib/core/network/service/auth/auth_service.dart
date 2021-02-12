@@ -10,6 +10,7 @@ abstract class IAuthService {
   Future<Either<ServerError, None>> register(RegisterDto dto);
   Future<Either<ServerError, None>> requestOtp(String email);
   Future<Either<ServerError, None>> resetPassword(PasswordResetDto dto);
+  Future<Either<ServerError, None>> resendEmailVerification(String email);
 }
 
 @Injectable(as: IAuthService)
@@ -53,6 +54,18 @@ class AuthService implements IAuthService {
   Future<Either<ServerError, None>> resetPassword(PasswordResetDto dto) async {
     try {
       await _dio.put('/user/reset/password', data: dto.toMap);
+      return Right(None());
+    } on DioError catch (e) {
+      return Left(ServerError.fromDioError(e));
+    }
+  }
+
+  @override
+  Future<Either<ServerError, None>> resendEmailVerification(
+    String email,
+  ) async {
+    try {
+      await _dio.put('/user/verify/resend', data: {'email': email});
       return Right(None());
     } on DioError catch (e) {
       return Left(ServerError.fromDioError(e));
