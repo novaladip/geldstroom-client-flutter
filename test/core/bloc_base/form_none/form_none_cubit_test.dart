@@ -1,7 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:geldstroom/core/bloc_base/form/form_cubit.dart';
+import 'package:geldstroom/core/bloc_base/form_none/form_none_cubit.dart';
 import 'package:geldstroom/core/network/network.dart';
 import 'package:mockito/mockito.dart';
 
@@ -15,28 +15,28 @@ class MockApi extends Mock implements Api {}
 void main() {
   group('FormCubit', () {
     Api api;
-    FormCubit subject;
+    FormNoneCubit subject;
 
     setUp(() {
       api = MockApi();
-      subject = FormCubit<String>(api.call);
+      subject = FormNoneCubit<String>(api.call);
     });
 
     tearDown(() {
       subject.close();
     });
 
-    blocTest<FormCubit, FormState>(
+    blocTest<FormNoneCubit, FormNoneState>(
       'clear',
       build: () => subject,
       act: (cubit) => cubit.clear(),
-      expect: [FormState.initial()],
+      expect: [FormNoneState.initial()],
     );
 
     group('submit', () {
       final dto = 'john@email.com';
       final serverError = ServerError.unknownError();
-      blocTest<FormCubit, FormState>(
+      blocTest<FormNoneCubit, FormNoneState>(
         'when success',
         build: () {
           when(api.call(dto)).thenAnswer((_) async => Right(None()));
@@ -44,12 +44,12 @@ void main() {
         },
         act: (cubit) => cubit.submit(dto),
         expect: [
-          FormState(status: FormStatus.loading()),
-          FormState(status: FormStatus.success()),
+          FormNoneState(status: FormStatus.loading()),
+          FormNoneState(status: FormStatus.success()),
         ],
       );
 
-      blocTest<FormCubit, FormState>(
+      blocTest<FormNoneCubit, FormNoneState>(
         'when failure',
         build: () {
           when(api.call(dto)).thenAnswer((_) async => Left(serverError));
@@ -57,8 +57,8 @@ void main() {
         },
         act: (cubit) => cubit.submit(dto),
         expect: [
-          FormState(status: FormStatus.loading()),
-          FormState(status: FormStatus.error(error: serverError)),
+          FormNoneState(status: FormStatus.loading()),
+          FormNoneState(status: FormStatus.error(error: serverError)),
         ],
       );
     });
