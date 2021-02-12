@@ -71,6 +71,30 @@ void main() {
         verify(cubit.clear()).called(1);
       });
 
+      testWidgets('should able to dismissing the AlertDialog', (tester) async {
+        await tester.pumpWidget(subject);
+
+        final dto = RequestCategoryCreateDto(
+          name: data.categoryName,
+          description: data.categoryName,
+        );
+
+        final nameInput = find.byKey(RequestCategoryCreateForm.nameInputKey);
+        final descriptionInput =
+            find.byKey(RequestCategoryCreateForm.descriptionInputKey);
+
+        await tester.enterText(nameInput, dto.name);
+        await tester.enterText(descriptionInput, dto.description);
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Submit').hitTestable());
+        await tester.pumpAndSettle();
+
+        expect(find.byType(AlertDialog), findsOneWidget);
+        await tester.tap(find.text('Cancel').hitTestable());
+        await tester.pumpAndSettle();
+        expect(find.byType(AlertDialog), findsNothing);
+      });
+
       testWidgets(
           'RequestCategoryCreateCubit.sumbit(dto) when submitting with valid value',
           (tester) async {
@@ -89,6 +113,10 @@ void main() {
         await tester.enterText(descriptionInput, dto.description);
         await tester.pumpAndSettle();
         await tester.tap(find.text('Submit').hitTestable());
+        await tester.pumpAndSettle();
+
+        expect(find.byType(AlertDialog), findsOneWidget);
+        await tester.tap(find.text('Confirm').hitTestable());
         verify(cubit.submit(dto)).called(1);
       });
 
