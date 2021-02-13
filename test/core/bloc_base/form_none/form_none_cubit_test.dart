@@ -46,6 +46,7 @@ void main() {
         expect: [
           FormNoneState(status: FormStatus.loading()),
           FormNoneState(status: FormStatus.success()),
+          FormNoneState(status: FormStatus.idle()),
         ],
       );
 

@@ -28,6 +28,7 @@ class FormNoneCubit<DTO> extends Cubit<FormNoneState> {
       },
       (r) {
         emit(FormNoneState(status: FormStatus.success()));
+        emit(FormNoneState(status: FormStatus.idle()));
       },
     );
   }
