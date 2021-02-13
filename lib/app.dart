@@ -30,6 +30,7 @@ class App extends StatelessWidget {
             BlocProvider.value(value: getIt<TransactionEditCubit>()),
             BlocProvider.value(value: getIt<TransactionDeleteCubit>()),
             BlocProvider.value(value: getIt<BalanceReportCubit>()),
+            BlocProvider.value(value: getIt<ResendEmailVerificationCubit>()),
           ],
           child: MaterialApp(
             title: 'Geldstroom',

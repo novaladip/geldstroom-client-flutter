@@ -1,15 +1,18 @@
+// ignore_for_file: lines_longer_than_80_chars
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geldstroom/core/bloc/auth/auth_cubit.dart';
 import 'package:geldstroom/core/bloc/bloc.dart';
+import 'package:geldstroom/core/bloc_base/form_none/form_none_cubit.dart';
 import 'package:geldstroom/core/network/model/status_model.dart';
 import 'package:geldstroom/core/network/network.dart';
 import 'package:geldstroom/shared/widget/widget.dart';
 import 'package:geldstroom/ui/login/widget/login_footer.dart';
 import 'package:geldstroom/ui/login/widget/login_form.dart';
 import 'package:geldstroom/ui/login/widget/login_header.dart';
+import 'package:geldstroom/ui/login/widget/login_verify_email.dart';
 import 'package:geldstroom/ui/ui.dart';
 import 'package:mockito/mockito.dart';
 
@@ -19,35 +22,49 @@ class MockAuthCubit extends MockBloc<AuthState> implements AuthCubit {}
 
 class MockLoginCubit extends MockBloc<LoginState> implements LoginCubit {}
 
+class MockResendEmailVerificationCubit extends MockBloc<FormNoneState>
+    implements ResendEmailVerificationCubit {}
+
 void main() {
   group('LoginPage', () {
     AuthCubit authCubit;
     LoginCubit loginCubit;
+    ResendEmailVerificationCubit resendEmailVerificationCubit;
     Widget subject;
     final registerPageKey = UniqueKey();
     final resetPasswordPageKey = UniqueKey();
     final homePageKey = UniqueKey();
 
-    setUpAll(() {
+    setUp(() {
       authCubit = MockAuthCubit();
       loginCubit = MockLoginCubit();
-      subject = buildTestableBlocWidget(
-        initialRoutes: LoginPage.routeName,
-        routes: {
-          RegisterPage.routeName: (_) =>
-              buildTestableWidget(Scaffold(key: registerPageKey)),
-          HomePage.routeName: (_) => Scaffold(key: homePageKey),
-          LoginPage.routeName: (_) => MultiBlocProvider(
-                providers: [
-                  BlocProvider.value(value: authCubit),
-                  BlocProvider.value(value: loginCubit),
-                ],
-                child: LoginPage(),
-              ),
-          PasswordResetPage.routeName: (_) =>
-              buildTestableWidget(Scaffold(key: resetPasswordPageKey)),
-        },
+      resendEmailVerificationCubit = MockResendEmailVerificationCubit();
+      subject = BlocProvider.value(
+        value: resendEmailVerificationCubit,
+        child: buildTestableBlocWidget(
+          initialRoutes: LoginPage.routeName,
+          routes: {
+            RegisterPage.routeName: (_) =>
+                buildTestableWidget(Scaffold(key: registerPageKey)),
+            HomePage.routeName: (_) => Scaffold(key: homePageKey),
+            LoginPage.routeName: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(value: authCubit),
+                    BlocProvider.value(value: loginCubit),
+                  ],
+                  child: LoginPage(),
+                ),
+            PasswordResetPage.routeName: (_) =>
+                buildTestableWidget(Scaffold(key: resetPasswordPageKey)),
+          },
+        ),
       );
+    });
+
+    tearDown(() {
+      authCubit.close();
+      loginCubit.close();
+      resendEmailVerificationCubit.close();
     });
 
     testWidgets('should render LoginPage correctly on initial state',
@@ -173,6 +190,7 @@ void main() {
       await tester.enterText(emailInput, email);
       await tester.enterText(passwordInput, password);
       await tester.tap(submitButton);
+
       verifyNever(loginCubit.submit(any));
 
       expect(find.byKey(MainButton.loadingIndicatorKey), findsOneWidget);
@@ -239,7 +257,7 @@ void main() {
     });
 
     testWidgets(
-        'listen for AuthState, should navigate to HomePage '
+        'listen for AuthCubit, should navigate to HomePage '
         'when AuthState.authenticated()', (tester) async {
       when(loginCubit.state).thenAnswer((_) => LoginState.initial());
       whenListen(
@@ -252,6 +270,48 @@ void main() {
       await tester.pumpWidget(subject);
       await tester.pumpAndSettle();
       expect(find.byKey(homePageKey), findsOneWidget);
+    });
+
+    testWidgets(
+        'listen for AuthCubit, do nothing when updated state is not AuthState.authenticated()',
+        (tester) async {
+      when(loginCubit.state).thenAnswer((_) => LoginState.initial());
+      whenListen(
+        authCubit,
+        Stream.fromIterable(<AuthState>[
+          AuthState.initial(),
+          AuthState.unauthenticated(),
+        ]),
+      );
+
+      await tester.pumpWidget(subject);
+      await tester.pumpAndSettle();
+    });
+
+    testWidgets(
+        'listen for LoginCubit, should show bottom sheet LoginVerifyEmail'
+        'when LoginState.error() with errorCode USER_0002', (tester) async {
+      when(resendEmailVerificationCubit.state)
+          .thenReturn(FormNoneState.initial());
+      final errorState = LoginState(
+        status: FormStatus.error(
+          error: ServerError(
+            errorCode: UserErrorCode.emailIsNotVerified,
+            message: 'Email is not verified yet',
+          ),
+        ),
+      );
+      when(loginCubit.state).thenAnswer((_) => errorState);
+      whenListen(
+        loginCubit,
+        Stream.fromIterable(<LoginState>[
+          errorState,
+        ]),
+      );
+
+      await tester.pumpWidget(subject);
+      await tester.pumpAndSettle();
+      expect(find.byType(LoginVerifyEmail), findsOneWidget);
     });
   });
 }

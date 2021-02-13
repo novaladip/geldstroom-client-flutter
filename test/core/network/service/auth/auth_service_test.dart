@@ -193,5 +193,49 @@ void main() {
         (r) => expect(r, null),
       );
     });
+
+    group('resendEmailVerification', () {
+      test('when success', () async {
+        final payload = {'message': 'Link verification has been to your email'};
+        final httpResponse = buildResponseBody(
+          payload: payload,
+          statusCode: 201,
+        );
+        when(dioAdapterMock.fetch(any, any, any))
+            .thenAnswer((_) async => httpResponse);
+
+        final result =
+            await authService.resendEmailVerification('john@email.com');
+        result.fold(
+          (l) {
+            expect(l, null);
+          },
+          (r) {
+            expect(r, None());
+          },
+        );
+      });
+
+      test('when failure', () async {
+        final payload = {'message': 'User not found', 'errorCode': 'USER_0004'};
+        final httpResponse = buildResponseBody(
+          payload: payload,
+          statusCode: 404,
+        );
+        when(dioAdapterMock.fetch(any, any, any))
+            .thenAnswer((_) async => httpResponse);
+
+        final result =
+            await authService.resendEmailVerification('john@email.com');
+        result.fold(
+          (l) {
+            expect(l, ServerError.fromJson(payload));
+          },
+          (r) {
+            expect(r, null);
+          },
+        );
+      });
+    });
   });
 }
