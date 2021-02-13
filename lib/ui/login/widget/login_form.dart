@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../core/bloc/bloc.dart';
@@ -12,6 +13,7 @@ import '../../../shared/common/config/config.dart';
 import '../../../shared/common/utils/utils.dart';
 import '../../../shared/widget/widget.dart';
 import '../../ui.dart';
+import 'login_verify_email.dart';
 
 class LoginForm extends StatefulWidget {
   static const submitButtonText = 'Sign in';
@@ -35,47 +37,16 @@ class _LoginFormState extends State<LoginForm> {
     return MultiBlocListener(
       listeners: [
         BlocListener<LoginCubit, LoginState>(
-          listener: (context, state) {
-            state.status.maybeWhen(
-              error: (e) {
-                Flushbar(
-                  key: Key('login_form_flushbar_failed'),
-                  title: 'Login failed',
-                  icon:
-                      Icon(Icons.error_outline_rounded).iconColor(Colors.white),
-                  message: e.message,
-                  backgroundColor: Colors.red,
-                  duration: Duration(seconds: 2),
-                  flushbarStyle: FlushbarStyle.FLOATING,
-                )..show(context);
-              },
-              success: () {
-                Flushbar(
-                  title: 'Login success',
-                  message:
-                      'You will be redirected to home page in a few moment',
-                  backgroundColor: Colors.green,
-                  duration: Duration(seconds: 2),
-                  flushbarStyle: FlushbarStyle.FLOATING,
-                )..show(context);
-              },
-              orElse: () {},
-            );
-          },
+          listener: (context, state) => loginCubitListener(state),
         ),
         BlocListener<AuthCubit, AuthState>(
-          listener: (context, state) {
-            state.maybeWhen(
-              authenticated: () => Navigator.of(context)
-                  .pushReplacementNamed(HomePage.routeName),
-              orElse: () {},
-            );
-          },
+          listener: (context, state) => authCubitListener(state),
         ),
       ],
       child: Builder(
         builder: (context) {
           final state = context.watch<LoginCubit>().state;
+
           return Form(
             key: form,
             child: <Widget>[
@@ -135,19 +106,63 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
-  void onSubmit() {
-    final isValid = form.currentState.validate();
-    if (!isValid) return;
-
-    final dto = LoginDto(email: email.text, password: password.text);
-    context.read<LoginCubit>().submit(dto);
-  }
-
   @override
   void dispose() {
     email.dispose();
     password.dispose();
     passwordFocusNode.dispose();
     super.dispose();
+  }
+
+  void authCubitListener(AuthState state) {
+    state.maybeWhen(
+      authenticated: () =>
+          Navigator.of(context).pushReplacementNamed(HomePage.routeName),
+      orElse: () {},
+    );
+  }
+
+  void loginCubitListener(LoginState state) {
+    state.status.maybeWhen(
+      error: (e) {
+        if (e.errorCode == UserErrorCode.emailIsNotVerified) {
+          showMaterialModalBottomSheet(
+            context: context,
+            useRootNavigator: true,
+            backgroundColor: AppStyles.darkBackground,
+            builder: (_) => LoginVerifyEmail(email: email.text),
+          );
+          return;
+        }
+
+        Flushbar(
+          key: Key('login_form_flushbar_failed'),
+          title: 'Login failed',
+          icon: Icon(Icons.error_outline_rounded).iconColor(Colors.white),
+          message: e.message,
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 2),
+          flushbarStyle: FlushbarStyle.FLOATING,
+        )..show(context);
+      },
+      success: () {
+        Flushbar(
+          title: 'Login success',
+          message: 'You will be redirected to home page in a few moment',
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 2),
+          flushbarStyle: FlushbarStyle.FLOATING,
+        )..show(context);
+      },
+      orElse: () {},
+    );
+  }
+
+  void onSubmit() {
+    final isValid = form.currentState.validate();
+    if (!isValid) return;
+
+    final dto = LoginDto(email: email.text, password: password.text);
+    context.read<LoginCubit>().submit(dto);
   }
 }
