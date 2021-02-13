@@ -65,7 +65,7 @@ class AuthService implements IAuthService {
     String email,
   ) async {
     try {
-      await _dio.put('/user/verify/resend', data: {'email': email});
+      await _dio.post('/user/verify/resend', data: {'email': email});
       return Right(None());
     } on DioError catch (e) {
       return Left(ServerError.fromDioError(e));
