@@ -8,6 +8,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../core/bloc/bloc.dart';
 import '../../../core/network/model/model.dart';
+import '../../../shared/common/config/config.dart';
 import '../../../shared/widget/widget.dart';
 
 class BalanceLineCharts extends StatefulWidget {
@@ -27,6 +28,10 @@ class _BalanceLineChartsState extends State<BalanceLineCharts>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    final errorPaddingHorizontal = AppStyles.defaultPaddingHorizontal - 5.w;
+    final containerPaddingHorizontal = 5.w;
+    final containerPaddingVertical = 25.h;
+
     return Styled.widget(
       child: Builder(
         builder: (context) {
@@ -34,18 +39,24 @@ class _BalanceLineChartsState extends State<BalanceLineCharts>
             (cubit) => cubit.state.status,
           );
 
-          return status.maybeWhen(
-            loadFailure: (e) => ErrorMessageRetry(
-              message: e.message,
-              onRetry: fetch,
+          return Styled.widget(
+            child: status.maybeWhen(
+              loadFailure: (e) => ErrorMessageRetry(
+                message: e.message,
+                onRetry: fetch,
+              ).padding(horizontal: errorPaddingHorizontal),
+              initial: () => LoadingIndicator(),
+              loadInProgress: () => LoadingIndicator(),
+              orElse: () => BalanceLineChart(),
             ),
-            initial: () => LoadingIndicator(),
-            loadInProgress: () => LoadingIndicator(),
-            orElse: () =>
-                BalanceLineChart().height(widget.constraints.maxHeight),
-          );
+          )
+              .padding(
+                horizontal: containerPaddingHorizontal,
+                vertical: containerPaddingVertical,
+              )
+              .height(widget.constraints.maxHeight);
         },
-      ).padding(horizontal: 5.w, vertical: 25.h),
+      ),
     );
   }
 

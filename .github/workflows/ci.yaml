@@ -2,13 +2,16 @@ name: CI
 on:
   push:
     branches:
-      - main
-      - master
+      - dev
+      - beta
     paths:
       - "lib/**"
       - "test/**"
       - ".github/workflows/ci.yaml"
   pull_request:
+    branches:
+      - dev 
+      - beta
 
 jobs:
   build:
