@@ -30,3 +30,10 @@
 ```
 
 
+![default](docs/assets/play.gif)
+## Screenshot
+|              Home               |              Rerport              |
+| :----------------------------------: | :-----------------------------: |
+| ![](docs/assets/home-monthly.png) | ![](docs/assets/report.png) |
+|              Select Category              |             Setting              |
+| ![](docs/assets/category.png) | ![](docs/assets/setting.png) |
