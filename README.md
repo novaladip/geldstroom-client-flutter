@@ -1,10 +1,11 @@
 
 ![CI](https://github.com/novaladip/geldstroom-client-flutter/workflows/CI/badge.svg) ![CD](https://github.com/novaladip/geldstroom-client-flutter/workflows/CD/badge.svg) [![codecov](https://codecov.io/gh/novaladip/geldstroom-client-flutter/branch/master/graph/badge.svg?token=IpNc50Bxy5)](https://codecov.io/gh/novaladip/geldstroom-client-flutter) 
 
-# Geldstroom 
-### Geldstroom is an app to help you manage your income & expense, categorizing every penny you spend so you can make better future decision.
-### I build this app as my journey learning flutter, unit test, widget test, CI and CD.
-<a href='https://play.google.com/store/apps/details?id=com.cotc.geldstroom&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
+# Geldstroom
+
+***Geldstroom*** is an app to help you manage your income & expense, categorizing every penny you spend so you can make better future decisions. I build this app as my journey learning *flutter*, *unit test*, *widget test*, ***CI***, and ***CD***.
+
+<a  href='https://play.google.com/store/apps/details?id=com.cotc.geldstroom&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img width=200 alt='Get it on Google Play'  src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
 
 # Folder Structure
 ```
@@ -29,10 +30,3 @@
 ```
 
 
-![default](docs/assets/play.gif)
-## Screenshot
-|              Home               |              Rerport              |
-| :----------------------------------: | :-----------------------------: |
-| ![](docs/assets/home-monthly.png) | ![](docs/assets/report.png) |
-|              Select Category              |             Setting              |
-| ![](docs/assets/category.png) | ![](docs/assets/setting.png) |
