@@ -50,3 +50,6 @@ key.jks
 **/*.freezed.dart
 *.config.dart
 **/*.gen.dart
+
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
