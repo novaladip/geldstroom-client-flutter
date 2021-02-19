@@ -1,4 +1,3 @@
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -31,11 +30,8 @@ class _HomePageState extends State<HomePage> {
     setupOneSignal();
   }
 
-  void setupOneSignal() async {
+  void setupOneSignal() {
     widget.oneSignal.setSubscription(true);
-    Future.delayed(Duration(seconds: 10), () {
-      FirebaseCrashlytics.instance.crash();
-    });
   }
 
   @override
