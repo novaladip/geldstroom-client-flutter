@@ -23,6 +23,16 @@ jobs:
         with:
           filePath: ${{ github.workspace }}/.env
           encodedString: ${{ secrets.ENV_BASE64 }}
+      - name: Create Android Firebase Config JSON
+        uses: narcodico/base64-to-path@v1
+        with:
+          filepath: ${{ github.workspace }}/android/app/google-services.json
+          encodedString: ${{ secrets.GOOGLE_SERVICES_JSON_BASE_64}}
+      - name: Create iOS Firebase Config plist
+        uses: narcodico/base64-to-path@v1
+        with:
+          filepath: ${{ github.workspace }}/ios/Runner/GoogleService-Info.plist
+          encodedString: ${{ secrets.GOOGLE_SERVICES_PLIST_BASE_64}}    
       - name: Create .dev.env
         uses: narcodico/base64-to-path@v1
         with:
