@@ -1,3 +1,5 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +10,8 @@ import 'core/bloc_ui/ui_bloc.dart';
 import 'shared/common/config/config.dart';
 import 'shared/common/utils/utils.dart';
 import 'ui/ui.dart';
+
+FirebaseAnalytics analytics = FirebaseAnalytics();
 
 class App extends StatelessWidget {
   @override
@@ -61,6 +65,9 @@ class App extends StatelessWidget {
                   ),
             ),
             routes: buildRoutes(),
+            navigatorObservers: [
+              FirebaseAnalyticsObserver(analytics: analytics),
+            ],
             home: SplashScreenPage(),
           ),
         );
