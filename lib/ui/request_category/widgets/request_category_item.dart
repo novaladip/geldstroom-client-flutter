@@ -88,7 +88,7 @@ class RequestCategoryItemLeft extends StatelessWidget {
     );
   }
 
-  String _formatDate(DateTime date) => Jiffy(date).format('mm/dd/yyyy hh:mm a');
+  String _formatDate(DateTime date) => Jiffy(date).format('MM/dd/yyyy hh:mm a');
 
   Widget buildDate(DateTime date, String title) {
     return <Widget>[

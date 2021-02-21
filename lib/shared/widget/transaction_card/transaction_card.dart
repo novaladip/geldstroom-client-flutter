@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:styled_widget/styled_widget.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../../core/network/model/model.dart';
 import '../../common/config/config.dart';
@@ -32,7 +32,7 @@ class TransactionCard extends StatelessWidget {
     final aWeekAgo = DateTime.now().subtract(Duration(days: 7));
 
     if (data.createdAt.isBefore(aWeekAgo)) {
-      return Jiffy(data.createdAt).format('MM/DD/yyyy');
+      return FormatDate.normal(data.createdAt);
     }
 
     return Jiffy(data.createdAt).fromNow();
