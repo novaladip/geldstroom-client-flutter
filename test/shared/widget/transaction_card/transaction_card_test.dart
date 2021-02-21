@@ -5,7 +5,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:geldstroom/core/network/network.dart';
 import 'package:geldstroom/shared/common/utils/utils.dart';
 import 'package:geldstroom/shared/widget/transaction_card/transaction_card.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
 import '../../../test_helper.dart';
@@ -107,7 +106,7 @@ void main() {
         expect(find.text(data.category.name), findsOneWidget);
         expect(find.byType(CachedNetworkImage), findsOneWidget);
         expect(find.text(FormatCurrency.toIDR(data.amount)), findsOneWidget);
-        expect(find.text(Jiffy(dataWeekAgo.createdAt).format('MM/DD/yyyy')),
+        expect(find.text(FormatDate.normal(dataWeekAgo.createdAt)),
             findsOneWidget);
         expect(find.text('Edit').hitTestable(), findsNothing);
         expect(find.text('Delete').hitTestable(), findsNothing);
