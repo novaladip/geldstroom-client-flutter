@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geldstroom/core/network/network.dart';
+import 'package:geldstroom/shared/common/utils/utils.dart';
 import 'package:geldstroom/ui/request_category/widgets/request_category_item.dart';
-import 'package:jiffy/jiffy.dart';
 
 import '../../../helper_tests/request_category_json.dart';
 import '../../../test_helper.dart';
@@ -27,8 +27,7 @@ void main() {
 
         expect(find.text(data.categoryName), findsOneWidget);
         expect(find.text(data.status.replaceAll('_', ' ')), findsOneWidget);
-        expect(find.text(Jiffy(data.updatedAt).format('mm/dd/yyyy hh:mm a')),
-            findsOneWidget);
+        expect(find.text(FormatDate.withClock(data.updatedAt)), findsOneWidget);
       });
 
       testWidgets('should cannot swipe to right when status is not ON_REVIEW',
