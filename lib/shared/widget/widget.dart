@@ -3,6 +3,7 @@ export 'date_form_field/date_form_field.dart';
 export 'dropdown_category_form/dropdown_category_form.dart';
 export 'dropdown_form/dropdown_form.dart';
 export 'error_message/error_message.dart';
+export 'link_text/link_text.dart';
 export 'loading_indicator/loading_indicator.dart';
 export 'main_button/main_button.dart';
 export 'transaction_card/transaction_card.dart';
