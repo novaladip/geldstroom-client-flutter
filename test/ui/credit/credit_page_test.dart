@@ -1,6 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geldstroom/core/bloc/category/category_cubit.dart';
@@ -10,6 +11,7 @@ import 'package:geldstroom/ui/credit/credit_page.dart';
 import 'package:mockito/mockito.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
+import '../../helper_tests/finder.dart';
 import '../../test_helper.dart';
 
 class MockCategoryCubit extends MockBloc<CategoryState>
@@ -25,7 +27,7 @@ void main() {
       TransactionCategory(
         id: '321-321',
         name: 'Food',
-        credit: 'Made by somebody from',
+        credit: 'https://google.com',
         iconUrl: 'https://img.url',
       )
     ];
@@ -56,7 +58,11 @@ void main() {
         when(cubit.state).thenReturn(stateSuccess);
         await tester.pumpWidget(subject);
         expect(find.byType(CachedNetworkImage), findsOneWidget);
-        expect(find.text(categories[0].credit), findsOneWidget);
+        expect(
+          find.byWidgetPredicate((widget) =>
+              fromRichTextToPlainText(widget, categories[0].credit)),
+          findsOneWidget,
+        );
       });
 
       testWidgets('correctly when load failure', (tester) async {
@@ -73,8 +79,37 @@ void main() {
     });
 
     group('calls', () {
-      // @TODO
-      // open an url from credit text
+      group('open a link in credit text', () {
+        const channel = MethodChannel('plugins.flutter.io/url_launcher');
+        final log = <MethodCall>[];
+
+        setUp(() {
+          channel.setMockMethodCallHandler((mc) async {
+            if (mc.method == 'canLaunch') {
+              return true;
+            }
+            log.add(mc);
+          });
+        });
+
+        tearDown(() {
+          channel.setMockMethodCallHandler(null);
+        });
+
+        testWidgets('when press the link text should call launchUrl',
+            (tester) async {
+          when(cubit.state).thenReturn(stateSuccess);
+          await tester.pumpWidget(subject);
+
+          final linkTextFinder = find.byWidgetPredicate((widget) =>
+              fromRichTextToPlainText(widget, categories[0].credit));
+
+          await tester.tap(linkTextFinder.hitTestable());
+          final methocCall = log[0];
+          expect(methocCall.method, 'launch');
+          expect(methocCall.arguments['url'], categories[0].credit);
+        });
+      });
 
       testWidgets('when state is not load success, call fetch on init state',
           (tester) async {
