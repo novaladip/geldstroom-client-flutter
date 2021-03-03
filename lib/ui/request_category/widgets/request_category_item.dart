@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:geldstroom/shared/common/utils/utils.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../core/network/model/model.dart';
 import '../../../shared/common/config/config.dart';
+import '../../../shared/common/utils/utils.dart';
 
 class RequestCategoryItem extends StatelessWidget {
   const RequestCategoryItem({
