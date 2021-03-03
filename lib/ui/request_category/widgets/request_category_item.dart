@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:jiffy/jiffy.dart';
+import 'package:geldstroom/shared/common/utils/utils.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../core/network/model/model.dart';
@@ -88,13 +88,11 @@ class RequestCategoryItemLeft extends StatelessWidget {
     );
   }
 
-  String _formatDate(DateTime date) => Jiffy(date).format('MM/dd/yyyy hh:mm a');
-
   Widget buildDate(DateTime date, String title) {
     return <Widget>[
       Text(title),
-      Text(_formatDate(date)),
-    ].toRow();
+      Text(FormatDate.withClock(date)),
+    ].toRow().fittedBox();
   }
 }
 
