@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:styled_widget/styled_widget.dart';
 
 import '../../core/bloc/bloc.dart';
 import '../../core/bloc_base/bloc_base.dart';
 import '../../shared/common/config/config.dart';
 import '../../shared/common/utils/utils.dart';
 import '../ui.dart';
+import 'widget/overview_appbar.dart';
 import 'widget/overview_balance.dart';
-import 'widget/overview_range_form.dart';
+import 'widget/overview_title.dart';
 import 'widget/overview_transaction.dart';
 
 class OverviewPage extends StatefulWidget {
@@ -19,8 +18,6 @@ class OverviewPage extends StatefulWidget {
 
   static const routeName = '/overview';
   static const customScrollViewKey = Key('home_page_scrollview');
-  static const overviewRangeIconKey = Key('home_overview_range_icon');
-  static const appBarTitle = 'Geldstroom';
 
   @override
   _OverviewPageState createState() => _OverviewPageState();
@@ -33,17 +30,6 @@ class _OverviewPageState extends State<OverviewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(OverviewPage.appBarTitle),
-        actions: [
-          IconButton(
-            key: OverviewPage.overviewRangeIconKey,
-            icon: Icon(Icons.filter_list_sharp),
-            onPressed: () => showOverviewRangeFilter(context),
-          )
-        ],
-      ),
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterFloat,
       floatingActionButton: !showFAB
@@ -76,9 +62,9 @@ class _OverviewPageState extends State<OverviewPage> {
             physics:
                 AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
             slivers: <Widget>[
-              SliverToBoxAdapter(
-                child: OverviewBalance().padding(bottom: 30.h),
-              ),
+              OverviewAppBar(),
+              OverviewTitle(),
+              OverviewBalance(),
               OverviewTransaction(),
             ],
           ),
@@ -92,14 +78,6 @@ class _OverviewPageState extends State<OverviewPage> {
         .read<OverviewTransactionBloc>()
         .add(OverviewTransactionEvent.fetch());
     context.read<OverviewBalanceCubit>().fetch();
-  }
-
-  void showOverviewRangeFilter(BuildContext context) {
-    showMaterialModalBottomSheet(
-      builder: (_) => OverviewRangeForm(),
-      useRootNavigator: true,
-      context: context,
-    );
   }
 
   void showTransactionCreatePage(BuildContext context) {

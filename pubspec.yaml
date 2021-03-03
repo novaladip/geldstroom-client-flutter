@@ -19,7 +19,6 @@ dependencies:
   flushbar: ^1.10.4
   flutter_bloc: ^6.1.1
   flutter_dotenv: ^2.1.0
-  flutter_linkify: ^4.0.2
   flutter_screenutil: ^4.0.3+1
   flutter_slidable: ^0.5.7
   flutter_spinkit: ^4.1.2+1

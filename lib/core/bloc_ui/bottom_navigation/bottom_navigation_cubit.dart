@@ -34,11 +34,26 @@ class BottomNavigationCubit extends Cubit<BottomNavigationState> {
   }
 
   void changeSelectedIndex(int value) {
-    if (value == 1) _onReportPageSelected();
     emit(BottomNavigationState(selectedIndex: value));
   }
 
   void clear() {
     emit(BottomNavigationState.initial());
+  }
+
+  @override
+  void onChange(Change<BottomNavigationState> change) {
+    final selectedIndex = change.nextState.selectedIndex;
+
+    // when the report page is selected
+    // call _onReportPageSelected()
+    // otherwise cancel the debounce timer
+    if (selectedIndex == 1) {
+      _onReportPageSelected();
+    } else {
+      _timer?.cancel();
+    }
+
+    super.onChange(change);
   }
 }

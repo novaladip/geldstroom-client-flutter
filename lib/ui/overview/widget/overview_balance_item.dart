@@ -36,13 +36,14 @@ class OverviewBalanceItem extends StatelessWidget {
           .fontSize(32.sp)
           .textColor(Colors.white)
           .fontWeight(FontWeight.w500)
-          .fontFamily(AppStyles.fontFamilyBody),
+          .fontFamily(AppStyles.fontFamilyBody)
+          .fittedBox(),
       Text(FormatCurrency.toIDR(amount))
           .fontSize(30.sp)
           .textColor(AppStyles.primaryColor)
           .fontWeight(FontWeight.w600)
           .fontFamily(AppStyles.fontFamilyBody)
           .fittedBox(),
-    ].toColumn(crossAxisAlignment: crossAxisLignment).flexible();
+    ].toColumn(crossAxisAlignment: crossAxisLignment).fittedBox();
   }
 }
