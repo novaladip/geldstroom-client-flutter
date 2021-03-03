@@ -4,15 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../core/bloc/bloc.dart';
-import '../../../core/bloc_ui/ui_bloc.dart';
 import '../../../core/network/network.dart';
 import '../../../shared/common/config/config.dart';
 import 'overview_balance_item.dart';
 
 class OverviewBalance extends StatefulWidget {
   OverviewBalance({Key key}) : super(key: key);
-
-  static const title = 'Your transaction overview\nthis';
 
   @override
   _OverviewBalanceState createState() => _OverviewBalanceState();
@@ -25,21 +22,13 @@ class _OverviewBalanceState extends State<OverviewBalance> {
         context.select<OverviewBalanceCubit, TransactionTotal>(
       (cubit) => cubit.state.data,
     );
-    final overviewRange = context.select<OverviewRangeCubit, String>(
-      (cubit) => cubit.state.when(
-        monthly: () => 'month',
-        weekly: () => 'week',
-      ),
-    );
 
-    return <Widget>[
-      Text('${OverviewBalance.title} $overviewRange')
-          .fontSize(40.sp)
-          .fontFamily(AppStyles.fontFamilyBody)
-          .fontWeight(FontWeight.bold)
-          .padding(right: 200.w),
-      SizedBox(height: 32.h),
-      <Widget>[
+    return SliverAppBar(
+      pinned: true,
+      floating: false,
+      elevation: 0,
+      toolbarHeight: 10.h,
+      flexibleSpace: <Widget>[
         OverviewBalanceItem(
           position: OverviewBalanceItemPosition.left,
           title: 'Income',
@@ -51,13 +40,10 @@ class _OverviewBalanceState extends State<OverviewBalance> {
           title: 'Expense',
           amount: transactionTotal.expense,
         ),
-      ].toRow(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      ),
-    ].toColumn(crossAxisAlignment: CrossAxisAlignment.start).padding(
-          horizontal: AppStyles.defaultPaddingHorizontal,
-          top: 20.h,
-        );
+      ]
+          .toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween)
+          .padding(horizontal: AppStyles.defaultPaddingHorizontal),
+    );
   }
 
   @override

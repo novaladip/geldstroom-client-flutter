@@ -9,6 +9,7 @@ import 'package:geldstroom/core/bloc_base/bloc_base.dart';
 import 'package:geldstroom/core/bloc_ui/ui_bloc.dart';
 import 'package:geldstroom/core/network/model/model.dart';
 import 'package:geldstroom/ui/overview/overview_page.dart';
+import 'package:geldstroom/ui/overview/widget/overview_appbar.dart';
 import 'package:geldstroom/ui/overview/widget/overview_balance.dart';
 import 'package:geldstroom/ui/overview/widget/overview_range_form.dart';
 import 'package:geldstroom/ui/overview/widget/overview_transaction.dart';
@@ -105,11 +106,11 @@ void main() {
       await tester.pumpWidget(subject);
 
       expect(find.byType(FloatingActionButton), findsOneWidget);
-      expect(find.text(OverviewPage.appBarTitle), findsOneWidget);
+      expect(find.text(OverviewAppBar.title), findsOneWidget);
       expect(find.byType(OverviewBalance), findsOneWidget);
       expect(find.byType(OverviewTransaction), findsOneWidget);
       expect(
-        find.byKey(OverviewPage.overviewRangeIconKey).hitTestable(),
+        find.byKey(OverviewAppBar.overviewRangeIconKey).hitTestable(),
         findsOneWidget,
       );
     });
@@ -122,7 +123,8 @@ void main() {
           .thenReturn(OverviewBalanceState.initial());
       await tester.pumpWidget(subject);
 
-      final icon = find.byKey(OverviewPage.overviewRangeIconKey).hitTestable();
+      final icon =
+          find.byKey(OverviewAppBar.overviewRangeIconKey).hitTestable();
       await tester.tap(icon);
       await tester.pumpAndSettle();
       expect(find.byType(OverviewRangeForm), findsOneWidget);
@@ -206,19 +208,21 @@ void main() {
         expect(fab, findsOneWidget);
         // scroll to bottom
         await tester.drag(
-          find.byType(OverviewBalance),
+          find.byType(CustomScrollView),
           const Offset(0.0, -100.0),
-          touchSlopY: 0,
+          touchSlopY: 100,
         );
+
         await tester.pumpAndSettle();
         expect(fab, findsNothing);
 
         // scroll to top
         await tester.drag(
-          find.byType(OverviewBalance),
-          const Offset(0.0, 100),
-          touchSlopY: 0,
+          find.byType(CustomScrollView),
+          const Offset(0.0, 100.0),
+          touchSlopY: 100,
         );
+
         await tester.pumpAndSettle();
         expect(fab, findsOneWidget);
 
@@ -245,18 +249,21 @@ void main() {
         );
         await tester.pumpWidget(subject);
 
+        clearInteractions(overviewBalanceCubit);
+        clearInteractions(overviewTransactionBloc);
+
         await tester.drag(
-          find.byType(OverviewBalance),
-          const Offset(0.0, 300.0),
-          touchSlopY: 0,
+          find.byType(CustomScrollView),
+          const Offset(0.0, 1000.0),
+          touchSlopY: 100,
         );
 
         await tester.pumpAndSettle();
 
-        verify(overviewBalanceCubit.fetch()).called(2);
+        verify(overviewBalanceCubit.fetch()).called(1);
         verify(
           overviewTransactionBloc.add(OverviewTransactionEvent.fetch()),
-        ).called(2);
+        ).called(1);
       });
 
       testWidgets(
